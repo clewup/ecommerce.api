@@ -1,6 +1,6 @@
 using ecommerce.api.Classes;
 
-namespace ecommerce.api.Services.ExtensionMethods;
+namespace ecommerce.api.Services.Mappers;
 
 public static class ProductMapper
 {
