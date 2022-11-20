@@ -1,3 +1,4 @@
+using ecommerce.api.Classes;
 using ecommerce.api.Managers;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,6 +28,53 @@ public class ProductController : ControllerBase
         catch (Exception e)
         {
             _logger.LogCritical($"ProductController: GetProducts - Error: {e}");
+            return StatusCode(StatusCodes.Status500InternalServerError);
+        }
+    }
+
+    [HttpGet]
+    [Route("categories")]
+    public async Task<IActionResult> GetProductCategories()
+    {
+        try
+        {
+            var categories = await _productManager.GetProductCategories();
+            return Ok(categories);
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical($"ProductController: GetProductCategories - Error: {e}");
+            return StatusCode(StatusCodes.Status500InternalServerError);
+        }
+    }
+    
+    [HttpGet]
+    [Route("variants")]
+    public async Task<IActionResult> GetProductVariants()
+    {
+        try
+        {
+            var variants = await _productManager.GetProductVariants();
+            return Ok(variants);
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical($"ProductController: GetProductVariants - Error: {e}");
+            return StatusCode(StatusCodes.Status500InternalServerError);
+        }
+    }
+    
+    [HttpPost]
+    public async Task<IActionResult> CreateProduct([FromBody] Product product)
+    {
+        try
+        {
+            var createdProduct = await _productManager.CreateProduct(product);
+            return Created("product", createdProduct);
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical($"ProductController: CreateProduct - Error: {e}");
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }

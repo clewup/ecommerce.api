@@ -24,10 +24,47 @@ public class ProductManager : IProductManager
         var products = await _products.Find(_ => true).ToListAsync();
         return products;
     }
+    
+    public async Task<List<string>> GetProductCategories()
+    {
+        var products = await _products.Find(_ => true).ToListAsync();
+
+        List<string> categories = new List<string>();
+        
+        foreach (var product in products)
+        {
+            categories.Add(product.Category);
+        }
+
+        return categories;
+    }
+
+    public async Task<List<string>> GetProductVariants()
+    {
+        var products = await _products.Find(_ => true).ToListAsync();
+
+        List<string> variants = new List<string>();
+        
+        foreach (var product in products)
+        {
+            foreach (var stock in product.Stock)
+            {
+                variants.Add(stock.Variant);
+            }
+        }
+
+        return variants;
+    }
 
     public async Task<Product> GetProduct(Guid id)
     {
         var product = await _products.Find(p => p.Id == id).FirstOrDefaultAsync();
+        return product;
+    }
+
+    public async Task<Product> CreateProduct(Product product)
+    {
+        await _products.InsertOneAsync(product);
         return product;
     }
 
