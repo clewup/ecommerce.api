@@ -1,3 +1,5 @@
+using ecommerce.api.Managers;
+
 var builder = WebApplication.CreateBuilder(args);
 
 var DefaultCorsPolicy = "DefaultCorsPolicy";
@@ -19,6 +21,9 @@ builder.Services.AddCors(options =>
                 .AllowAnyMethod();
         });
 });
+
+// Managers
+builder.Services.AddSingleton<ProductManager>();
 
 var app = builder.Build();
 
