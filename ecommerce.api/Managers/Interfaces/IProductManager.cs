@@ -7,5 +7,5 @@ public interface IProductManager
     Task<List<Product>> GetProducts();
     Task<Product> GetProduct(Guid id);
     Task<Product> UpdateProduct(Product product);
-    void DeleteProduct();
+    void DeleteProduct(Guid id);
 }

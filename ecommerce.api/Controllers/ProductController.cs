@@ -1,3 +1,4 @@
+using ecommerce.api.Managers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ecommerce.api.Controllers;
@@ -7,18 +8,21 @@ namespace ecommerce.api.Controllers;
 public class ProductController : ControllerBase
 {
     private readonly ILogger<ProductController> _logger;
+    private readonly ProductManager _productManager;
 
-    public ProductController(ILogger<ProductController> logger)
+    public ProductController(ILogger<ProductController> logger, ProductManager productManager)
     {
         _logger = logger;
+        _productManager = productManager;
     }
 
     [HttpGet]
-    public IActionResult GetProducts()
+    public async Task<IActionResult> GetProducts()
     {
         try
         {
-            return Ok();
+            var products = await _productManager.GetProducts();
+            return Ok(products);
         }
         catch (Exception e)
         {
