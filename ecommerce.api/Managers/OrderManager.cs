@@ -18,7 +18,7 @@ public class OrderManager : IOrderManager
 
         _orders = mongoClient
             .GetDatabase(config.Value.Database)
-            .GetCollection<OrderEntity>(config.Value.ProductCollection);
+            .GetCollection<OrderEntity>(config.Value.OrderCollection);
     }
     
     public async Task<List<OrderModel>> GetOrders()
