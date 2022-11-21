@@ -31,6 +31,22 @@ public class ProductController : ControllerBase
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
+    
+    [HttpGet]
+    [Route("{id}")]
+    public async Task<IActionResult> GetProducts(Guid id)
+    {
+        try
+        {
+            var product = await _productManager.GetProduct(id);
+            return Ok(product);
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical($"ProductController: GetProduct - Error: {e}");
+            return StatusCode(StatusCodes.Status500InternalServerError);
+        }
+    }
 
     [HttpGet]
     [Route("categories")]
@@ -78,4 +94,37 @@ public class ProductController : ControllerBase
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
+    
+    [HttpPut]
+    public async Task<IActionResult> UpdateProduct([FromBody] Product product)
+    {
+        try
+        {
+            var updatedProduct = await _productManager.UpdateProduct(product);
+            return Ok(updatedProduct);
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical($"ProductController: UpdateProduct - Error: {e}");
+            return StatusCode(StatusCodes.Status500InternalServerError);
+        }
+    }
+    
+    [HttpDelete]
+    [Route("{id}")]
+    public IActionResult UpdateProduct(Guid id)
+    {
+        try
+        {
+            _productManager.DeleteProduct(id);
+            return NoContent();
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical($"ProductController: DeleteProduct - Error: {e}");
+            return StatusCode(StatusCodes.Status500InternalServerError);
+        }
+    }
+    
+    
 }
