@@ -1,6 +1,6 @@
 namespace ecommerce.api.Classes;
 
-public class SelectedProduct
+public class CartItemModel
 {
     public Guid Id { get; set; }
     public string Name { get; set; }

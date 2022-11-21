@@ -1,6 +1,8 @@
 using ecommerce.api.Classes;
 using ecommerce.api.Data;
+using ecommerce.api.Entities;
 using ecommerce.api.Managers.Interfaces;
+using ecommerce.api.Services.Mappers;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
@@ -8,7 +10,7 @@ namespace ecommerce.api.Managers;
 
 public class ProductManager : IProductManager
 {
-    private readonly IMongoCollection<Product> _products;
+    private readonly IMongoCollection<ProductEntity> _products;
     
     public ProductManager(IOptions<DbConfig> config)
     {
@@ -16,13 +18,13 @@ public class ProductManager : IProductManager
 
         _products = mongoClient
             .GetDatabase(config.Value.Database)
-            .GetCollection<Product>(config.Value.ProductCollection);
+            .GetCollection<ProductEntity>(config.Value.ProductCollection);
     }
     
-    public async Task<List<Product>> GetProducts()
+    public async Task<List<ProductModel>> GetProducts()
     {
         var products = await _products.Find(_ => true).ToListAsync();
-        return products;
+        return products.ToProductModel();
     }
     
     public async Task<List<string>> GetProductCategories()
@@ -47,7 +49,7 @@ public class ProductManager : IProductManager
         
         foreach (var product in products)
         {
-            foreach (var stock in product.Stock)
+            foreach (var stock in product.Stock) 
             {
                 variants.Add(stock.Variant);
             }
@@ -56,21 +58,23 @@ public class ProductManager : IProductManager
         return variants;
     }
 
-    public async Task<Product> GetProduct(Guid id)
+    public async Task<ProductModel> GetProduct(Guid id)
     {
         var product = await _products.Find(p => p.Id == id).FirstOrDefaultAsync();
+        return product.ToProductModel();
+    }
+
+    public async Task<ProductModel> CreateProduct(ProductModel product)
+    {
+        var convertedProduct = product.ToProductEntity();
+        await _products.InsertOneAsync(convertedProduct);
         return product;
     }
 
-    public async Task<Product> CreateProduct(Product product)
+    public async Task<ProductModel> UpdateProduct(ProductModel product)
     {
-        await _products.InsertOneAsync(product);
-        return product;
-    }
-
-    public async Task<Product> UpdateProduct(Product product)
-    {
-        await _products.ReplaceOneAsync(p => p.Id == product.Id, product);
+        var convertedProduct = product.ToProductEntity();
+        await _products.ReplaceOneAsync(p => p.Id == product.Id, convertedProduct);
         return product;
     }
 

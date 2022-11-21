@@ -24,6 +24,7 @@ builder.Services.AddCors(options =>
 
 // Managers
 builder.Services.AddSingleton<ProductManager>();
+builder.Services.AddSingleton<OrderManager>();
 
 var app = builder.Build();
 

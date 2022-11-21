@@ -4,11 +4,11 @@ namespace ecommerce.api.Managers.Interfaces;
 
 public interface IProductManager
 {
-    Task<List<Product>> GetProducts();
+    Task<List<ProductModel>> GetProducts();
     Task<List<string>> GetProductCategories();
     Task<List<string>> GetProductVariants();
-    Task<Product> GetProduct(Guid id);
-    Task<Product> CreateProduct(Product product);
-    Task<Product> UpdateProduct(Product product);
+    Task<ProductModel> GetProduct(Guid id);
+    Task<ProductModel> CreateProduct(ProductModel product);
+    Task<ProductModel> UpdateProduct(ProductModel product);
     void DeleteProduct(Guid id);
 }
