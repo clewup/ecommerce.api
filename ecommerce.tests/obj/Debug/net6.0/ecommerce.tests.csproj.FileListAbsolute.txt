@@ -119,3 +119,5 @@
 /Users/clew/Documents/repos/ecommerce.api/ecommerce.tests/obj/Debug/net6.0/ecommerce.tests.pdb
 /Users/clew/Documents/repos/ecommerce.api/ecommerce.tests/obj/Debug/net6.0/ecommerce.tests.genruntimeconfig.cache
 /Users/clew/Documents/repos/ecommerce.api/ecommerce.tests/obj/Debug/net6.0/ref/ecommerce.tests.dll
+/Users/clew/Documents/repos/ecommerce.api/ecommerce.tests/bin/Debug/net6.0/Castle.Core.dll
+/Users/clew/Documents/repos/ecommerce.api/ecommerce.tests/bin/Debug/net6.0/Moq.dll
