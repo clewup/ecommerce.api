@@ -34,7 +34,7 @@ public class ProductController : ControllerBase
     
     [HttpGet]
     [Route("{id}")]
-    public async Task<IActionResult> GetProducts(Guid id)
+    public async Task<IActionResult> GetProduct(Guid id)
     {
         try
         {
@@ -112,7 +112,7 @@ public class ProductController : ControllerBase
     
     [HttpDelete]
     [Route("{id}")]
-    public IActionResult UpdateProduct(Guid id)
+    public IActionResult DeleteProduct(Guid id)
     {
         try
         {

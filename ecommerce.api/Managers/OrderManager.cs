@@ -68,6 +68,6 @@ public class OrderManager : IOrderManager
             ShippedDate = new DateTime(),
         };
         await _orders.ReplaceOneAsync(o => o.Id == order.Id, formattedOrder);
-        return order;
+        return formattedOrder.ToOrderModel();
     }
 }
