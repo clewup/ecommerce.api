@@ -6,4 +6,5 @@ public class DbConfig
     public string Database = "ecommerce";
     public string ProductCollection = "products";
     public string OrderCollection = "orders";
+    public string CartCollection = "carts";
 }

@@ -1,6 +1,8 @@
-namespace ecommerce.api.Classes;
+using ecommerce.api.Classes;
 
-public class CartModel
+namespace ecommerce.api.Entities;
+
+public class CartEntity
 {
     public List<CartItemModel>? CartItems { get; set; }
     public Guid UserId { get; set; }
