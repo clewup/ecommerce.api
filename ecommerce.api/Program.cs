@@ -2,7 +2,7 @@ using ecommerce.api.Managers;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var DefaultCorsPolicy = "DefaultCorsPolicy";
+var  CorsPolicy = "_corsPolicy";
 
 builder.Services.AddControllers();
 
@@ -12,10 +12,11 @@ builder.Services.AddSwaggerGen();
 // Cors
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy(name: DefaultCorsPolicy,
-        policy =>
+    options.AddPolicy(name: CorsPolicy,
+        policy  =>
         {
-            policy.WithOrigins("http://localhost:3000",
+            policy.WithOrigins(
+                    "http://localhost:3000",
                     "https://localhost:3000")
                 .AllowAnyHeader()
                 .AllowAnyMethod();
@@ -28,13 +29,10 @@ builder.Services.AddSingleton<OrderManager>();
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
 
-app.UseCors("DefaultCorsPolicy");
+app.UseCors(CorsPolicy);
 
 app.UseHttpsRedirection();
 
