@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "XjNbyULTZlVZm6wU1peqant71uIYT2OAVmAqcUwwY+KcflwSOSZ6VHN+lLfKUSspXscH/W72Pln2c68m+DCS0g==",
+  "dgSpecHash": "ZTwuPxOWlDzyOiGa5elrYQlb1/tnCKnt9DTJNOjBTq70CPS6GgOqT6/sGgskUQPK9/uFXvfEECpBCEPuXSosFw==",
   "success": true,
   "projectFilePath": "/Users/clew/Documents/repos/ecommerce.api/ecommerce.tests/ecommerce.tests.csproj",
   "expectedPackageFiles": [

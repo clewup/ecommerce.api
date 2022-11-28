@@ -85,6 +85,11 @@ public class ProductController : ControllerBase
     {
         try
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            
             var createdProduct = await _productManager.CreateProduct(product);
             return Created("product", createdProduct);
         }
@@ -100,6 +105,11 @@ public class ProductController : ControllerBase
     {
         try
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            
             var updatedProduct = await _productManager.UpdateProduct(product);
             return Ok(updatedProduct);
         }

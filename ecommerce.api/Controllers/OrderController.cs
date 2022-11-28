@@ -53,6 +53,11 @@ public class OrderController : ControllerBase
     {
         try
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            
             var createdOrder = await _orderManager.CreateOrder(order);
             return Created("order", createdOrder);
         }
@@ -68,6 +73,11 @@ public class OrderController : ControllerBase
     {
         try
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            
             var updatedOrder = await _orderManager.UpdateOrder(order);
             return Ok(updatedOrder);
         }

@@ -1,4 +1,6 @@
+using ecommerce.api.Data;
 using ecommerce.api.Managers;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,9 +25,14 @@ builder.Services.AddCors(options =>
         });
 });
 
+// Configuration
+builder.Services.Configure<FreeImageHostConfig>(builder.Configuration.GetSection("FreeImageHostConfig"));
+builder.Services.Configure<DbConfig>(builder.Configuration.GetSection("DbConfig"));
+
 // Managers
 builder.Services.AddSingleton<ProductManager>();
 builder.Services.AddSingleton<OrderManager>();
+builder.Services.AddSingleton<UploadManager>();
 
 var app = builder.Build();
 

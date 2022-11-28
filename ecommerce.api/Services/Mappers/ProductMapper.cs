@@ -10,6 +10,7 @@ public static class ProductMapper
         return new ProductModel()
         {
             Id = product.Id,
+            Images = product.Images,
             Name = product.Name,
             Description = product.Description,
             Category = product.Category,
@@ -29,6 +30,7 @@ public static class ProductMapper
             convertedProducts.Add(new ProductModel()
             {
                 Id = product.Id,
+                Images = product.Images,
                 Name = product.Name,
                 Description = product.Description,
                 Category = product.Category,
@@ -47,6 +49,7 @@ public static class ProductMapper
         return new ProductEntity()
         {
             Id = product.Id,
+            Images = product.Images,
             Name = product.Name,
             Description = product.Description,
             Category = product.Category,
