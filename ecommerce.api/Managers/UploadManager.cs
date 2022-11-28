@@ -9,17 +9,16 @@ namespace ecommerce.api.Managers;
 
 public class UploadManager : IUploadManager
 {
-    private readonly FreeImageHostConfig _freeImageHostConfig;
-    private readonly HttpClient _client;
+    static readonly HttpClient _client = new HttpClient();
+    private readonly IOptions<FreeImageHostConfig> _config;
 
-    public UploadManager(FreeImageHostConfig freeImageHostConfig, HttpClient client)
+    public UploadManager(IOptions<FreeImageHostConfig> config)
     {
-        _freeImageHostConfig = freeImageHostConfig;
-        _client = client;
+        _config = config;
     }
     public async Task<ImageModel> UploadImage(ImageModel image)
     {
-        var apiKey = _freeImageHostConfig.ApiKey;
+        var apiKey = _config.Value.ApiKey;
         var response = await _client.PostAsync($"http://freeimage.host/api/1/upload/?key={apiKey}&source={image.Base64}&format=json", null);
         
         response.EnsureSuccessStatusCode();
