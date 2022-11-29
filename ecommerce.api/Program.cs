@@ -26,7 +26,7 @@ builder.Services.AddCors(options =>
 });
 
 // Configuration
-builder.Services.Configure<FreeImageHostConfig>(builder.Configuration.GetSection("FreeImageHostConfig"));
+builder.Services.Configure<CloudinaryConfig>(builder.Configuration.GetSection("CloudinaryConfig"));
 builder.Services.Configure<DbConfig>(builder.Configuration.GetSection("DbConfig"));
 
 // Managers

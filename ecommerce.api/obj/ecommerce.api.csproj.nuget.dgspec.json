@@ -39,13 +39,13 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "CloudinaryDotNet": {
+              "target": "Package",
+              "version": "[1.20.0, )"
+            },
             "MongoDB.Driver": {
               "target": "Package",
               "version": "[2.18.0, )"
-            },
-            "Newtonsoft.Json": {
-              "target": "Package",
-              "version": "[9.0.1, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",

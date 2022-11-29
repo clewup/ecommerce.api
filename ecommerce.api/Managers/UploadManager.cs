@@ -1,4 +1,6 @@
 using System.Text.Json;
+using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
 using ecommerce.api.Classes;
 using ecommerce.api.Data;
 using ecommerce.api.Managers.Interfaces;
@@ -10,28 +12,52 @@ namespace ecommerce.api.Managers;
 public class UploadManager : IUploadManager
 {
     static readonly HttpClient _client = new HttpClient();
-    private readonly IOptions<FreeImageHostConfig> _config;
+    private readonly IOptions<CloudinaryConfig> _config;
+    private Cloudinary _cloudinary;
 
-    public UploadManager(IOptions<FreeImageHostConfig> config)
+    public UploadManager(IOptions<CloudinaryConfig> config)
     {
         _config = config;
+        
+        var account = new Account()
+        {
+            Cloud = _config.Value.CloudName,
+            ApiKey = _config.Value.ApiKey,
+            ApiSecret = _config.Value.ApiSecret
+        };
+
+        _cloudinary = new Cloudinary(account);
+    }
+    
+    public static String GetTimestamp(DateTime value)
+    {
+        return value.ToString("yyyyMMddHHmmssffff");
     }
     public async Task<ImageModel> UploadImage(ImageModel image)
     {
-        var apiKey = _config.Value.ApiKey;
-        var response = await _client.PostAsync($"http://freeimage.host/api/1/upload/?key={apiKey}&source={image.Base64}&format=json", null);
-        
-        response.EnsureSuccessStatusCode();
-        
-        var responseString = await response.Content.ReadAsStringAsync();
-        var responseJson = JObject.Parse(responseString);
+        var file = image.File;
+        var result = new ImageUploadResult();
 
-        var url = responseJson["image"]["url"].ToString();
-        
+        if (file.Length > 0)
+        {
+            using (var stream = file.OpenReadStream())
+            {
+                var uploadParams = new ImageUploadParams()
+                {
+                    File = new FileDescription(file.Name, stream)
+                };
+
+                result = _cloudinary.Upload(uploadParams);
+            }
+        }
+
         return new ImageModel()
         {
-            Base64 = image.Base64,
-            Url = url,
+            Url = result.Url.ToString(),
+            File = image.File,
+            Description = image.Description,
+            Timestamp = image.Timestamp,
+            Id = result.PublicId,
         };
     }
 }
