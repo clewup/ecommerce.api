@@ -29,10 +29,6 @@ public class UploadManager : IUploadManager
         _cloudinary = new Cloudinary(account);
     }
     
-    public static String GetTimestamp(DateTime value)
-    {
-        return value.ToString("yyyyMMddHHmmssffff");
-    }
     public async Task<ImageModel> UploadImage(ImageModel image)
     {
         var file = image.File;
