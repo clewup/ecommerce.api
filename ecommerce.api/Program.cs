@@ -1,3 +1,4 @@
+using CloudinaryDotNet;
 using ecommerce.api.Data;
 using ecommerce.api.Managers;
 
@@ -24,6 +25,18 @@ builder.Services.AddCors(options =>
                 .AllowAnyMethod();
         });
 });
+
+// Cloudinary
+var cloudName = builder.Configuration.GetValue<string>("CloudinaryConfig:CloudName");
+var apiKey = builder.Configuration.GetValue<string>("CloudinaryConfig:ApiKey");
+var apiSecret = builder.Configuration.GetValue<string>("CloudinaryConfig:ApiSecret");
+
+if (new[] { cloudName, apiKey, apiSecret }.Any(string.IsNullOrWhiteSpace))
+{
+    throw new ArgumentException("Please specify Cloudinary account details!");
+}
+
+builder.Services.AddSingleton(new Cloudinary(new Account(cloudName, apiKey, apiSecret)));
 
 // Configuration
 builder.Services.Configure<CloudinaryConfig>(builder.Configuration.GetSection("CloudinaryConfig"));

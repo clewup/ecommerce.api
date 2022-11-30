@@ -11,49 +11,40 @@ namespace ecommerce.api.Managers;
 
 public class UploadManager : IUploadManager
 {
-    static readonly HttpClient _client = new HttpClient();
-    private readonly IOptions<CloudinaryConfig> _config;
-    private Cloudinary _cloudinary;
+    private readonly Cloudinary _cloudinary;
 
-    public UploadManager(IOptions<CloudinaryConfig> config)
+    public UploadManager(Cloudinary cloudinary)
     {
-        _config = config;
-        
-        var account = new Account()
-        {
-            Cloud = _config.Value.CloudName,
-            ApiKey = _config.Value.ApiKey,
-            ApiSecret = _config.Value.ApiSecret
-        };
-
-        _cloudinary = new Cloudinary(account);
+        _cloudinary = cloudinary;
     }
-    
     public async Task<ImageModel> UploadImage(ImageModel image)
     {
         var file = image.File;
-        var result = new ImageUploadResult();
 
         if (file.Length > 0)
         {
-            using (var stream = file.OpenReadStream())
+            await using var stream = file.OpenReadStream();
+            var uploadParams = new ImageUploadParams()
             {
-                var uploadParams = new ImageUploadParams()
-                {
-                    File = new FileDescription(file.Name, stream)
-                };
+                File = new FileDescription(file.Name, file.OpenReadStream()),
+                Tags = "ecommerce"
+            };
 
-                result = _cloudinary.Upload(uploadParams);
-            }
+            var result = await _cloudinary.UploadAsync(uploadParams).ConfigureAwait(false);
+            
+            return new ImageModel()
+            {
+                Url = result.Url.ToString(),
+                File = image.File,
+                Id = result.PublicId,
+            };
         }
 
         return new ImageModel()
         {
-            Url = result.Url.ToString(),
+            Url = "",
             File = image.File,
-            Description = image.Description,
-            Timestamp = image.Timestamp,
-            Id = result.PublicId,
+            Id = ""
         };
     }
 }
