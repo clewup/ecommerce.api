@@ -1,11 +1,7 @@
-using System.Text.Json;
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 using ecommerce.api.Classes;
-using ecommerce.api.Data;
 using ecommerce.api.Managers.Interfaces;
-using Microsoft.Extensions.Options;
-using Newtonsoft.Json.Linq;
 
 namespace ecommerce.api.Managers;
 
