@@ -35,17 +35,25 @@ public class CartManager : ICartManager
 
     public async Task<CartModel> CreateCart(CartModel cart)
     {
-        var convertedCart = cart.ToCartEntity();
+        var totalledCart = CalculateCartTotal(cart);
+        
+        if (totalledCart.DiscountCode != null)
+            totalledCart = ApplyDiscountCode(totalledCart);
+        
+        var convertedCart = totalledCart.ToCartEntity();
+        
         await _carts.InsertOneAsync(convertedCart);
         return cart;
     }
 
     public async Task<CartModel> UpdateCart(CartModel cart)
     {
-        var convertedCart = cart.ToCartEntity();
+        var totalledCart = CalculateCartTotal(cart);
 
-        if (convertedCart.DiscountCode != null)
-            convertedCart.DiscountedTotal = (convertedCart.DiscountCode.PercentOff / 100) * convertedCart.Total;
+        if (totalledCart.DiscountCode != null)
+            totalledCart = ApplyDiscountCode(totalledCart);
+        
+        var convertedCart = totalledCart.ToCartEntity();
         
         var updatedCart = await _carts.FindOneAndReplaceAsync(c => c.UserId == cart.UserId, convertedCart);
         return updatedCart.ToCartModel();
@@ -54,5 +62,29 @@ public class CartManager : ICartManager
     public void DeleteCart(Guid userId)
     {
         _carts.DeleteOneAsync(c => c.UserId == userId);
+    }
+
+    private CartModel CalculateCartTotal(CartModel cart)
+    {
+        double calculatedTotal = 0;
+        foreach (var cartItem in cart.CartItems)
+        {
+            calculatedTotal += (cartItem.PricePerUnit * cartItem.Quantity);
+        }
+        cart.Total = calculatedTotal;
+        return cart;
+    }
+
+    private CartModel ApplyDiscountCode(CartModel cart)
+    {
+        if (cart.DiscountCode == null)
+        {
+            return cart;
+        }
+        else
+        {
+            cart.DiscountedTotal = (cart.DiscountCode.PercentOff / 100) * cart.Total;
+            return cart;
+        }
     }
 }
