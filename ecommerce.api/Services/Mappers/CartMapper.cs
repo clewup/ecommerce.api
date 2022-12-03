@@ -9,6 +9,7 @@ public static class CartMapper
     {
         return new CartModel()
         {
+            Id = cart.Id,
             UserId = cart.UserId,
             CartItems = cart.CartItems,
             Total = cart.Total,
@@ -25,6 +26,7 @@ public static class CartMapper
         {
             convertedCarts.Add(new CartModel()
             {
+                Id = cart.Id,
                 UserId = cart.UserId,
                 CartItems = cart.CartItems,
                 Total = cart.Total,
@@ -40,6 +42,7 @@ public static class CartMapper
     {
         return new CartEntity()
         {
+            Id = cart.Id,
             UserId = cart.UserId,
             CartItems = cart.CartItems,
             Total = cart.Total,
