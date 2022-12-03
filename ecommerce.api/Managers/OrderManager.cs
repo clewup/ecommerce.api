@@ -52,8 +52,8 @@ public class OrderManager : IOrderManager
     public async Task<OrderModel> UpdateOrder(OrderModel order)
     {
         var convertedOrder = order.ToOrderEntity();
-        await _orders.ReplaceOneAsync(o => o.Id == order.Id, convertedOrder);
-        return order;
+        var updatedOrder = await _orders.FindOneAndReplaceAsync(o => o.Id == order.Id, convertedOrder);
+        return updatedOrder.ToOrderModel();
     }
     
     public async Task<OrderModel> ShipOrder(OrderModel order)

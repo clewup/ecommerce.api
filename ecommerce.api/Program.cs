@@ -44,6 +44,7 @@ builder.Services.Configure<DbConfig>(builder.Configuration.GetSection("DbConfig"
 
 // Managers
 builder.Services.AddSingleton<ProductManager>();
+builder.Services.AddSingleton<CartManager>();
 builder.Services.AddSingleton<OrderManager>();
 builder.Services.AddSingleton<UploadManager>();
 

@@ -8,4 +8,5 @@ public interface ICartManager
     Task<CartModel> GetCart(Guid userId);
     Task<CartModel> CreateCart(CartModel cart);
     Task<CartModel> UpdateCart(CartModel cart);
+    void DeleteCart(Guid userId);
 }

@@ -74,8 +74,8 @@ public class ProductManager : IProductManager
     public async Task<ProductModel> UpdateProduct(ProductModel product)
     {
         var convertedProduct = product.ToProductEntity();
-        await _products.ReplaceOneAsync(p => p.Id == product.Id, convertedProduct);
-        return product;
+        var updatedProduct = await _products.FindOneAndReplaceAsync(p => p.Id == product.Id, convertedProduct);
+        return updatedProduct.ToProductModel();
     }
 
     public void DeleteProduct(Guid id)
