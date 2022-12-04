@@ -1,16 +1,22 @@
+using System.ComponentModel.DataAnnotations;
 using ecommerce.api.Classes;
 
 namespace ecommerce.api.Entities;
 
-public class ProductEntity
+public class ProductEntity : BaseEntity
 {
-    public Guid Id { get; set; }
-    public List<string> Images { get; set; } = new List<string>();
+    [Required]
+    public List<string> Images { get; set; }
+    [Required]
     public string Name { get; set; } = "";
+    [Required]
     public string Description { get; set; } = "";
+    [Required]
     public string Category { get; set; } = "";
-    public List<StockModel> Stock { get; set; } = new List<StockModel>();
+    [Required]
+    public int StockCount { get; set; }
+    [Required]
     public double PricePerUnit { get; set; }
-    public bool IsDiscounted { get; set; }
+    [Required]
     public double Discount { get; set; }
 }

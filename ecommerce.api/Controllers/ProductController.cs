@@ -64,22 +64,6 @@ public class ProductController : ControllerBase
         }
     }
     
-    [HttpGet]
-    [Route("variants")]
-    public async Task<IActionResult> GetProductVariants()
-    {
-        try
-        {
-            var variants = await _productManager.GetProductVariants();
-            return Ok(variants);
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical($"ProductController: GetProductVariants - Error: {e}");
-            return StatusCode(StatusCodes.Status500InternalServerError);
-        }
-    }
-    
     [HttpPost]
     public async Task<IActionResult> CreateProduct([FromBody] ProductModel product)
     {

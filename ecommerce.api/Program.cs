@@ -1,6 +1,7 @@
 using CloudinaryDotNet;
 using ecommerce.api.Data;
 using ecommerce.api.Managers;
+using Microsoft.EntityFrameworkCore;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -39,10 +40,13 @@ if (new[] { cloudName, apiKey, apiSecret }.Any(string.IsNullOrWhiteSpace))
 builder.Services.AddSingleton(new Cloudinary(new Account(cloudName, apiKey, apiSecret)));
 
 // Configuration
+builder.Services.AddSingleton<EcommerceDbContext>();
 builder.Services.Configure<CloudinaryConfig>(builder.Configuration.GetSection("CloudinaryConfig"));
-builder.Services.Configure<DbConfig>(builder.Configuration.GetSection("DbConfig"));
 
 // Managers
+builder.Services.AddSingleton<AuthManager>();
+builder.Services.AddSingleton<DiscountManager>();
+builder.Services.AddSingleton<CartItemManager>();
 builder.Services.AddSingleton<ProductManager>();
 builder.Services.AddSingleton<CartManager>();
 builder.Services.AddSingleton<OrderManager>();

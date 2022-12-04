@@ -1,14 +1,17 @@
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 using ecommerce.api.Classes;
 
 namespace ecommerce.api.Entities;
 
-public class OrderEntity
+public class OrderEntity : BaseEntity
 {
-    public Guid Id { get; set; }
-    public UserModel User { get; set; }
-    public CartModel Cart { get; set; }
+    [Required]
+    public Guid UserId { get; set; }
+    [Required]
+    public Guid CartId { get; set; }
+    [Required]
     public DateTime OrderDate { get; set; }
-    public bool IsShipped { get; set; }
     public DateTime? ShippedDate { get; set; }
 }
