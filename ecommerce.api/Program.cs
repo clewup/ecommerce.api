@@ -1,7 +1,6 @@
 using CloudinaryDotNet;
 using ecommerce.api.Data;
 using ecommerce.api.Managers;
-using Microsoft.EntityFrameworkCore;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,9 +11,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Cors
-builder.Services.AddCors(p => p.AddPolicy("corspolicy", builder =>
+builder.Services.AddCors(p => p.AddPolicy("corspolicy", config =>
 {
-    builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
+    config.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
 }));
 
 // Cloudinary
