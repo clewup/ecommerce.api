@@ -3,7 +3,6 @@ using ecommerce.api.Data;
 using ecommerce.api.Entities;
 using ecommerce.api.Managers.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using MongoDB.Driver;
 
 namespace ecommerce.api.Managers;
 

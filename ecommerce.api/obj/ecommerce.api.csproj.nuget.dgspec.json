@@ -59,10 +59,6 @@
               "target": "Package",
               "version": "[7.0.0, )"
             },
-            "MongoDB.Driver": {
-              "target": "Package",
-              "version": "[2.18.0, )"
-            },
             "Npgsql.EntityFrameworkCore.PostgreSQL": {
               "target": "Package",
               "version": "[7.0.0, )"

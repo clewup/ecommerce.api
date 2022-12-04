@@ -1,8 +1,5 @@
 using ecommerce.api.Classes;
-using ecommerce.api.Data;
 using ecommerce.api.Entities;
-using Microsoft.Extensions.Options;
-using MongoDB.Driver;
 
 namespace ecommerce.api.Managers;
 
