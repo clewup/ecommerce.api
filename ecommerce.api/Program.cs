@@ -2,19 +2,27 @@ using CloudinaryDotNet;
 using ecommerce.api.Data;
 using ecommerce.api.Managers;
 
+var  CorsPolicy = "_corsPolicy";
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
-
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Cors
-builder.Services.AddCors(p => p.AddPolicy("corspolicy", config =>
+builder.Services.AddCors(options =>
 {
-    config.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
-}));
+    options.AddPolicy(name: CorsPolicy,
+        policy  =>
+        {
+            policy.WithOrigins(
+                    "http://localhost:3000",
+                    "https://localhost:3000")
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
+});
 
 // Cloudinary
 var cloudName = builder.Configuration.GetValue<string>("CloudinaryConfig:CloudName");
@@ -46,9 +54,11 @@ var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI();
 
-app.UseCors("corspolicy");
+app.UseCors(CorsPolicy);
+
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
