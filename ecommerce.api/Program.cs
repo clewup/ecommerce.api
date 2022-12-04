@@ -11,6 +11,12 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Cors
+builder.Services.AddCors(p => p.AddPolicy("corspolicy", builder =>
+{
+    builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
+}));
+
 // Cloudinary
 var cloudName = builder.Configuration.GetValue<string>("CloudinaryConfig:CloudName");
 var apiKey = builder.Configuration.GetValue<string>("CloudinaryConfig:ApiKey");
@@ -41,6 +47,7 @@ var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI();
 
+app.UseCors("corspolicy");
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
