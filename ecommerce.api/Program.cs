@@ -11,9 +11,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Database
-string ecommerceConnection = "Host=ec2-63-32-248-14.eu-west-1.compute.amazonaws.com;Database=detpeg9hipregd;Username=potzztwyoahhzh;Password=cbfa39381d0ec04e581a98d2e9b9b19c79003b9c6ddd125347617f7ef38383d6";
 builder.Services.AddEntityFrameworkNpgsql().AddDbContext<EcommerceDbContext>(opt =>
-    opt.UseNpgsql(ecommerceConnection));
+    opt.UseNpgsql(builder.Configuration.GetConnectionString("EcommerceConnection")));
 
 // Cors
 builder.Services.AddCors(options =>
