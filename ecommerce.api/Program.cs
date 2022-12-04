@@ -1,6 +1,6 @@
-using CloudinaryDotNet;
 using ecommerce.api.Data;
 using ecommerce.api.Managers;
+using Microsoft.EntityFrameworkCore;
 
 var  CorsPolicy = "_corsPolicy";
 
@@ -9,6 +9,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// Database
+builder.Services.AddEntityFrameworkNpgsql().AddDbContext<EcommerceDbContext>(opt =>
+    opt.UseNpgsql(builder.Configuration.GetConnectionString("EcommerceConnection")));
 
 // Cors
 builder.Services.AddCors(options =>
@@ -24,17 +28,15 @@ builder.Services.AddCors(options =>
         });
 });
 
-// Configuration
-builder.Services.AddSingleton<EcommerceDbContext>();
-
 // Managers
-builder.Services.AddSingleton<AuthManager>();
-builder.Services.AddSingleton<DiscountManager>();
-builder.Services.AddSingleton<CartItemManager>();
-builder.Services.AddSingleton<ProductManager>();
-builder.Services.AddSingleton<CartManager>();
-builder.Services.AddSingleton<OrderManager>();
+builder.Services.AddTransient<AuthManager>();
+builder.Services.AddTransient<DiscountManager>();
+builder.Services.AddTransient<CartItemManager>();
+builder.Services.AddTransient<ProductManager>();
+builder.Services.AddTransient<CartManager>();
+builder.Services.AddTransient<OrderManager>();
 
+builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 var app = builder.Build();
 
 app.UseSwagger();

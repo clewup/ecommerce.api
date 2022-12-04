@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "6V3SChIvkCX/XCi7RGzIL0Yrvg7+ZKhawT8++ZMg4PwZhnGr3CzcPWAX17QfKJi1gGzNRTqbDphyW+irYCnx+w==",
+  "dgSpecHash": "Ys+mWdsTG+OpEHyIVP3ZMuqqqoPWlHQAiWgR3Q4bJDZYBHZyFy9H38ujDZJqVKkSxBr3SUh/m/UmWt+61Z8lAA==",
   "success": true,
   "projectFilePath": "/Users/clew/Documents/repos/ecommerce.api/ecommerce.api/ecommerce.api.csproj",
   "expectedPackageFiles": [
     "/Users/clew/.nuget/packages/cloudinarydotnet/1.20.0/cloudinarydotnet.1.20.0.nupkg.sha512",
     "/Users/clew/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
+    "/Users/clew/.nuget/packages/microsoft.aspnetcore.diagnostics.entityframeworkcore/6.0.11/microsoft.aspnetcore.diagnostics.entityframeworkcore.6.0.11.nupkg.sha512",
     "/Users/clew/.nuget/packages/microsoft.aspnetcore.html.abstractions/2.2.0/microsoft.aspnetcore.html.abstractions.2.2.0.nupkg.sha512",
     "/Users/clew/.nuget/packages/microsoft.aspnetcore.http.abstractions/2.2.0/microsoft.aspnetcore.http.abstractions.2.2.0.nupkg.sha512",
     "/Users/clew/.nuget/packages/microsoft.aspnetcore.http.features/2.2.0/microsoft.aspnetcore.http.features.2.2.0.nupkg.sha512",
