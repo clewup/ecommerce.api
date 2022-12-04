@@ -14,7 +14,8 @@
           "Microsoft.EntityFrameworkCore.Design": "7.0.0",
           "Microsoft.EntityFrameworkCore.Tools": "7.0.0",
           "Npgsql.EntityFrameworkCore.PostgreSQL": "7.0.0",
-          "Swashbuckle.AspNetCore": "6.2.3"
+          "Swashbuckle.AspNetCore": "6.2.3",
+          "System.Text.Json": "7.0.0"
         },
         "runtime": {
           "ecommerce.api.dll": {}

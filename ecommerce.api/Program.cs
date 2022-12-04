@@ -1,3 +1,4 @@
+using CloudinaryDotNet;
 using ecommerce.api.Data;
 using ecommerce.api.Managers;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +14,18 @@ builder.Services.AddSwaggerGen();
 // Database
 builder.Services.AddEntityFrameworkNpgsql().AddDbContext<EcommerceDbContext>(opt =>
     opt.UseNpgsql(builder.Configuration.GetConnectionString("EcommerceConnection")));
+
+// Cloudinary
+var cloudName = builder.Configuration.GetValue<string>("CloudinaryConfig:CloudName");
+var apiKey = builder.Configuration.GetValue<string>("CloudinaryConfig:ApiKey");
+var apiSecret = builder.Configuration.GetValue<string>("CloudinaryConfig:ApiSecret");
+
+if (new[] { cloudName, apiKey, apiSecret }.Any(string.IsNullOrWhiteSpace))
+{
+    throw new ArgumentException("Please specify Cloudinary account details!");
+}
+
+builder.Services.AddSingleton(new Cloudinary(new Account(cloudName, apiKey, apiSecret)));
 
 // Cors
 builder.Services.AddCors(options =>
@@ -35,6 +48,7 @@ builder.Services.AddTransient<CartItemManager>();
 builder.Services.AddTransient<ProductManager>();
 builder.Services.AddTransient<CartManager>();
 builder.Services.AddTransient<OrderManager>();
+builder.Services.AddTransient<UploadManager>();
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 var app = builder.Build();
