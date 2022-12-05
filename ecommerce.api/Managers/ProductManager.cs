@@ -30,7 +30,6 @@ public class ProductManager : IProductManager
                 Name = product.Name,
                 Description = product.Description,
                 Category = product.Category,
-                StockCount = product.StockCount,
                 PricePerUnit = product.PricePerUnit,
                 Discount = product.Discount
             });
@@ -64,7 +63,6 @@ public class ProductManager : IProductManager
             Name = product.Name,
             Description = product.Description,
             Category = product.Category,
-            StockCount = product.StockCount,
             PricePerUnit = product.PricePerUnit,
             Discount = product.Discount
         };
@@ -79,7 +77,6 @@ public class ProductManager : IProductManager
             Name = product.Name,
             Description = product.Description,
             Category = product.Category,
-            StockCount = product.StockCount,
             PricePerUnit = product.PricePerUnit,
             Discount = product.Discount
         };
@@ -99,7 +96,6 @@ public class ProductManager : IProductManager
             Name = product.Name,
             Description = product.Description,
             Category = product.Category,
-            StockCount = product.StockCount,
             PricePerUnit = product.PricePerUnit,
             Discount = product.Discount
         };
@@ -111,7 +107,6 @@ public class ProductManager : IProductManager
         record.Name = entitiedProduct.Name;
         record.Description = entitiedProduct.Description;
         record.Category = entitiedProduct.Category;
-        record.StockCount = entitiedProduct.StockCount;
         record.PricePerUnit = entitiedProduct.PricePerUnit;
         record.Discount = entitiedProduct.Discount;
         

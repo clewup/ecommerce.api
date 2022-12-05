@@ -14,8 +14,6 @@ public class ProductEntity : BaseEntity
     [Required]
     public string Category { get; set; } = "";
     [Required]
-    public int StockCount { get; set; }
-    [Required]
     public double PricePerUnit { get; set; }
     [Required]
     public double Discount { get; set; }

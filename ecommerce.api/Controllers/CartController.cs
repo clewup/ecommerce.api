@@ -91,7 +91,9 @@ public class CartController : ControllerBase
             if (matchedCart == null)
                 return NoContent();
             
-            var updatedCart = await _cartManager.UpdateCart(cart);
+            _cartManager.DeleteCart(cart.UserId);
+            var updatedCart = await _cartManager.CreateCart(cart);
+            
             return Ok(updatedCart);
         }
         catch (Exception e)
