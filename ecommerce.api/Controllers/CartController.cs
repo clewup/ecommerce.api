@@ -23,6 +23,10 @@ public class CartController : ControllerBase
         try
         {
             var carts = await _cartManager.GetCarts();
+
+            if (carts == null)
+                return NoContent();
+            
             return Ok(carts);
         }
         catch (Exception e)
@@ -39,6 +43,10 @@ public class CartController : ControllerBase
         try
         {
             var cart = await _cartManager.GetCart(userId);
+            
+            if (cart == null)
+                return NoContent();
+            
             return Ok(cart);
         }
         catch (Exception e)
@@ -78,6 +86,11 @@ public class CartController : ControllerBase
                 return BadRequest(ModelState);
             }
             
+            var matchedCart = await _cartManager.GetCart(cart.UserId);
+            
+            if (matchedCart == null)
+                return NoContent();
+            
             var updatedCart = await _cartManager.UpdateCart(cart);
             return Ok(updatedCart);
         }
@@ -98,11 +111,11 @@ public class CartController : ControllerBase
 
             if (cart == null)
             {
-                return NotFound();
+                return NoContent();
             }
             
-            var updatedCart = await _cartManager.UpdateCart(cart);
-            return Ok(updatedCart);
+            _cartManager.DeleteCart(cart.UserId);
+            return NoContent();
         }
         catch (Exception e)
         {

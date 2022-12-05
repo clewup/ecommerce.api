@@ -15,7 +15,7 @@ public class CartItemManager
         _context = context;
     }
     
-    public async Task<List<CartItemModel>> GetCartItems()
+    public async Task<List<CartItemModel>?> GetCartItems()
     {
         var cartItems = await _context.CartItems.ToListAsync();
 
@@ -26,6 +26,7 @@ public class CartItemManager
             modelledCartItems.Add(new CartItemModel()
             {
                 Id = cartItem.Id,
+                ProductId = cartItem.ProductId,
                 Images = cartItem.Images,
                 Name = cartItem.Name,
                 Description = cartItem.Description,
@@ -39,13 +40,14 @@ public class CartItemManager
         return modelledCartItems;
     }
 
-    public async Task<CartItemModel> GetCartItem(Guid cartId)
+    public async Task<CartItemModel?> GetCartItem(Guid id)
     {
-        var cartItem = await _context.CartItems.Where(ci => ci.CartId == cartId).FirstOrDefaultAsync();
-
+        var cartItem = await _context.CartItems.Where(ci => ci.Id == id
+                                                            ).FirstOrDefaultAsync();
         return new CartItemModel()
         {
             Id = cartItem.Id,
+            ProductId = cartItem.ProductId,
             Images = cartItem.Images,
             Name = cartItem.Name,
             Description = cartItem.Description,
@@ -62,6 +64,7 @@ public class CartItemManager
         {
             Id = cartItem.Id,
             CartId = cartId,
+            ProductId = cartItem.ProductId,
             Images = cartItem.Images,
             Name = cartItem.Name,
             Description = cartItem.Description,
@@ -77,12 +80,13 @@ public class CartItemManager
         return cartItem;
     }
 
-    public async Task<CartItemModel> UpdateCart(CartItemModel cartItem, Guid cartId)
+    public async Task<CartItemModel> UpdateCartItem(CartItemModel cartItem, Guid cartId)
     {
         var entitiedCartItem = new CartItemEntity()
         {
             Id = cartItem.Id,
             CartId = cartId,
+            ProductId = cartItem.ProductId,
             Images = cartItem.Images,
             Name = cartItem.Name,
             Description = cartItem.Description,
@@ -92,7 +96,9 @@ public class CartItemManager
             Discount = cartItem.Discount
         };
 
-        var record = await _context.CartItems.Where(ci => ci.CartId == cartId).FirstOrDefaultAsync();
+        var record = await _context.CartItems.Where(ci => ci.CartId == entitiedCartItem.CartId 
+                                                          && ci.ProductId == entitiedCartItem.ProductId
+                                                          ).FirstOrDefaultAsync();
         
         record.Quantity = entitiedCartItem.Quantity;
         
@@ -103,7 +109,7 @@ public class CartItemManager
 
     public async void DeleteCartItem(CartItemModel cartItem, Guid cartId)
     {
-        var foundCartItem = await _context.CartItems.Where(ci => ci.Id == cartItem.Id
+        var foundCartItem = await _context.CartItems.Where(ci => ci.ProductId == cartItem.Id
                                                                  && ci.CartId == cartId
                                                                  ).FirstOrDefaultAsync();
 

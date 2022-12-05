@@ -11,7 +11,4 @@ public class CartEntity : BaseEntity
     public List<Guid> CartItemIds { get; set; }
     [Required]
     public double Total { get; set; }
-    
-    public string? DiscountCode { get; set; }
-    public double? DiscountedTotal { get; set; }
 }

@@ -4,6 +4,7 @@ public class CartItemEntity
 {
     public Guid Id { get; set; }
     public Guid CartId { get; set; }
+    public Guid ProductId { get; set; }
     public List<string> Images { get; set; }
     public string Name { get; set; } = "";
     public string Description { get; set; } = "";

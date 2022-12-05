@@ -9,14 +9,12 @@ namespace ecommerce.api.Managers;
 public class CartManager : ICartManager
 {
     private readonly EcommerceDbContext _context;
-    private readonly DiscountManager _discountManager;
     private readonly CartItemManager _cartItemManager;
 
-    public CartManager(EcommerceDbContext context, CartItemManager cartItemManager, DiscountManager discountManager)
+    public CartManager(EcommerceDbContext context, CartItemManager cartItemManager)
     {
         _context = context;
         _cartItemManager = cartItemManager;
-        _discountManager = discountManager;
     }
     
     public async Task<List<CartModel>> GetCarts()
@@ -25,39 +23,36 @@ public class CartManager : ICartManager
 
         var modelledCarts = new List<CartModel>();
 
-        foreach (var cart in carts)
+        foreach (var cart in carts) 
         {
-            var discountCode = await _discountManager.GetDiscount(cart.DiscountCode);
-            
-            var cartItems = new List<CartItemModel>();
-            foreach (var cartItem in cart.CartItemIds)
-            {
-                cartItems.Add(await _cartItemManager.GetCartItem(cartItem));
+            var cartItems = new List<CartItemModel>(); 
+            foreach (var cartItemId in cart.CartItemIds) 
+            { 
+                cartItems.Add(await _cartItemManager.GetCartItem(cartItemId));
             }
             
             modelledCarts.Add(new CartModel()
-            {
+            { 
                 Id = cart.Id,
                 UserId = cart.UserId,
                 CartItems = cartItems,
                 Total = cart.Total,
-                DiscountCode = discountCode,
-                DiscountedTotal = cart.DiscountedTotal
             });
         }
         
         return modelledCarts;
     }
 
-    public async Task<CartModel> GetCart(Guid userId)
+    public async Task<CartModel?> GetCart(Guid userId)
     {
+        //TODO: Fix discount code retrieval.
+        
         var cart = await _context.Carts.Where(c => c.UserId == userId).FirstOrDefaultAsync();
-        var discountCode = await _discountManager.GetDiscount(cart.DiscountCode);
 
         var cartItems = new List<CartItemModel>();
-        foreach (var cartItem in cart.CartItemIds)
+        foreach (var cartItemId in cart.CartItemIds)
         {
-            cartItems.Add(await _cartItemManager.GetCartItem(cartItem));
+            cartItems.Add(await _cartItemManager.GetCartItem(cartItemId));
         }
 
         return new CartModel()
@@ -66,23 +61,20 @@ public class CartManager : ICartManager
             UserId = cart.UserId,
             CartItems = cartItems,
             Total = cart.Total,
-            DiscountCode = discountCode,
-            DiscountedTotal = cart.DiscountedTotal
         };
     }
 
     public async Task<CartModel> CreateCart(CartModel cart)
     {
+        //TODO: Fix discount code retrieval.
+
         var totalledCart = CalculateCartTotal(cart);
         
-        if (totalledCart.DiscountCode != null)
-            totalledCart = ApplyDiscountCode(totalledCart);
-
         var cartItemIds = new List<Guid>();
         foreach (var cartItem in totalledCart.CartItems)
         {
-            cartItemIds.Add(cartItem.Id);
-            await _cartItemManager.CreateCartItem(cartItem, cart.Id);
+            var createdCartItem = await _cartItemManager.CreateCartItem(cartItem, cart.Id);
+            cartItemIds.Add(createdCartItem.Id);
         }
         
         var entitiedCart = new CartEntity()
@@ -91,8 +83,6 @@ public class CartManager : ICartManager
             UserId = totalledCart.UserId,
             CartItemIds = cartItemIds,
             Total = totalledCart.Total,
-            DiscountCode = totalledCart.DiscountCode.Code,
-            DiscountedTotal = totalledCart.DiscountedTotal
         };
 
         await _context.Carts.AddAsync(entitiedCart);
@@ -105,14 +95,20 @@ public class CartManager : ICartManager
     {
         var totalledCart = CalculateCartTotal(cart);
 
-        if (totalledCart.DiscountCode != null)
-            totalledCart = ApplyDiscountCode(totalledCart);
-        
         var cartItemIds = new List<Guid>();
         foreach (var cartItem in totalledCart.CartItems)
         {
-            cartItemIds.Add(cartItem.Id);
-            await _cartItemManager.CreateCartItem(cartItem, cart.Id);
+            var matchedCartItem = await _cartItemManager.GetCartItem(cartItem.Id);
+
+            if (matchedCartItem == null)
+            {
+                cartItemIds.Add(cartItem.Id);
+                await _cartItemManager.CreateCartItem(cartItem, cart.Id);
+            }
+            else
+            {
+                await _cartItemManager.UpdateCartItem(cartItem, cart.Id);
+            }
         }
         
         var entitiedCart = new CartEntity()
@@ -121,8 +117,6 @@ public class CartManager : ICartManager
             UserId = totalledCart.UserId,
             CartItemIds = cartItemIds,
             Total = totalledCart.Total,
-            DiscountCode = totalledCart.DiscountCode.Code,
-            DiscountedTotal = totalledCart.DiscountedTotal
         };
 
         var record = await _context.Carts.Where(c => c.UserId == entitiedCart.UserId).FirstOrDefaultAsync();
@@ -131,8 +125,6 @@ public class CartManager : ICartManager
         record.UserId = entitiedCart.UserId;
         record.CartItemIds = entitiedCart.CartItemIds;
         record.Total = entitiedCart.Total;
-        record.DiscountCode = entitiedCart.DiscountCode;
-        record.DiscountedTotal = entitiedCart.DiscountedTotal;
         
         await _context.SaveChangesAsync();
 
@@ -159,18 +151,5 @@ public class CartManager : ICartManager
         }
         cart.Total = calculatedTotal;
         return cart;
-    }
-
-    private CartModel ApplyDiscountCode(CartModel cart)
-    {
-        if (cart.DiscountCode == null)
-        {
-            return cart;
-        }
-        else
-        {
-            cart.DiscountedTotal = (cart.DiscountCode.PercentOff / 100) * cart.Total;
-            return cart;
-        }
     }
 }

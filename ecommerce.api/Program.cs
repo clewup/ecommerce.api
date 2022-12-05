@@ -43,7 +43,6 @@ builder.Services.AddCors(options =>
 
 // Managers
 builder.Services.AddTransient<AuthManager>();
-builder.Services.AddTransient<DiscountManager>();
 builder.Services.AddTransient<CartItemManager>();
 builder.Services.AddTransient<ProductManager>();
 builder.Services.AddTransient<CartManager>();
