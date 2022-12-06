@@ -27,7 +27,7 @@ public class ProductController : ControllerBase
         }
         catch (Exception e)
         {
-            _logger.LogCritical($"ProductController: GetProducts - Error: {e}");
+            _logger.LogCritical("ProductController: GetProducts - Error:", e);
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
@@ -43,7 +43,7 @@ public class ProductController : ControllerBase
         }
         catch (Exception e)
         {
-            _logger.LogCritical($"ProductController: GetProduct - Error: {e}");
+            _logger.LogCritical($"ProductController: GetProduct - Error:", e);
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
@@ -59,7 +59,7 @@ public class ProductController : ControllerBase
         }
         catch (Exception e)
         {
-            _logger.LogCritical($"ProductController: GetProductCategories - Error: {e}");
+            _logger.LogCritical($"ProductController: GetProductCategories - Error:", e);
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
@@ -79,7 +79,7 @@ public class ProductController : ControllerBase
         }
         catch (Exception e)
         {
-            _logger.LogCritical($"ProductController: CreateProduct - Error: {e}");
+            _logger.LogCritical($"ProductController: CreateProduct - Error:", e);
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
@@ -99,7 +99,7 @@ public class ProductController : ControllerBase
         }
         catch (Exception e)
         {
-            _logger.LogCritical($"ProductController: UpdateProduct - Error: {e}");
+            _logger.LogCritical($"ProductController: UpdateProduct - Error:", e);
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
@@ -115,7 +115,7 @@ public class ProductController : ControllerBase
         }
         catch (Exception e)
         {
-            _logger.LogCritical($"ProductController: DeleteProduct - Error: {e}");
+            _logger.LogCritical($"ProductController: DeleteProduct - Error:", e);
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }

@@ -34,7 +34,7 @@ public class UploadController : ControllerBase
         }
         catch (Exception e)
         {
-            _logger.LogCritical($"UploadController: UploadImage - Error: {e}");
+            _logger.LogCritical($"UploadController: UploadImage - Error:", e);
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }

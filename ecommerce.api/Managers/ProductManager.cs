@@ -1,128 +1,72 @@
 using ecommerce.api.Classes;
 using ecommerce.api.Data;
 using ecommerce.api.Entities;
-using ecommerce.api.Managers.Interfaces;
+using ecommerce.api.Services.Mappers;
 using Microsoft.EntityFrameworkCore;
 
 namespace ecommerce.api.Managers;
 
-public class ProductManager : IProductManager
+public class ProductManager
 {
-    private readonly EcommerceDbContext _context;
+    private readonly ProductDataManager _productDataManager;
 
-    public ProductManager(EcommerceDbContext context)
+    public ProductManager(ProductDataManager productDataManager)
     {
-        _context = context;
+        _productDataManager = productDataManager;
     }   
     
     public async Task<List<ProductModel>> GetProducts()
     {
-        var products = await _context.Products.ToListAsync();
-        
-        var modelledProducts = new List<ProductModel>();
+        var products = await _productDataManager.GetProducts();
+
+        var mappedProducts = new List<ProductModel>();
 
         foreach (var product in products)
         {
-            modelledProducts.Add(new ProductModel()
-            {
-                Id = product.Id,
-                Images = product.Images,
-                Name = product.Name,
-                Description = product.Description,
-                Category = product.Category,
-                PricePerUnit = product.PricePerUnit,
-                Discount = product.Discount
-            });
+            mappedProducts.Add(product.ToProductModel());
         }
-        
-        return modelledProducts;
+        return mappedProducts;
+    }
+    
+    public async Task<List<ProductModel>> GetProductByIds(List<Guid> ids)
+    {
+        var products = await _productDataManager.GetProductsByIds(ids);
+
+        var mappedProducts = new List<ProductModel>();
+
+        foreach (var product in products)
+        {
+            mappedProducts.Add(product.ToProductModel());
+        }
+        return mappedProducts;
     }
     
     public async Task<List<string>> GetProductCategories()
     {
-        var products = await _context.Products.ToListAsync();
-
-        List<string> categories = new List<string>();
-        
-        foreach (var product in products)
-        {
-            categories.Add(product.Category);
-        }
-
+        var categories = await _productDataManager.GetProductCategories();
         return categories;
     }
 
     public async Task<ProductModel> GetProduct(Guid id)
     {
-        var product = await _context.Products.Where(p => p.Id == id).FirstOrDefaultAsync();
-        
-        return new ProductModel()
-        {
-            Id = product.Id,
-            Images = product.Images,
-            Name = product.Name,
-            Description = product.Description,
-            Category = product.Category,
-            PricePerUnit = product.PricePerUnit,
-            Discount = product.Discount
-        };
+        var product = await _productDataManager.GetProduct(id);
+        return product.ToProductModel();
     }
 
     public async Task<ProductModel> CreateProduct(ProductModel product)
     {
-        var entitiedProduct = new ProductEntity()
-        {
-            Id = product.Id,
-            Images = product.Images,
-            Name = product.Name,
-            Description = product.Description,
-            Category = product.Category,
-            PricePerUnit = product.PricePerUnit,
-            Discount = product.Discount
-        };
-        
-        await _context.Products.AddAsync(entitiedProduct);
-        await _context.SaveChangesAsync();
-        
-        return product;
+        var createdProduct = await _productDataManager.CreateProduct(product);
+        return createdProduct.ToProductModel();
     }
 
     public async Task<ProductModel> UpdateProduct(ProductModel product)
     {
-        var entitiedProduct = new ProductEntity()
-        {
-            Id = product.Id,
-            Images = product.Images,
-            Name = product.Name,
-            Description = product.Description,
-            Category = product.Category,
-            PricePerUnit = product.PricePerUnit,
-            Discount = product.Discount
-        };
-        
-        var record = await _context.Products.Where(p => p.Id == entitiedProduct.Id).FirstOrDefaultAsync();
-        
-        record.Id = entitiedProduct.Id;
-        record.Images = entitiedProduct.Images;
-        record.Name = entitiedProduct.Name;
-        record.Description = entitiedProduct.Description;
-        record.Category = entitiedProduct.Category;
-        record.PricePerUnit = entitiedProduct.PricePerUnit;
-        record.Discount = entitiedProduct.Discount;
-        
-        await _context.SaveChangesAsync();
-
-        return product;
+        var updatedProduct = await _productDataManager.UpdateProduct(product);
+        return updatedProduct.ToProductModel();
     }
 
     public async void DeleteProduct(Guid id)
     {
-        var product = await _context.Products.Where(p => p.Id == id).FirstOrDefaultAsync();
-
-        if (product != null)
-        {
-            _context.Products.Remove(product);
-            _context.SaveChanges();
-        }
+        _productDataManager.DeleteProduct(id);
     }
 }

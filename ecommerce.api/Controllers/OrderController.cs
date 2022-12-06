@@ -27,7 +27,7 @@ public class OrderController : ControllerBase
         }
         catch (Exception e)
         {
-            _logger.LogCritical($"OrderController: GetOrders - Error: {e}");
+            _logger.LogCritical($"OrderController: GetOrders - Error:", e);
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
@@ -43,7 +43,7 @@ public class OrderController : ControllerBase
         }
         catch (Exception e)
         {
-            _logger.LogCritical($"OrderController: GetOrder - Error: {e}");
+            _logger.LogCritical($"OrderController: GetOrder - Error:", e);
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
@@ -63,7 +63,7 @@ public class OrderController : ControllerBase
         }
         catch (Exception e)
         {
-            _logger.LogCritical($"OrderController: CreateOrder - Error: {e}");
+            _logger.LogCritical($"OrderController: CreateOrder - Error:", e);
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
@@ -83,23 +83,7 @@ public class OrderController : ControllerBase
         }
         catch (Exception e)
         {
-            _logger.LogCritical($"OrderController: UpdateOrder - Error: {e}");
-            return StatusCode(StatusCodes.Status500InternalServerError);
-        }
-    }
-    
-    [HttpPut]
-    [Route("shiporder")]
-    public async Task<IActionResult> ShipOrder([FromBody] OrderModel order)
-    {
-        try
-        {
-            var shippedOrder = await _orderManager.ShipOrder(order);
-            return Ok(shippedOrder);
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical($"OrderController: ShipOrder - Error: {e}");
+            _logger.LogCritical($"OrderController: UpdateOrder - Error:", e);
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }

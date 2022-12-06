@@ -44,8 +44,11 @@ builder.Services.AddCors(options =>
 // Managers
 builder.Services.AddTransient<AuthManager>();
 builder.Services.AddTransient<ProductManager>();
+builder.Services.AddTransient<ProductDataManager>();
 builder.Services.AddTransient<CartManager>();
+builder.Services.AddTransient<CartDataManager>();
 builder.Services.AddTransient<OrderManager>();
+builder.Services.AddTransient<OrderDataManager>();
 builder.Services.AddTransient<UploadManager>();
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();

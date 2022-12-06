@@ -31,7 +31,7 @@ public class CartController : ControllerBase
         }
         catch (Exception e)
         {
-            _logger.LogCritical($"CartController: GetCarts - Error: {e}");
+            _logger.LogCritical($"CartController: GetCarts - Error:", e);
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
@@ -51,7 +51,7 @@ public class CartController : ControllerBase
         }
         catch (Exception e)
         {
-            _logger.LogCritical($"CartController: GetCart - Error: {e}");
+            _logger.LogCritical($"CartController: GetCart - Error:", e);
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
@@ -71,7 +71,7 @@ public class CartController : ControllerBase
         }
         catch (Exception e)
         {
-            _logger.LogCritical($"CartController: CreateCart - Error: {e}");
+            _logger.LogCritical($"CartController: CreateCart - Error:", e);
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
@@ -91,14 +91,13 @@ public class CartController : ControllerBase
             if (matchedCart == null)
                 return NoContent();
             
-            _cartManager.DeleteCart(cart.UserId);
-            var updatedCart = await _cartManager.CreateCart(cart);
+            var updatedCart = await _cartManager.UpdateCart(cart);
             
             return Ok(updatedCart);
         }
         catch (Exception e)
         {
-            _logger.LogCritical($"CartController: UpdateCart - Error: {e}");
+            _logger.LogCritical($"CartController: UpdateCart - Error:", e);
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
@@ -116,12 +115,12 @@ public class CartController : ControllerBase
                 return NoContent();
             }
             
-            _cartManager.DeleteCart(cart.UserId);
+            _cartManager.DeleteCart(userId);
             return NoContent();
         }
         catch (Exception e)
         {
-            _logger.LogCritical($"CartController: UpdateCart - Error: {e}");
+            _logger.LogCritical($"CartController: DeleteCart - Error:", e);
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }

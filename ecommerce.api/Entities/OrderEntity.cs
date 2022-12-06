@@ -10,8 +10,7 @@ public class OrderEntity : BaseEntity
     [Required]
     public Guid UserId { get; set; }
     [Required]
-    public Guid CartId { get; set; }
+    public CartEntity Cart { get; set; }
     [Required]
     public DateTime OrderDate { get; set; }
-    public DateTime? ShippedDate { get; set; }
 }

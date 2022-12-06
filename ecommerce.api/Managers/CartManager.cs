@@ -1,135 +1,67 @@
 using ecommerce.api.Classes;
 using ecommerce.api.Data;
 using ecommerce.api.Entities;
-using ecommerce.api.Managers.Interfaces;
+using ecommerce.api.Services.Mappers;
 using Microsoft.EntityFrameworkCore;
 
 namespace ecommerce.api.Managers;
 
-public class CartManager : ICartManager
+public class CartManager
 {
-    private readonly EcommerceDbContext _context;
+    private readonly CartDataManager _cartDataManager;
+    private readonly ProductManager _productManager;
 
-    public CartManager(EcommerceDbContext context)
+    public CartManager(CartDataManager cartDataManager, ProductManager productManager)
     {
-        _context = context;
+        _cartDataManager = cartDataManager;
+        _productManager = productManager;
     }
     
     public async Task<List<CartModel>> GetCarts()
     {
-        var carts = await _context.Carts.ToListAsync();
+        var carts = await _cartDataManager.GetCarts();
 
-        var modelledCarts = new List<CartModel>();
+        var mappedCarts = new List<CartModel>();
 
         foreach (var cart in carts)
         {
-            var modelledProducts = new List<ProductModel>();
-            foreach (var product in cart.Products)
-            {
-                modelledProducts.Add(new ProductModel()
-                {
-                    Id = product.Id,
-                    Images = product.Images,
-                    Name = product.Name,
-                    Description = product.Description,
-                    Category = product.Category,
-                    PricePerUnit = product.PricePerUnit,
-                    Discount = product.Discount
-                });
-            }
+            var productIds = cart.Products.ToProductIds();
+            var products = await _productManager.GetProductByIds(productIds);
             
-            modelledCarts.Add(new CartModel()
-            { 
-                Id = cart.Id,
-                UserId = cart.UserId,
-                Products = modelledProducts,
-                Total = cart.Total,
-            });
+            mappedCarts.Add(cart.ToCartModel(products));
         }
-        
-        return modelledCarts;
+        return mappedCarts;
     }
-
-    public async Task<CartModel?> GetCart(Guid userId)
+    
+    public async Task<CartModel> GetCart(Guid userId)
     {
-        var cart = await _context.Carts.Where(c => c.UserId == userId).FirstOrDefaultAsync();
-
-        var modelledProducts = new List<ProductModel>();
-        foreach (var product in cart.Products)
-        {
-            modelledProducts.Add(new ProductModel()
-            {
-                Id = product.Id,
-                Images = product.Images,
-                Name = product.Name,
-                Description = product.Description,
-                Category = product.Category,
-                PricePerUnit = product.PricePerUnit,
-                Discount = product.Discount
-            });
-        }
+        var cart = await _cartDataManager.GetCart(userId);
+        var productIds = cart.Products.ToProductIds();
+        var products = await _productManager.GetProductByIds(productIds);
         
-        return new CartModel()
-        {
-            Id = cart.Id,
-            UserId = cart.UserId,
-            Products = modelledProducts,
-            Total = cart.Total,
-        };
+        return cart.ToCartModel(products);
     }
-
+    
     public async Task<CartModel> CreateCart(CartModel cart)
     {
-        var totalledCart = CalculateCartTotal(cart);
+        var createdCart = await _cartDataManager.CreateCart(cart);
+        var productIds = cart.Products.ToProductIds();
+        var products = await _productManager.GetProductByIds(productIds);
         
-        var entitiedProducts = new List<ProductEntity>();
-        foreach (var product in cart.Products)
-        {
-            entitiedProducts.Add(new ProductEntity()
-            {
-                Id = product.Id,
-                Images = product.Images,
-                Name = product.Name,
-                Description = product.Description,
-                Category = product.Category,
-                PricePerUnit = product.PricePerUnit,
-                Discount = product.Discount
-            });
-        }
+        return createdCart.ToCartModel(products);
+    }
+
+    public async Task<CartModel> UpdateCart(CartModel cart)
+    {
+        var updatedCart = await _cartDataManager.UpdateCart(cart);
+        var productIds = cart.Products.ToProductIds();
+        var products = await _productManager.GetProductByIds(productIds);
         
-        var entitiedCart = new CartEntity()
-        {
-            Id = totalledCart.Id,
-            UserId = totalledCart.UserId,
-            Products = entitiedProducts,
-            Total = totalledCart.Total,
-        };
-
-        await _context.Carts.AddAsync(entitiedCart);
-        await _context.SaveChangesAsync();
-
-        return totalledCart;
+        return updatedCart.ToCartModel(products);
     }
 
     public async void DeleteCart(Guid userId)
     {
-        var cart = await _context.Carts.Where(c => c.UserId == userId).FirstOrDefaultAsync();
-
-        if (cart != null)
-        {
-            _context.Carts.Remove(cart);
-            await _context.SaveChangesAsync();
-        }
-    }
-
-    private CartModel CalculateCartTotal(CartModel cart)
-    {
-        double calculatedTotal = 0;
-        foreach (var product in cart.Products)
-        {
-            calculatedTotal += product.PricePerUnit;
-        }
-        cart.Total = calculatedTotal;
-        return cart;
+        _cartDataManager.DeleteCart(userId);
     }
 }
