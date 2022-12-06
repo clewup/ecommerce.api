@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ecommerce.api.Data;
@@ -12,9 +13,11 @@ using ecommerce.api.Data;
 namespace ecommerce.api.Migrations
 {
     [DbContext(typeof(EcommerceDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221206113005_ModelRefactor")]
+    partial class ModelRefactor
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

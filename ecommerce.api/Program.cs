@@ -3,7 +3,7 @@ using ecommerce.api.Data;
 using ecommerce.api.Managers;
 using Microsoft.EntityFrameworkCore;
 
-var  CorsPolicy = "_corsPolicy";
+var CorsPolicy = "_corsPolicy";
 
 var builder = WebApplication.CreateBuilder(args);
 
