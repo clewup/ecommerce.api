@@ -17,7 +17,7 @@ public class OrderManager
         _cartManager = cartManager;
     }
     
-    public async Task<List<OrderModel>> GetOrders()
+    public async Task<List<OrderModel>?> GetOrders()
     {
         var orders = await _orderDataManager.GetOrders();
 
@@ -32,9 +32,9 @@ public class OrderManager
         return mappedOrders;
     }
 
-    public async Task<List<OrderModel>> GetOrdersByUser(Guid userId)
+    public async Task<List<OrderModel>?> GetUserOrders(Guid userId)
     {
-        var orders = await _orderDataManager.GetOrdersByUser(userId);
+        var orders = await _orderDataManager.GetUserOrders(userId);
 
         var mappedOrders = new List<OrderModel>();
         

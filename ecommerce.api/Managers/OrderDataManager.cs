@@ -25,7 +25,7 @@ public class OrderDataManager
         return orders;
     }
     
-    public async Task<List<OrderEntity>> GetOrdersByUser(Guid userId)
+    public async Task<List<OrderEntity>> GetUserOrders(Guid userId)
     {
         var orders = await _context.Orders.Where(o => o.UserId == userId).ToListAsync();
         return orders;

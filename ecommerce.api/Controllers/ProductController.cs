@@ -23,6 +23,10 @@ public class ProductController : ControllerBase
         try
         {
             var products = await _productManager.GetProducts();
+
+            if (products == null)
+                return NoContent();
+            
             return Ok(products);
         }
         catch (Exception)
@@ -59,6 +63,10 @@ public class ProductController : ControllerBase
         try
         {
             var categories = await _productManager.GetProductCategories();
+            
+            if (categories == null)
+                return NoContent();
+            
             return Ok(categories);
         }
         catch (Exception)

@@ -15,7 +15,7 @@ public class ProductManager
         _productDataManager = productDataManager;
     }   
     
-    public async Task<List<ProductModel>> GetProducts()
+    public async Task<List<ProductModel>?> GetProducts()
     {
         var products = await _productDataManager.GetProducts();
 
@@ -28,7 +28,7 @@ public class ProductManager
         return mappedProducts;
     }
     
-    public async Task<List<ProductModel>> GetProductByIds(List<Guid> ids)
+    public async Task<List<ProductModel>?> GetProductByIds(List<Guid> ids)
     {
         var products = await _productDataManager.GetProductsByIds(ids);
 
@@ -41,7 +41,7 @@ public class ProductManager
         return mappedProducts;
     }
     
-    public async Task<List<string>> GetProductCategories()
+    public async Task<List<string>?> GetProductCategories()
     {
         var categories = await _productDataManager.GetProductCategories();
         return categories;

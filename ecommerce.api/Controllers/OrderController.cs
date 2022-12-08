@@ -23,6 +23,30 @@ public class OrderController : ControllerBase
         try
         {
             var orders = await _orderManager.GetOrders();
+            
+            if (orders == null)
+                return NoContent();
+            
+            return Ok(orders);
+        }
+        catch (Exception)
+        {
+            _logger.LogCritical($"OrderController.GetOrders: Could not retrieve orders");
+            throw;
+        }
+    }
+    
+    [HttpGet]
+    [Route("user/{userId}")]
+    public async Task<IActionResult> GetUserOrders(Guid userId)
+    {
+        try
+        {
+            var orders = await _orderManager.GetUserOrders(userId);
+
+            if (orders == null)
+                return NoContent();
+            
             return Ok(orders);
         }
         catch (Exception)
