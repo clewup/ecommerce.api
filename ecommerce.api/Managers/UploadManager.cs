@@ -24,7 +24,7 @@ public class UploadManager
             var uploadParams = new ImageUploadParams()
             {
                 File = new FileDescription(image.Name, stream),
-                PublicId = "products",
+                PublicId = "ecommerce/products",
             };
 
             var uploadResult = await _cloudinary.UploadAsync(uploadParams);
