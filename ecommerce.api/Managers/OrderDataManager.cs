@@ -27,7 +27,11 @@ public class OrderDataManager
     
     public async Task<List<OrderEntity>> GetUserOrders(Guid userId)
     {
-        var orders = await _context.Orders.Where(o => o.UserId == userId).ToListAsync();
+        var orders = await _context.Orders
+            .Include(o => o.Cart)
+            .Where(o => o.UserId == userId)
+            .ToListAsync();
+        
         return orders;
     }
 

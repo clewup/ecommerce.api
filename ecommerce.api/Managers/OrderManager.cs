@@ -41,8 +41,7 @@ public class OrderManager
         foreach (var order in orders)
         {
             var cart = await _cartManager.GetCart(order.Cart.Id);
-            if (cart != null)
-                mappedOrders.Add(order.ToOrderModel(cart));
+            mappedOrders.Add(order.ToOrderModel(cart!));
         }
 
         return mappedOrders;
