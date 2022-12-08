@@ -30,10 +30,10 @@ public class CartController : ControllerBase
             
             return Ok(cart);
         }
-        catch (Exception e)
+        catch (Exception)
         {
-            _logger.LogCritical($"CartController: GetCart - Error:", e);
-            return StatusCode(StatusCodes.Status500InternalServerError);
+            _logger.LogCritical("CartController.GetCart: Could not retrieve cart {Id}", id);
+            throw;
         }
     }
     
@@ -50,10 +50,10 @@ public class CartController : ControllerBase
             
             return Ok(cart);
         }
-        catch (Exception e)
+        catch (Exception)
         {
-            _logger.LogCritical($"CartController: GetUserCart - Error:", e);
-            return StatusCode(StatusCodes.Status500InternalServerError);
+            _logger.LogCritical("CartController.GetUserCart: Could not retrieve user cart for user {UserId}", userId);
+            throw;
         }
     }
 
@@ -70,10 +70,10 @@ public class CartController : ControllerBase
             var createdCart = await _cartManager.CreateCart(cart);
             return Created("cart", createdCart);
         }
-        catch (Exception e)
+        catch (Exception)
         {
-            _logger.LogCritical($"CartController: CreateCart - Error:", e);
-            return StatusCode(StatusCodes.Status500InternalServerError);
+            _logger.LogCritical("CartController.CreateCart: Could not create cart for user {CartUserId}", cart.UserId);
+            throw;
         }
     }
     
@@ -96,10 +96,10 @@ public class CartController : ControllerBase
             
             return Ok(updatedCart);
         }
-        catch (Exception e)
+        catch (Exception)
         {
-            _logger.LogCritical($"CartController: UpdateCart - Error:", e);
-            return StatusCode(StatusCodes.Status500InternalServerError);
+            _logger.LogCritical("CartController.UpdateCart: Could not update cart for user {CartUserId}", cart.UserId);
+            throw;
         }
     }
 }

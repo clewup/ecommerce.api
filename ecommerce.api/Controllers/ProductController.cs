@@ -25,10 +25,10 @@ public class ProductController : ControllerBase
             var products = await _productManager.GetProducts();
             return Ok(products);
         }
-        catch (Exception e)
+        catch (Exception)
         {
-            _logger.LogCritical("ProductController: GetProducts - Error:", e);
-            return StatusCode(StatusCodes.Status500InternalServerError);
+            _logger.LogCritical("ProductController.GetProducts: Could not retrieve products");
+            throw;
         }
     }
     
@@ -45,10 +45,10 @@ public class ProductController : ControllerBase
             
             return Ok(product);
         }
-        catch (Exception e)
+        catch (Exception)
         {
-            _logger.LogCritical($"ProductController: GetProduct - Error:", e);
-            return StatusCode(StatusCodes.Status500InternalServerError);
+            _logger.LogCritical("ProductController.GetProduct: Could not retrieve product id {Id}", id);
+            throw;
         }
     }
 
@@ -61,10 +61,10 @@ public class ProductController : ControllerBase
             var categories = await _productManager.GetProductCategories();
             return Ok(categories);
         }
-        catch (Exception e)
+        catch (Exception)
         {
-            _logger.LogCritical($"ProductController: GetProductCategories - Error:", e);
-            return StatusCode(StatusCodes.Status500InternalServerError);
+            _logger.LogCritical($"ProductController.GetProductCategories: Could not retrieve product categories");
+            throw;
         }
     }
     
@@ -81,10 +81,10 @@ public class ProductController : ControllerBase
             var createdProduct = await _productManager.CreateProduct(product);
             return Created("product", createdProduct);
         }
-        catch (Exception e)
+        catch (Exception)
         {
-            _logger.LogCritical($"ProductController: CreateProduct - Error:", e);
-            return StatusCode(StatusCodes.Status500InternalServerError);
+            _logger.LogCritical("ProductController.CreateProduct: Could not create product {ProductId}", product.Id);
+            throw;
         }
     }
     
@@ -106,10 +106,10 @@ public class ProductController : ControllerBase
             var updatedProduct = await _productManager.UpdateProduct(product);
             return Ok(updatedProduct);
         }
-        catch (Exception e)
+        catch (Exception)
         {
-            _logger.LogCritical($"ProductController: UpdateProduct - Error:", e);
-            return StatusCode(StatusCodes.Status500InternalServerError);
+            _logger.LogCritical("ProductController.UpdateProduct: Could not update product {ProductId}", product.Id);
+            throw;
         }
     }
     
@@ -127,10 +127,10 @@ public class ProductController : ControllerBase
             _productManager.DeleteProduct(id);
             return NoContent();
         }
-        catch (Exception e)
+        catch (Exception)
         {
-            _logger.LogCritical($"ProductController: DeleteProduct - Error:", e);
-            return StatusCode(StatusCodes.Status500InternalServerError);
+            _logger.LogCritical("ProductController.DeleteProduct: Could not delete product {Id}", id);
+            throw;
         }
     }
     

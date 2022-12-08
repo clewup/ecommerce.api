@@ -25,10 +25,10 @@ public class OrderController : ControllerBase
             var orders = await _orderManager.GetOrders();
             return Ok(orders);
         }
-        catch (Exception e)
+        catch (Exception)
         {
-            _logger.LogCritical($"OrderController: GetOrders - Error:", e);
-            return StatusCode(StatusCodes.Status500InternalServerError);
+            _logger.LogCritical($"OrderController.GetOrders: Could not retrieve orders");
+            throw;
         }
     }
     
@@ -45,10 +45,10 @@ public class OrderController : ControllerBase
             
             return Ok(order);
         }
-        catch (Exception e)
+        catch (Exception)
         {
-            _logger.LogCritical($"OrderController: GetOrder - Error:", e);
-            return StatusCode(StatusCodes.Status500InternalServerError);
+            _logger.LogCritical("OrderController.GetOrder: Could not retrieve order {Id}", id);
+            throw;
         }
     }
 
@@ -65,10 +65,10 @@ public class OrderController : ControllerBase
             var createdOrder = await _orderManager.CreateOrder(order);
             return Created("order", createdOrder);
         }
-        catch (Exception e)
+        catch (Exception)
         {
-            _logger.LogCritical($"OrderController: CreateOrder - Error:", e);
-            return StatusCode(StatusCodes.Status500InternalServerError);
+            _logger.LogCritical("OrderController.CreateOrder: Could not create order for user {OrderUserId}", order.UserId);
+            throw;
         }
     }
     
@@ -90,10 +90,10 @@ public class OrderController : ControllerBase
             var updatedOrder = await _orderManager.UpdateOrder(order);
             return Ok(updatedOrder);
         }
-        catch (Exception e)
+        catch (Exception)
         {
-            _logger.LogCritical($"OrderController: UpdateOrder - Error:", e);
-            return StatusCode(StatusCodes.Status500InternalServerError);
+            _logger.LogCritical("OrderController.UpdateOrder: Could not update order for user {OrderUserId}", order.UserId);
+            throw;
         }
     }
 }
