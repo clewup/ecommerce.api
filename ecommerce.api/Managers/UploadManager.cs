@@ -12,35 +12,30 @@ public class UploadManager
     {
         _cloudinary = cloudinary;
     }
+
     public async Task<ImageModel> UploadImage(ImageModel image)
     {
         var file = image.File;
 
-        if (file.Length > 0)
+        using (var stream = new MemoryStream())
         {
-            await using var stream = file.OpenReadStream();
+            await file.CopyToAsync(stream);
+            stream.Position = 0;
+
             var uploadParams = new ImageUploadParams()
             {
-                File = new FileDescription(file.Name, file.OpenReadStream()),
-                Tags = "ecommerce"
+                File = new FileDescription(file.Name, stream),
+                PublicId = "products",
             };
 
-            var result = await _cloudinary.UploadAsync(uploadParams).ConfigureAwait(false);
+            var uploadResult = await _cloudinary.UploadAsync(uploadParams);
 
             return new ImageModel()
             {
-                Url = result.Url.ToString(),
+                Id = uploadResult.PublicId,
+                Url = uploadResult.Url,
                 File = image.File,
-                Id = result.PublicId,
             };
         }
-
-        return new ImageModel()
-        {
-            Url = "",
-            File = image.File,
-            Id = ""
-        };
     }
-
 }
