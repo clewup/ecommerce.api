@@ -36,6 +36,10 @@ public class CartManager
     public async Task<CartModel?> GetCart(Guid id)
     {
         var cart = await _cartDataManager.GetCart(id);
+        
+        if (cart == null)
+            return null;
+        
         var productIds = cart.Products.ToProductIds();
         var products = await _productManager.GetProductByIds(productIds);
         
@@ -45,6 +49,10 @@ public class CartManager
     public async Task<CartModel?> GetUserCart(Guid userId)
     {
         var cart = await _cartDataManager.GetUserCart(userId);
+        
+        if (cart == null)
+            return null;
+            
         var productIds = cart.Products.ToProductIds();
         var products = await _productManager.GetProductByIds(productIds);
         

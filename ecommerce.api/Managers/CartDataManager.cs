@@ -25,7 +25,7 @@ public class CartDataManager
         return carts;
     }
 
-    public async Task<CartEntity> GetCart(Guid id)
+    public async Task<CartEntity?> GetCart(Guid id)
     {
         var cart = await _context.Carts
             .Include(c => c.Products)
@@ -34,7 +34,7 @@ public class CartDataManager
         return cart;
     }
     
-    public async Task<CartEntity> GetUserCart(Guid userId)
+    public async Task<CartEntity?> GetUserCart(Guid userId)
     {
         var cart = await _context.Carts
             .Include(c => c.Products)
