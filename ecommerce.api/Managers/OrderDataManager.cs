@@ -21,7 +21,10 @@ public class OrderDataManager
     
     public async Task<List<OrderEntity>> GetOrders()
     {
-        var orders = await _context.Orders.ToListAsync();
+        var orders = await _context.Orders
+            .Include(o => o.Cart)
+            .ToListAsync();
+        
         return orders;
     }
     

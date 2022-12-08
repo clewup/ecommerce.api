@@ -17,4 +17,6 @@ public class ProductEntity : BaseEntity
     public double PricePerUnit { get; set; }
     [Required]
     public double Discount { get; set; }
+    
+    public ICollection<CartEntity> Carts { get; set; }
 }
