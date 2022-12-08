@@ -63,7 +63,7 @@ public class OrderDataManager
         await _context.Orders.AddAsync(mappedOrder);
         await _context.SaveChangesAsync();
 
-        _cartDataManager.MakeCartInactive(cart.Id);
+        await _cartDataManager.MakeCartInactive(cart.Id);
         
         return mappedOrder;
     }

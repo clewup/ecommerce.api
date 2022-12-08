@@ -86,7 +86,7 @@ public class CartDataManager
         return existingCart;
     }
 
-    public async void MakeCartInactive(Guid id)
+    public async Task MakeCartInactive(Guid id)
     {
         var existingCart = await _context.Carts
             .Include(c => c.Products)
