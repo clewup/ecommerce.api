@@ -11,6 +11,9 @@ public static class OrderMapper
         {
             Id = order.Id,
             UserId = order.UserId,
+            FirstName = order.FirstName,
+            LastName = order.LastName,
+            Email = order.Email,
             DeliveryAddress = new AddressModel()
             {
                 LineOne = order.LineOne,

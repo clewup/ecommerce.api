@@ -38,7 +38,7 @@ public class OrderDataManager
         
         var mappedOrder = new OrderEntity()
         {
-            Id = order.Id,
+            Id = Guid.NewGuid(),
             UserId = userId,
             LineOne = order.DeliveryAddress.LineOne,
             LineTwo = order.DeliveryAddress.LineTwo,
@@ -64,8 +64,10 @@ public class OrderDataManager
         
         var mappedOrder = new OrderEntity()
         {
-            Id = order.Id,
             UserId = userId,
+            FirstName = order.FirstName,
+            LastName = order.LastName,
+            Email = order.Email,
             LineOne = order.DeliveryAddress.LineOne,
             LineTwo = order.DeliveryAddress.LineTwo,
             LineThree = order.DeliveryAddress.LineThree,
@@ -80,6 +82,9 @@ public class OrderDataManager
                 .Include(o => o.Cart)
                 .FirstAsync(o => o.Id == mappedOrder.Id && o.UserId == userId);
 
+        existingOrder.FirstName = mappedOrder.FirstName;
+        existingOrder.LastName = mappedOrder.LastName;
+        existingOrder.Email = mappedOrder.Email;
         existingOrder.LineOne = mappedOrder.LineOne;
         existingOrder.LineTwo = mappedOrder.LineTwo;
         existingOrder.LineThree = mappedOrder.LineThree;
