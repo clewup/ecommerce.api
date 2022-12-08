@@ -24,6 +24,12 @@ public class OrderDataManager
         var orders = await _context.Orders.ToListAsync();
         return orders;
     }
+    
+    public async Task<List<OrderEntity>> GetOrdersByUser(Guid userId)
+    {
+        var orders = await _context.Orders.Where(o => o.UserId == userId).ToListAsync();
+        return orders;
+    }
 
     public async Task<OrderEntity> GetOrder(Guid id)
     {
@@ -34,7 +40,7 @@ public class OrderDataManager
     public async Task<OrderEntity> CreateOrder(OrderModel order)
     {
         var userId = order.UserId;
-        var cart = await _cartDataManager.GetCart(userId);
+        var cart = await _cartDataManager.GetUserCart(userId);
         
         var mappedOrder = new OrderEntity()
         {
@@ -56,6 +62,8 @@ public class OrderDataManager
 
         await _context.Orders.AddAsync(mappedOrder);
         await _context.SaveChangesAsync();
+
+        _cartDataManager.MakeCartInactive(cart.Id);
         
         return mappedOrder;
     }
@@ -63,7 +71,7 @@ public class OrderDataManager
     public async Task<OrderEntity> UpdateOrder(OrderModel order)
     {
         var userId = order.UserId;
-        var cart = await _cartDataManager.GetCart(userId);
+        var cart = await _cartDataManager.GetUserCart(userId);
         
         var mappedOrder = new OrderEntity()
         {

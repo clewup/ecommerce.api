@@ -39,6 +39,10 @@ public class ProductController : ControllerBase
         try
         {
             var product = await _productManager.GetProduct(id);
+
+            if (product == null)
+                return NoContent();
+            
             return Ok(product);
         }
         catch (Exception e)
@@ -94,6 +98,11 @@ public class ProductController : ControllerBase
                 return BadRequest(ModelState);
             }
             
+            var existingProduct = await _productManager.GetProduct(product.Id);
+
+            if (existingProduct == null)
+                return NoContent();
+            
             var updatedProduct = await _productManager.UpdateProduct(product);
             return Ok(updatedProduct);
         }
@@ -106,10 +115,15 @@ public class ProductController : ControllerBase
     
     [HttpDelete]
     [Route("{id}")]
-    public IActionResult DeleteProduct(Guid id)
+    public async Task<IActionResult> DeleteProduct(Guid id)
     {
         try
         {
+            var existingProduct = await _productManager.GetProduct(id);
+
+            if (existingProduct == null)
+                return NoContent();
+            
             _productManager.DeleteProduct(id);
             return NoContent();
         }

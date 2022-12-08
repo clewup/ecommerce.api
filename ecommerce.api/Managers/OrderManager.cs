@@ -25,26 +25,40 @@ public class OrderManager
         
         foreach (var order in orders)
         {
-            var cart = await _cartManager.GetCart(order.UserId);
-            
+            var cart = await _cartManager.GetCart(order.Cart.Id);
             mappedOrders.Add(order.ToOrderModel(cart));
         }
 
         return mappedOrders;
     }
 
-    public async Task<OrderModel> GetOrder(Guid id)
+    public async Task<List<OrderModel>> GetOrdersByUser(Guid userId)
+    {
+        var orders = await _orderDataManager.GetOrdersByUser(userId);
+
+        var mappedOrders = new List<OrderModel>();
+        
+        foreach (var order in orders)
+        {
+            var cart = await _cartManager.GetCart(order.Cart.Id);
+            mappedOrders.Add(order.ToOrderModel(cart));
+        }
+
+        return mappedOrders;
+    }
+    
+    public async Task<OrderModel?> GetOrder(Guid id)
     {
         var order = await _orderDataManager.GetOrder(id);
-        var cart = await _cartManager.GetCart(order.UserId);
+        var cart = await _cartManager.GetCart(order.Cart.Id);
 
-        return order.ToOrderModel(cart);
+        return cart == null ? null : order.ToOrderModel(cart);
     }
-
+    
     public async Task<OrderModel> CreateOrder(OrderModel order)
     {
         var createdOrder = await _orderDataManager.CreateOrder(order);
-        var cart = await _cartManager.GetCart(createdOrder.UserId);
+        var cart = await _cartManager.GetCart(createdOrder.Cart.Id);
         
         return createdOrder.ToOrderModel(cart);
     }
@@ -52,7 +66,7 @@ public class OrderManager
     public async Task<OrderModel> UpdateOrder(OrderModel order)
     {
         var updatedOrder = await _orderDataManager.CreateOrder(order);
-        var cart = await _cartManager.GetCart(updatedOrder.UserId);
+        var cart = await _cartManager.GetCart(updatedOrder.Cart.Id);
         
         return updatedOrder.ToOrderModel(cart);
     }

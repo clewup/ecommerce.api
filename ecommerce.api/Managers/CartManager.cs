@@ -33,9 +33,18 @@ public class CartManager
         return mappedCarts;
     }
     
-    public async Task<CartModel> GetCart(Guid userId)
+    public async Task<CartModel?> GetCart(Guid id)
     {
-        var cart = await _cartDataManager.GetCart(userId);
+        var cart = await _cartDataManager.GetCart(id);
+        var productIds = cart.Products.ToProductIds();
+        var products = await _productManager.GetProductByIds(productIds);
+        
+        return cart.ToCartModel(products);
+    }
+    
+    public async Task<CartModel?> GetUserCart(Guid userId)
+    {
+        var cart = await _cartDataManager.GetUserCart(userId);
         var productIds = cart.Products.ToProductIds();
         var products = await _productManager.GetProductByIds(productIds);
         
@@ -58,10 +67,5 @@ public class CartManager
         var products = await _productManager.GetProductByIds(productIds);
         
         return updatedCart.ToCartModel(products);
-    }
-
-    public async void DeleteCart(Guid userId)
-    {
-        _cartDataManager.DeleteCart(userId);
     }
 }

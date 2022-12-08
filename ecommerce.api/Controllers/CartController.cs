@@ -18,31 +18,12 @@ public class CartController : ControllerBase
     }
     
     [HttpGet]
-    public async Task<IActionResult> GetCarts()
+    [Route("id/{id}")]
+    public async Task<IActionResult> GetCart(Guid id)
     {
         try
         {
-            var carts = await _cartManager.GetCarts();
-
-            if (carts == null)
-                return NoContent();
-            
-            return Ok(carts);
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical($"CartController: GetCarts - Error:", e);
-            return StatusCode(StatusCodes.Status500InternalServerError);
-        }
-    }
-    
-    [HttpGet]
-    [Route("{userId}")]
-    public async Task<IActionResult> GetCart(Guid userId)
-    {
-        try
-        {
-            var cart = await _cartManager.GetCart(userId);
+            var cart = await _cartManager.GetCart(id);
             
             if (cart == null)
                 return NoContent();
@@ -52,6 +33,26 @@ public class CartController : ControllerBase
         catch (Exception e)
         {
             _logger.LogCritical($"CartController: GetCart - Error:", e);
+            return StatusCode(StatusCodes.Status500InternalServerError);
+        }
+    }
+    
+    [HttpGet]
+    [Route("user/{userId}")]
+    public async Task<IActionResult> GetUserCart(Guid userId)
+    {
+        try
+        {
+            var cart = await _cartManager.GetUserCart(userId);
+            
+            if (cart == null)
+                return NoContent();
+            
+            return Ok(cart);
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical($"CartController: GetUserCart - Error:", e);
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
@@ -85,10 +86,10 @@ public class CartController : ControllerBase
             {
                 return BadRequest(ModelState);
             }
+
+            var existingCart = await _cartManager.GetUserCart(cart.UserId);
             
-            var matchedCart = await _cartManager.GetCart(cart.UserId);
-            
-            if (matchedCart == null)
+            if (existingCart == null)
                 return NoContent();
             
             var updatedCart = await _cartManager.UpdateCart(cart);
@@ -98,29 +99,6 @@ public class CartController : ControllerBase
         catch (Exception e)
         {
             _logger.LogCritical($"CartController: UpdateCart - Error:", e);
-            return StatusCode(StatusCodes.Status500InternalServerError);
-        }
-    }
-
-    [HttpDelete]
-    [Route("{userId}")]
-    public async Task<IActionResult> DeleteCart(Guid userId)
-    {
-        try
-        {
-            var cart = await _cartManager.GetCart(userId);
-
-            if (cart == null)
-            {
-                return NoContent();
-            }
-            
-            _cartManager.DeleteCart(userId);
-            return NoContent();
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical($"CartController: DeleteCart - Error:", e);
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }

@@ -47,7 +47,7 @@ public class ProductManager
         return categories;
     }
 
-    public async Task<ProductModel> GetProduct(Guid id)
+    public async Task<ProductModel?> GetProduct(Guid id)
     {
         var product = await _productDataManager.GetProduct(id);
         return product.ToProductModel();

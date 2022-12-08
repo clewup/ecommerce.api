@@ -1,6 +1,7 @@
 using ecommerce.api.Classes;
 using ecommerce.api.Data;
 using ecommerce.api.Entities;
+using ecommerce.api.Infrastructure;
 using ecommerce.api.Services.Mappers;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,11 +25,20 @@ public class CartDataManager
         return carts;
     }
 
-    public async Task<CartEntity> GetCart(Guid userId)
+    public async Task<CartEntity> GetCart(Guid id)
     {
         var cart = await _context.Carts
             .Include(c => c.Products)
-            .FirstAsync(c => c.UserId == userId);
+            .FirstAsync(c => c.Id == id);
+        
+        return cart;
+    }
+    
+    public async Task<CartEntity> GetUserCart(Guid userId)
+    {
+        var cart = await _context.Carts
+            .Include(c => c.Products)
+            .FirstAsync(c => c.UserId == userId && c.Status == StatusType.Active);
         
         return cart;
     }
@@ -66,7 +76,7 @@ public class CartDataManager
 
         var existingCart = await _context.Carts
                 .Include(c => c.Products)
-                .FirstAsync(c => c.UserId == totalledCart.UserId);
+                .FirstAsync(c => c.Id == totalledCart.Id);
 
         existingCart.Products = products;
         existingCart.Total = totalledCart.Total;
@@ -76,16 +86,15 @@ public class CartDataManager
         return existingCart;
     }
 
-    public async void DeleteCart(Guid userId)
+    public async void MakeCartInactive(Guid id)
     {
-        var cart = await _context.Carts
-                .FirstAsync(c => c.UserId == userId);
+        var existingCart = await _context.Carts
+            .Include(c => c.Products)
+            .FirstAsync(c => c.Id == id);
 
-        if (cart != null)
-        {
-            _context.Carts.Remove(cart);
-            await _context.SaveChangesAsync();
-        }
+        existingCart.Status = StatusType.Inactive;
+        
+        await _context.SaveChangesAsync();
     }
 
     private CartModel CalculateCartTotal(CartModel cart)

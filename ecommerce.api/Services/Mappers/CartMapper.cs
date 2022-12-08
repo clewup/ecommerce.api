@@ -9,6 +9,7 @@ public static class CartMapper
     {
         return new CartModel()
         {
+            Id = cart.Id,
             UserId = cart.UserId,
             Products = products,
             Total = cart.Total,

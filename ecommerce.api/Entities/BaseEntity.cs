@@ -1,3 +1,5 @@
+using ecommerce.api.Infrastructure;
+
 namespace ecommerce.api.Entities;
 
 public class BaseEntity
@@ -7,5 +9,5 @@ public class BaseEntity
     public string UpdatedBy { get; set; } = "";
     public string AddedBy { get; set; } = "";
     public DateTime AddedDate { get; set; } = DateTime.UtcNow;
-    public int Status { get; set; } = 1;
+    public StatusType Status { get; set; } = StatusType.Active;
 }

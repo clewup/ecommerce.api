@@ -34,11 +34,15 @@ public class OrderController : ControllerBase
     
     [HttpGet]
     [Route("{id}")]
-    public async Task<IActionResult> GetProduct(Guid id)
+    public async Task<IActionResult> GetOrder(Guid id)
     {
         try
         {
             var order = await _orderManager.GetOrder(id);
+
+            if (order == null)
+                return NoContent();
+            
             return Ok(order);
         }
         catch (Exception e)
@@ -77,6 +81,11 @@ public class OrderController : ControllerBase
             {
                 return BadRequest(ModelState);
             }
+            
+            var existingOrder = await _orderManager.GetOrder(order.Id);
+
+            if (existingOrder == null)
+                return NoContent();
             
             var updatedOrder = await _orderManager.UpdateOrder(order);
             return Ok(updatedOrder);
