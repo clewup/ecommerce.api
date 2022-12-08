@@ -33,15 +33,22 @@ public class OrderDataManager
 
     public async Task<OrderEntity> CreateOrder(OrderModel order)
     {
-        var userId = order.User.Id;
+        var userId = order.UserId;
         var cart = await _cartDataManager.GetCart(userId);
         
         var mappedOrder = new OrderEntity()
         {
             Id = order.Id,
             UserId = userId,
+            LineOne = order.DeliveryAddress.LineOne,
+            LineTwo = order.DeliveryAddress.LineTwo,
+            LineThree = order.DeliveryAddress.LineThree,
+            Postcode = order.DeliveryAddress.Postcode,
+            City = order.DeliveryAddress.City,
+            County = order.DeliveryAddress.County,
+            Country = order.DeliveryAddress.Country,
             Cart = cart,
-            OrderDate = new DateTime(),
+            OrderDate = DateTime.UtcNow,
         };
 
         await _context.Orders.AddAsync(mappedOrder);
@@ -52,24 +59,35 @@ public class OrderDataManager
 
     public async Task<OrderEntity> UpdateOrder(OrderModel order)
     {
-        var userId = order.User.Id;
+        var userId = order.UserId;
         var cart = await _cartDataManager.GetCart(userId);
         
         var mappedOrder = new OrderEntity()
         {
             Id = order.Id,
             UserId = userId,
+            LineOne = order.DeliveryAddress.LineOne,
+            LineTwo = order.DeliveryAddress.LineTwo,
+            LineThree = order.DeliveryAddress.LineThree,
+            Postcode = order.DeliveryAddress.Postcode,
+            City = order.DeliveryAddress.City,
+            County = order.DeliveryAddress.County,
+            Country = order.DeliveryAddress.Country,
             Cart = cart,
-            OrderDate = order.OrderDate,
         };
         
         var existingOrder = await _context.Orders
                 .Include(o => o.Cart)
                 .FirstAsync(o => o.Id == mappedOrder.Id && o.UserId == userId);
 
-        existingOrder.UserId = mappedOrder.UserId;
+        existingOrder.LineOne = mappedOrder.LineOne;
+        existingOrder.LineTwo = mappedOrder.LineTwo;
+        existingOrder.LineThree = mappedOrder.LineThree;
+        existingOrder.Postcode = mappedOrder.Postcode;
+        existingOrder.City = mappedOrder.City;
+        existingOrder.County = mappedOrder.County;
+        existingOrder.Country = mappedOrder.Country;
         existingOrder.Cart = mappedOrder.Cart;
-        existingOrder.OrderDate = mappedOrder.OrderDate;
 
         await _context.SaveChangesAsync();
 

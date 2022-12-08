@@ -9,13 +9,11 @@ namespace ecommerce.api.Managers;
 public class OrderManager
 {
     private readonly OrderDataManager _orderDataManager;
-    private readonly AuthManager _authManager;
     private readonly CartManager _cartManager;
 
-    public OrderManager(OrderDataManager orderDataManager, AuthManager authManager, CartManager cartManager)
+    public OrderManager(OrderDataManager orderDataManager, CartManager cartManager)
     {
         _orderDataManager = orderDataManager;
-        _authManager = authManager;
         _cartManager = cartManager;
     }
     
@@ -27,10 +25,9 @@ public class OrderManager
         
         foreach (var order in orders)
         {
-            var user = await _authManager.GetUser(order.UserId);
             var cart = await _cartManager.GetCart(order.UserId);
             
-            mappedOrders.Add(order.ToOrderModel(user, cart));
+            mappedOrders.Add(order.ToOrderModel(cart));
         }
 
         return mappedOrders;
@@ -39,30 +36,24 @@ public class OrderManager
     public async Task<OrderModel> GetOrder(Guid id)
     {
         var order = await _orderDataManager.GetOrder(id);
-        
-        var user = await _authManager.GetUser(order.UserId);
         var cart = await _cartManager.GetCart(order.UserId);
 
-        return order.ToOrderModel(user, cart);
+        return order.ToOrderModel(cart);
     }
 
     public async Task<OrderModel> CreateOrder(OrderModel order)
     {
         var createdOrder = await _orderDataManager.CreateOrder(order);
-        
-        var user = await _authManager.GetUser(createdOrder.UserId);
         var cart = await _cartManager.GetCart(createdOrder.UserId);
         
-        return createdOrder.ToOrderModel(user, cart);
+        return createdOrder.ToOrderModel(cart);
     }
 
     public async Task<OrderModel> UpdateOrder(OrderModel order)
     {
         var updatedOrder = await _orderDataManager.CreateOrder(order);
-        
-        var user = await _authManager.GetUser(updatedOrder.UserId);
         var cart = await _cartManager.GetCart(updatedOrder.UserId);
         
-        return updatedOrder.ToOrderModel(user, cart);
+        return updatedOrder.ToOrderModel(cart);
     }
 }
