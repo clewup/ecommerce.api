@@ -46,7 +46,7 @@ public class ProductDataManager
 
     public async Task<ProductEntity> GetProduct(Guid id)
     {
-        var product = await _context.Products.Where(p => p.Id == id).FirstAsync();
+        var product = await _context.Products.Where(p => p.Id == id).FirstOrDefaultAsync();
 
         return product;
     }
@@ -72,7 +72,7 @@ public class ProductDataManager
 
     public async Task<ProductEntity> UpdateProduct(ProductModel product)
     {
-        var existingProduct = await _context.Products.FirstAsync(p => p.Id == product.Id);
+        var existingProduct = await _context.Products.FirstOrDefaultAsync(p => p.Id == product.Id);
         
         existingProduct.Images = product.Images;
         existingProduct.Name = product.Name;
@@ -88,7 +88,7 @@ public class ProductDataManager
 
     public async void DeleteProduct(Guid id)
     {
-        var product = await _context.Products.FirstAsync(p => p.Id == id);
+        var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
 
         _context.Products.Remove(product);
         _context.SaveChanges();

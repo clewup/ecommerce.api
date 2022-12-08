@@ -29,7 +29,7 @@ public class CartDataManager
     {
         var cart = await _context.Carts
             .Include(c => c.Products)
-            .FirstAsync(c => c.Id == id);
+            .FirstOrDefaultAsync(c => c.Id == id);
         
         return cart;
     }
@@ -38,7 +38,7 @@ public class CartDataManager
     {
         var cart = await _context.Carts
             .Include(c => c.Products)
-            .FirstAsync(c => c.UserId == userId && c.Status == StatusType.Active);
+            .FirstOrDefaultAsync(c => c.UserId == userId && c.Status == StatusType.Active);
         
         return cart;
     }
@@ -76,7 +76,7 @@ public class CartDataManager
 
         var existingCart = await _context.Carts
                 .Include(c => c.Products)
-                .FirstAsync(c => c.Id == totalledCart.Id);
+                .FirstOrDefaultAsync(c => c.Id == totalledCart.Id);
 
         existingCart.Products = products;
         existingCart.Total = totalledCart.Total;
@@ -90,7 +90,7 @@ public class CartDataManager
     {
         var existingCart = await _context.Carts
             .Include(c => c.Products)
-            .FirstAsync(c => c.Id == id);
+            .FirstOrDefaultAsync(c => c.Id == id);
 
         existingCart.Status = StatusType.Inactive;
         

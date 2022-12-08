@@ -31,9 +31,9 @@ public class OrderDataManager
         return orders;
     }
 
-    public async Task<OrderEntity> GetOrder(Guid id)
+    public async Task<OrderEntity?> GetOrder(Guid id)
     {
-        var order = await _context.Orders.FirstAsync(o => o.Id == id);
+        var order = await _context.Orders.FirstOrDefaultAsync(o => o.Id == id);
         return order;
     }
 
@@ -91,7 +91,7 @@ public class OrderDataManager
         
         var existingOrder = await _context.Orders
                 .Include(o => o.Cart)
-                .FirstAsync(o => o.Id == mappedOrder.Id && o.UserId == userId);
+                .FirstOrDefaultAsync(o => o.Id == mappedOrder.Id && o.UserId == userId);
 
         existingOrder.FirstName = mappedOrder.FirstName;
         existingOrder.LastName = mappedOrder.LastName;
