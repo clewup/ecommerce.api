@@ -40,6 +40,9 @@ public class OrderDataManager
         {
             Id = Guid.NewGuid(),
             UserId = userId,
+            FirstName = order.FirstName,
+            LastName = order.LastName,
+            Email = order.Email,
             LineOne = order.DeliveryAddress.LineOne,
             LineTwo = order.DeliveryAddress.LineTwo,
             LineThree = order.DeliveryAddress.LineThree,
