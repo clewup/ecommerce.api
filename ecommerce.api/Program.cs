@@ -50,6 +50,7 @@ builder.Services.AddTransient<CartDataManager>();
 builder.Services.AddTransient<OrderManager>();
 builder.Services.AddTransient<OrderDataManager>();
 builder.Services.AddTransient<UploadManager>();
+builder.Services.AddTransient<ImageDataManager>();
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 var app = builder.Build();

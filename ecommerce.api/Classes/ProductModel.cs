@@ -7,7 +7,7 @@ public class ProductModel
     [Required]
     public Guid Id { get; set; }
     [Required]
-    public List<string> Images { get; set; } = new List<string>();
+    public List<ImageModel> Images { get; set; }
     [Required]
     public string Name { get; set; } = "";
     [Required]

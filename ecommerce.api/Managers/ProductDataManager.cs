@@ -56,7 +56,6 @@ public class ProductDataManager
         var mappedProduct = new ProductEntity()
         {
             Id = product.Id,
-            Images = product.Images,
             Name = product.Name,
             Description = product.Description,
             Category = product.Category,
@@ -74,7 +73,6 @@ public class ProductDataManager
     {
         var existingProduct = await _context.Products.FirstOrDefaultAsync(p => p.Id == product.Id);
         
-        existingProduct.Images = product.Images;
         existingProduct.Name = product.Name;
         existingProduct.Description = product.Description;
         existingProduct.Category = product.Category;

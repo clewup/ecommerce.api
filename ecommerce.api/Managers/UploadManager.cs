@@ -1,6 +1,7 @@
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 using ecommerce.api.Classes;
+using ecommerce.api.Data;
 
 namespace ecommerce.api.Managers;
 
@@ -31,7 +32,6 @@ public class UploadManager
 
             return new ImageModel()
             {
-                Id = uploadResult.PublicId,
                 Url = uploadResult.Url,
             };
         }

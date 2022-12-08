@@ -5,12 +5,12 @@ namespace ecommerce.api.Services.Mappers;
 
 public static class ProductMapper
 {
-    public static ProductModel ToProductModel(this ProductEntity product)
+    public static ProductModel ToProductModel(this ProductEntity product, List<ImageModel> images)
     {
         return new ProductModel()
         {
             Id = product.Id,
-            Images = product.Images,
+            Images = images,
             Name = product.Name,
             Description = product.Description,
             Category = product.Category,
@@ -32,6 +32,18 @@ public static class ProductMapper
     }
     
     public static List<Guid> ToProductIds(this List<ProductEntity> products)
+    {
+        var ids = new List<Guid>();
+
+        foreach (var product in products)
+        {
+            ids.Add(product.Id);
+        }
+
+        return ids;
+    }
+    
+    public static List<Guid> ToProductIds(this ICollection<ProductEntity> products)
     {
         var ids = new List<Guid>();
 

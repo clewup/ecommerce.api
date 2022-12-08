@@ -10,10 +10,5 @@ public class EcommerceDbContext : DbContext
     public virtual DbSet<CartEntity> Carts { get; set; }
     public virtual DbSet<OrderEntity> Orders { get; set; }
     public virtual DbSet<ProductEntity> Products { get; set; }
-
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        modelBuilder.Entity<CartEntity>()
-            .HasMany(c => c.Products);
-    }
+    public virtual DbSet<ImageEntity> Images { get; set; }
 }

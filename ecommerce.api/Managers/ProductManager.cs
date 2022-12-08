@@ -9,10 +9,12 @@ namespace ecommerce.api.Managers;
 public class ProductManager
 {
     private readonly ProductDataManager _productDataManager;
+    private readonly ImageDataManager _imageDataManager;
 
-    public ProductManager(ProductDataManager productDataManager)
+    public ProductManager(ProductDataManager productDataManager, ImageDataManager imageDataManager)
     {
         _productDataManager = productDataManager;
+        _imageDataManager = imageDataManager;
     }   
     
     public async Task<List<ProductModel>?> GetProducts()
@@ -23,7 +25,16 @@ public class ProductManager
 
         foreach (var product in products)
         {
-            mappedProducts.Add(product.ToProductModel());
+            var images = await _imageDataManager.GetImages(product.Id);
+
+            var mappedImages = new List<ImageModel>();
+
+            foreach (var image in images)
+            {
+                mappedImages.Add(image.ToImageModel());
+            }
+            
+            mappedProducts.Add(product.ToProductModel(mappedImages));
         }
         return mappedProducts;
     }
@@ -36,7 +47,16 @@ public class ProductManager
 
         foreach (var product in products)
         {
-            mappedProducts.Add(product.ToProductModel());
+            var images = await _imageDataManager.GetImages(product.Id);
+
+            var mappedImages = new List<ImageModel>();
+
+            foreach (var image in images)
+            {
+                mappedImages.Add(image.ToImageModel());
+            }
+            
+            mappedProducts.Add(product.ToProductModel(mappedImages));
         }
         return mappedProducts;
     }
@@ -50,19 +70,52 @@ public class ProductManager
     public async Task<ProductModel?> GetProduct(Guid id)
     {
         var product = await _productDataManager.GetProduct(id);
-        return product.ToProductModel();
+        var images = await _imageDataManager.GetImages(id);
+        
+        var mappedImages = new List<ImageModel>();
+
+        foreach (var image in images)
+        {
+            mappedImages.Add(image.ToImageModel());
+        }
+        
+        return product.ToProductModel(mappedImages);
     }
 
     public async Task<ProductModel> CreateProduct(ProductModel product)
     {
         var createdProduct = await _productDataManager.CreateProduct(product);
-        return createdProduct.ToProductModel();
+
+        foreach (var image in product.Images)
+        {
+            await _imageDataManager.UploadImage(image, product.Id);
+        }
+        
+        var images = await _imageDataManager.GetImages(product.Id);
+        
+        var mappedImages = new List<ImageModel>();
+
+        foreach (var image in images)
+        {
+            mappedImages.Add(image.ToImageModel());
+        }
+        
+        return createdProduct.ToProductModel(product.Images);
     }
 
     public async Task<ProductModel> UpdateProduct(ProductModel product)
     {
         var updatedProduct = await _productDataManager.UpdateProduct(product);
-        return updatedProduct.ToProductModel();
+        var images = await _imageDataManager.GetImages(product.Id);
+        
+        var mappedImages = new List<ImageModel>();
+
+        foreach (var image in images)
+        {
+            mappedImages.Add(image.ToImageModel());
+        }
+        
+        return updatedProduct.ToProductModel(mappedImages);
     }
 
     public async void DeleteProduct(Guid id)

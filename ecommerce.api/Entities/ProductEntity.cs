@@ -6,9 +6,8 @@ namespace ecommerce.api.Entities;
 public class ProductEntity : BaseEntity
 {
     [Required]
-    public List<string> Images { get; set; }
-    [Required]
     public string Name { get; set; } = "";
+    public List<ImageEntity> Images { get; set; }
     [Required]
     public string Description { get; set; } = "";
     [Required]
@@ -17,6 +16,4 @@ public class ProductEntity : BaseEntity
     public double PricePerUnit { get; set; }
     [Required]
     public double Discount { get; set; }
-    
-    public ICollection<CartEntity> Carts { get; set; }
 }
