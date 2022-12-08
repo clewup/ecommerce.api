@@ -17,15 +17,19 @@ public class ProductDataManager
     
     public async Task<List<ProductEntity>> GetProducts()
     {
-        var products = await _context.Products.ToListAsync();
+        var products = await _context.Products
+            .Include(p => p.Images)
+            .ToListAsync();
 
         return products;
     }
     
     public async Task<List<ProductEntity>> GetProductsByIds(List<Guid> ids)
     {
-        var products = await _context.Products.Where(p => ids.Contains(p.Id)
-        ).ToListAsync();
+        var products = await _context.Products
+            .Include(p => p.Images)
+            .Where(p => ids.Contains(p.Id))
+            .ToListAsync();
 
         return products;
     }
@@ -46,7 +50,10 @@ public class ProductDataManager
 
     public async Task<ProductEntity> GetProduct(Guid id)
     {
-        var product = await _context.Products.Where(p => p.Id == id).FirstOrDefaultAsync();
+        var product = await _context.Products
+            .Include(p => p.Images)
+            .Where(p => p.Id == id)
+            .FirstOrDefaultAsync();
 
         return product;
     }
@@ -71,7 +78,9 @@ public class ProductDataManager
 
     public async Task<ProductEntity> UpdateProduct(ProductModel product)
     {
-        var existingProduct = await _context.Products.FirstOrDefaultAsync(p => p.Id == product.Id);
+        var existingProduct = await _context.Products
+            .Include(p => p.Images)
+            .FirstOrDefaultAsync(p => p.Id == product.Id);
         
         existingProduct.Name = product.Name;
         existingProduct.Description = product.Description;

@@ -5,6 +5,8 @@ namespace ecommerce.api.Entities;
 
 public class ImageEntity : BaseEntity
 {
+    public string Title { get; set; } = "";
+    public string Description { get; set; } = "";
     public Uri Url { get; set; }
     
     public Guid ProductId { get; set; }
