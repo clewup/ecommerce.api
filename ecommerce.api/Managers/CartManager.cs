@@ -1,3 +1,4 @@
+using AutoMapper;
 using ecommerce.api.Classes;
 using ecommerce.api.Data;
 using ecommerce.api.Entities;
@@ -10,9 +11,11 @@ public class CartManager
 {
     private readonly CartDataManager _cartDataManager;
     private readonly ProductManager _productManager;
+    private readonly IMapper _mapper;
 
-    public CartManager(CartDataManager cartDataManager, ProductManager productManager)
+    public CartManager(IMapper mapper, CartDataManager cartDataManager, ProductManager productManager)
     {
+        _mapper = mapper;
         _cartDataManager = cartDataManager;
         _productManager = productManager;
     }
@@ -21,16 +24,8 @@ public class CartManager
     {
         var carts = await _cartDataManager.GetCarts();
 
-        var mappedCarts = new List<CartModel>();
+        return _mapper.Map<List<CartModel>>(carts);;
 
-        foreach (var cart in carts)
-        {
-            var productIds = cart.Products.ToProductIds();
-            var products = await _productManager.GetProductByIds(productIds);
-            
-            mappedCarts.Add(cart.ToCartModel(products));
-        }
-        return mappedCarts;
     }
     
     public async Task<CartModel?> GetCart(Guid id)
@@ -39,11 +34,9 @@ public class CartManager
         
         if (cart == null)
             return null;
-        
-        var productIds = cart.Products.ToProductIds();
-        var products = await _productManager.GetProductByIds(productIds);
-        
-        return cart.ToCartModel(products);
+
+        return _mapper.Map<CartModel>(cart);
+
     }
     
     public async Task<CartModel?> GetUserCart(Guid userId)
@@ -52,28 +45,21 @@ public class CartManager
         
         if (cart == null)
             return null;
-            
-        var productIds = cart.Products.ToProductIds();
-        var products = await _productManager.GetProductByIds(productIds);
-        
-        return cart.ToCartModel(products);
+
+        return _mapper.Map<CartModel>(cart);
     }
     
     public async Task<CartModel> CreateCart(CartModel cart)
     {
         var createdCart = await _cartDataManager.CreateCart(cart);
-        var productIds = cart.Products.ToProductIds();
-        var products = await _productManager.GetProductByIds(productIds);
         
-        return createdCart.ToCartModel(products);
+        return _mapper.Map<CartModel>(createdCart);
     }
 
     public async Task<CartModel> UpdateCart(CartModel cart)
     {
         var updatedCart = await _cartDataManager.UpdateCart(cart);
-        var productIds = cart.Products.ToProductIds();
-        var products = await _productManager.GetProductByIds(productIds);
         
-        return updatedCart.ToCartModel(products);
+        return _mapper.Map<CartModel>(updatedCart);
     }
 }

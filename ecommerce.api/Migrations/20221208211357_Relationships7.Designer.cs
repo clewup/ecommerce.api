@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ecommerce.api.Data;
@@ -11,9 +12,11 @@ using ecommerce.api.Data;
 namespace ecommerce.api.Migrations
 {
     [DbContext(typeof(EcommerceDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221208211357_Relationships7")]
+    partial class Relationships7
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,10 +25,24 @@ namespace ecommerce.api.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("CartEntityProductEntity", b =>
+                {
+                    b.Property<Guid>("CartsId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ProductsId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("CartsId", "ProductsId");
+
+                    b.HasIndex("ProductsId");
+
+                    b.ToTable("CartEntityProductEntity");
+                });
+
             modelBuilder.Entity("ecommerce.api.Entities.CartEntity", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<string>("AddedBy")
@@ -34,9 +51,6 @@ namespace ecommerce.api.Migrations
 
                     b.Property<DateTime>("AddedDate")
                         .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid>("OrderId")
-                        .HasColumnType("uuid");
 
                     b.Property<int>("Status")
                         .HasColumnType("integer");
@@ -56,25 +70,10 @@ namespace ecommerce.api.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OrderId")
+                    b.HasIndex("Id")
                         .IsUnique();
 
                     b.ToTable("Carts");
-                });
-
-            modelBuilder.Entity("ecommerce.api.Entities.CartProductEntity", b =>
-                {
-                    b.Property<Guid>("CartId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("ProductId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("CartId", "ProductId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("CartProducts");
                 });
 
             modelBuilder.Entity("ecommerce.api.Entities.ImageEntity", b =>
@@ -109,6 +108,9 @@ namespace ecommerce.api.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Id")
+                        .IsUnique();
+
                     b.HasIndex("ProductId");
 
                     b.ToTable("Images");
@@ -126,9 +128,6 @@ namespace ecommerce.api.Migrations
 
                     b.Property<DateTime>("AddedDate")
                         .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid>("CartId")
-                        .HasColumnType("uuid");
 
                     b.Property<string>("City")
                         .IsRequired()
@@ -188,6 +187,9 @@ namespace ecommerce.api.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Id")
+                        .IsUnique();
+
                     b.ToTable("Orders");
                 });
 
@@ -234,37 +236,36 @@ namespace ecommerce.api.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Id")
+                        .IsUnique();
+
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("CartEntityProductEntity", b =>
+                {
+                    b.HasOne("ecommerce.api.Entities.CartEntity", null)
+                        .WithMany()
+                        .HasForeignKey("CartsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ecommerce.api.Entities.ProductEntity", null)
+                        .WithMany()
+                        .HasForeignKey("ProductsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("ecommerce.api.Entities.CartEntity", b =>
                 {
                     b.HasOne("ecommerce.api.Entities.OrderEntity", "Order")
                         .WithOne("Cart")
-                        .HasForeignKey("ecommerce.api.Entities.CartEntity", "OrderId")
+                        .HasForeignKey("ecommerce.api.Entities.CartEntity", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Order");
-                });
-
-            modelBuilder.Entity("ecommerce.api.Entities.CartProductEntity", b =>
-                {
-                    b.HasOne("ecommerce.api.Entities.CartEntity", "Cart")
-                        .WithMany("Products")
-                        .HasForeignKey("CartId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ecommerce.api.Entities.ProductEntity", "Product")
-                        .WithMany("Carts")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Cart");
-
-                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("ecommerce.api.Entities.ImageEntity", b =>
@@ -278,11 +279,6 @@ namespace ecommerce.api.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("ecommerce.api.Entities.CartEntity", b =>
-                {
-                    b.Navigation("Products");
-                });
-
             modelBuilder.Entity("ecommerce.api.Entities.OrderEntity", b =>
                 {
                     b.Navigation("Cart")
@@ -291,8 +287,6 @@ namespace ecommerce.api.Migrations
 
             modelBuilder.Entity("ecommerce.api.Entities.ProductEntity", b =>
                 {
-                    b.Navigation("Carts");
-
                     b.Navigation("Images");
                 });
 #pragma warning restore 612, 618

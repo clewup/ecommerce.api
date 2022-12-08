@@ -1,3 +1,4 @@
+using AutoMapper;
 using ecommerce.api.Classes;
 using ecommerce.api.Data;
 using ecommerce.api.Entities;
@@ -10,9 +11,11 @@ namespace ecommerce.api.Managers;
 public class CartDataManager
 {
     private readonly EcommerceDbContext _context;
+    private readonly IMapper _mapper;
 
-    public CartDataManager(EcommerceDbContext context)
+    public CartDataManager(IMapper mapper, EcommerceDbContext context)
     {
+        _mapper = mapper;
         _context = context;
     }
     
@@ -46,18 +49,8 @@ public class CartDataManager
     public async Task<CartEntity> CreateCart(CartModel cart)
     {
         var totalledCart = CalculateCartTotal(cart);
-        
-        var products = await _context.Products
-                .Where(p => totalledCart.Products.ToProductIds()
-                .Contains(p.Id))
-                .ToListAsync();;
 
-        var mappedCart = new CartEntity()
-        {
-            UserId = totalledCart.UserId,
-            Products = products,
-            Total = totalledCart.Total,
-        };
+        var mappedCart = _mapper.Map<CartEntity>(totalledCart);
         
         await _context.Carts.AddAsync(mappedCart);
         await _context.SaveChangesAsync();
@@ -68,17 +61,27 @@ public class CartDataManager
     public async Task<CartEntity> UpdateCart(CartModel cart)
     {
         var totalledCart = CalculateCartTotal(cart);
-        
-        var products = await _context.Products
-                .Where(p => totalledCart.Products.ToProductIds()
-                .Contains(p.Id))
-                .ToListAsync();;
+
+        var mappedCart = _mapper.Map<CartEntity>(totalledCart);
+        var mappedProducts = new List<CartProductEntity>();
+        foreach (var product in totalledCart.Products)
+        {
+            var mappedProduct = _mapper.Map<ProductEntity>(product);
+            mappedProducts.Add(new CartProductEntity()
+            {
+                Cart = mappedCart,
+                CartId = mappedCart.Id,
+                Product = mappedProduct,
+                ProductId = mappedProduct.Id
+            });
+        }
 
         var existingCart = await _context.Carts
                 .Include(c => c.Products)
                 .FirstOrDefaultAsync(c => c.Id == totalledCart.Id);
 
-        existingCart.Products = products;
+        existingCart.Total = totalledCart.Total;
+        existingCart.Products = mappedProducts;
         existingCart.Total = totalledCart.Total;
 
         await _context.SaveChangesAsync();

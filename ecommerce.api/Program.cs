@@ -1,6 +1,8 @@
+using AutoMapper;
 using CloudinaryDotNet;
 using ecommerce.api.Data;
 using ecommerce.api.Managers;
+using ecommerce.api.Services.Mappers;
 using Microsoft.EntityFrameworkCore;
 
 var CorsPolicy = "_corsPolicy";
@@ -41,6 +43,18 @@ builder.Services.AddCors(options =>
         });
 });
 
+// Auto Mapper
+var mapperConfig = new MapperConfiguration(mc =>
+{
+    mc.AddProfile(new OrderMapper());
+    mc.AddProfile(new ProductMapper());
+    mc.AddProfile(new CartMapper());
+    mc.AddProfile(new ImageMapper());
+});
+
+IMapper mapper = mapperConfig.CreateMapper();
+builder.Services.AddSingleton(mapper);
+
 // Managers
 builder.Services.AddTransient<AuthManager>();
 builder.Services.AddTransient<ProductManager>();
@@ -51,6 +65,7 @@ builder.Services.AddTransient<OrderManager>();
 builder.Services.AddTransient<OrderDataManager>();
 builder.Services.AddTransient<UploadManager>();
 builder.Services.AddTransient<ImageDataManager>();
+
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 var app = builder.Build();

@@ -1,11 +1,12 @@
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ecommerce.api.Entities;
 
-public class ImageEntity : BaseEntity
+[Table("CartProducts")]
+public class CartProductEntity
 {
-    public Uri Url { get; set; }
+    public Guid CartId { get; set; }
+    public CartEntity Cart { get; set; }
     
     public Guid ProductId { get; set; }
     public ProductEntity Product { get; set; }

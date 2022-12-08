@@ -1,15 +1,13 @@
+using AutoMapper;
 using ecommerce.api.Classes;
 using ecommerce.api.Entities;
 
 namespace ecommerce.api.Services.Mappers;
 
-public static class ImageMapper
+public class ImageMapper : Profile
 {
-    public static ImageModel ToImageModel(this ImageEntity image)
+    public ImageMapper()
     {
-        return new ImageModel()
-        {
-            Url = image.Url,
-        };
+        CreateMap<ImageEntity, ImageModel>().ReverseMap();
     }
 }

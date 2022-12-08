@@ -1,8 +1,5 @@
+using AutoMapper;
 using ecommerce.api.Classes;
-using ecommerce.api.Data;
-using ecommerce.api.Entities;
-using ecommerce.api.Services.Mappers;
-using Microsoft.EntityFrameworkCore;
 
 namespace ecommerce.api.Managers;
 
@@ -10,9 +7,11 @@ public class ProductManager
 {
     private readonly ProductDataManager _productDataManager;
     private readonly ImageDataManager _imageDataManager;
+    private readonly IMapper _mapper;
 
-    public ProductManager(ProductDataManager productDataManager, ImageDataManager imageDataManager)
+    public ProductManager(IMapper mapper, ProductDataManager productDataManager, ImageDataManager imageDataManager)
     {
+        _mapper = mapper;
         _productDataManager = productDataManager;
         _imageDataManager = imageDataManager;
     }   
@@ -21,44 +20,7 @@ public class ProductManager
     {
         var products = await _productDataManager.GetProducts();
 
-        var mappedProducts = new List<ProductModel>();
-
-        foreach (var product in products)
-        {
-            var images = await _imageDataManager.GetImages(product.Id);
-
-            var mappedImages = new List<ImageModel>();
-
-            foreach (var image in images)
-            {
-                mappedImages.Add(image.ToImageModel());
-            }
-            
-            mappedProducts.Add(product.ToProductModel(mappedImages));
-        }
-        return mappedProducts;
-    }
-    
-    public async Task<List<ProductModel>?> GetProductByIds(List<Guid> ids)
-    {
-        var products = await _productDataManager.GetProductsByIds(ids);
-
-        var mappedProducts = new List<ProductModel>();
-
-        foreach (var product in products)
-        {
-            var images = await _imageDataManager.GetImages(product.Id);
-
-            var mappedImages = new List<ImageModel>();
-
-            foreach (var image in images)
-            {
-                mappedImages.Add(image.ToImageModel());
-            }
-            
-            mappedProducts.Add(product.ToProductModel(mappedImages));
-        }
-        return mappedProducts;
+        return _mapper.Map<List<ProductModel>>(products);;
     }
     
     public async Task<List<string>?> GetProductCategories()
@@ -70,16 +32,8 @@ public class ProductManager
     public async Task<ProductModel?> GetProduct(Guid id)
     {
         var product = await _productDataManager.GetProduct(id);
-        var images = await _imageDataManager.GetImages(id);
-        
-        var mappedImages = new List<ImageModel>();
 
-        foreach (var image in images)
-        {
-            mappedImages.Add(image.ToImageModel());
-        }
-        
-        return product.ToProductModel(mappedImages);
+        return _mapper.Map<ProductModel>(product);
     }
 
     public async Task<ProductModel> CreateProduct(ProductModel product)
@@ -88,34 +42,17 @@ public class ProductManager
 
         foreach (var image in product.Images)
         {
-            await _imageDataManager.UploadImage(image, product.Id);
+            await _imageDataManager.UploadImage(image, createdProduct);
         }
-        
-        var images = await _imageDataManager.GetImages(product.Id);
-        
-        var mappedImages = new List<ImageModel>();
 
-        foreach (var image in images)
-        {
-            mappedImages.Add(image.ToImageModel());
-        }
-        
-        return createdProduct.ToProductModel(product.Images);
+        return _mapper.Map<ProductModel>(createdProduct);
     }
 
     public async Task<ProductModel> UpdateProduct(ProductModel product)
     {
         var updatedProduct = await _productDataManager.UpdateProduct(product);
-        var images = await _imageDataManager.GetImages(product.Id);
         
-        var mappedImages = new List<ImageModel>();
-
-        foreach (var image in images)
-        {
-            mappedImages.Add(image.ToImageModel());
-        }
-        
-        return updatedProduct.ToProductModel(mappedImages);
+        return _mapper.Map<ProductModel>(updatedProduct);
     }
 
     public async void DeleteProduct(Guid id)
