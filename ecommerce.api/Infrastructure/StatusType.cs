@@ -1,9 +1,9 @@
 namespace ecommerce.api.Infrastructure;
 
-public enum StatusType
+public class StatusType
 {
-    Active = 1,
-    Inactive = 2,
-    Disabled = 3,
-    Error = 4,
+    public const int Active = 1;
+    public const int Inactive = 2;
+    public const int Disabled = 3;
+    public const int Error = 4;
 }

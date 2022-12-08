@@ -9,5 +9,5 @@ public class BaseEntity
     public string UpdatedBy { get; set; } = "";
     public string AddedBy { get; set; } = "";
     public DateTime AddedDate { get; set; } = DateTime.UtcNow;
-    public StatusType Status { get; set; } = StatusType.Active;
+    public int Status { get; set; } = StatusType.Active;
 }
