@@ -13,18 +13,17 @@ public class UploadManager
         _cloudinary = cloudinary;
     }
 
-    public async Task<ImageModel> UploadImage(ImageModel image)
+    public async Task<ImageModel> UploadImage(IFormFile image)
     {
-        var file = image.File;
 
         using (var stream = new MemoryStream())
         {
-            await file.CopyToAsync(stream);
+            await image.CopyToAsync(stream);
             stream.Position = 0;
 
             var uploadParams = new ImageUploadParams()
             {
-                File = new FileDescription(file.Name, stream),
+                File = new FileDescription(image.Name, stream),
                 PublicId = "products",
             };
 
@@ -34,7 +33,6 @@ public class UploadManager
             {
                 Id = uploadResult.PublicId,
                 Url = uploadResult.Url,
-                File = image.File,
             };
         }
     }

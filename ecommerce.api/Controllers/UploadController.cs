@@ -19,15 +19,10 @@ public class UploadController : ControllerBase
 
     [HttpPost]
     [Route("image")]
-    public async Task<IActionResult> UploadImage([FromBody] ImageModel image)
+    public async Task<IActionResult> UploadImage([FromForm] IFormFile image)
     {
         try
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             var uploadedImage = await _uploadManager.UploadImage(image);
 
             return Ok(uploadedImage);
