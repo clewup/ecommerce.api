@@ -1,4 +1,5 @@
 using ecommerce.api.Classes;
+using ecommerce.api.Infrastructure;
 using ecommerce.api.Managers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -19,6 +20,7 @@ public class OrderController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize(Policy = RoleType.Employee)]
     public async Task<IActionResult> GetOrders()
     {
         try
@@ -39,6 +41,7 @@ public class OrderController : ControllerBase
     
     [HttpGet]
     [Route("user/{userId}")]
+    [Authorize(Policy = RoleType.User)]
     public async Task<IActionResult> GetUserOrders(Guid userId)
     {
         try
@@ -59,6 +62,7 @@ public class OrderController : ControllerBase
     
     [HttpGet]
     [Route("{id}")]
+    [Authorize(Policy = RoleType.Employee)]
     public async Task<IActionResult> GetOrder(Guid id)
     {
         try
@@ -78,6 +82,7 @@ public class OrderController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Policy = RoleType.User)]
     public async Task<IActionResult> CreateOrder([FromBody] OrderModel order)
     {
         try
@@ -98,6 +103,7 @@ public class OrderController : ControllerBase
     }
     
     [HttpPut]
+    [Authorize(Policy = RoleType.Employee)]
     public async Task<IActionResult> UpdateOrder([FromBody] OrderModel order)
     {
         try

@@ -1,4 +1,5 @@
 using ecommerce.api.Classes;
+using ecommerce.api.Infrastructure;
 using ecommerce.api.Managers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,6 +22,7 @@ public class UploadController : ControllerBase
 
     [HttpPost]
     [Route("image")]
+    [Authorize(Policy = RoleType.Employee)]
     public async Task<IActionResult> UploadImage([FromForm] IFormFile image)
     {
         try

@@ -1,4 +1,5 @@
 using ecommerce.api.Classes;
+using ecommerce.api.Infrastructure;
 using ecommerce.api.Managers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -19,6 +20,7 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize(Policy = RoleType.User)]
     public async Task<IActionResult> GetProducts()
     {
         try
@@ -39,6 +41,7 @@ public class ProductController : ControllerBase
     
     [HttpGet]
     [Route("{id}")]
+    [Authorize(Policy = RoleType.User)]
     public async Task<IActionResult> GetProduct(Guid id)
     {
         try
@@ -59,6 +62,7 @@ public class ProductController : ControllerBase
 
     [HttpGet]
     [Route("categories")]
+    [Authorize(Policy = RoleType.User)]
     public async Task<IActionResult> GetProductCategories()
     {
         try
@@ -79,6 +83,7 @@ public class ProductController : ControllerBase
     
     [Authorize]
     [HttpPost]
+    [Authorize(Policy = RoleType.Employee)]
     public async Task<IActionResult> CreateProduct([FromBody] ProductModel product)
     {
         try
@@ -100,6 +105,7 @@ public class ProductController : ControllerBase
     
     [Authorize]
     [HttpPut]
+    [Authorize(Policy = RoleType.Employee)]
     public async Task<IActionResult> UpdateProduct([FromBody] ProductModel product)
     {
         try
@@ -127,6 +133,7 @@ public class ProductController : ControllerBase
     [Authorize]
     [HttpDelete]
     [Route("{id}")]
+    [Authorize(Policy = RoleType.Employee)]
     public async Task<IActionResult> DeleteProduct(Guid id)
     {
         try

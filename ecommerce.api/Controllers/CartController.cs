@@ -1,4 +1,5 @@
 using ecommerce.api.Classes;
+using ecommerce.api.Infrastructure;
 using ecommerce.api.Managers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,6 +22,7 @@ public class CartController : ControllerBase
     
     [HttpGet]
     [Route("id/{id}")]
+    [Authorize(Policy = RoleType.Employee)]
     public async Task<IActionResult> GetCart(Guid id)
     {
         try
@@ -41,6 +43,7 @@ public class CartController : ControllerBase
     
     [HttpGet]
     [Route("user/{userId}")]
+    [Authorize(Policy = RoleType.User)]
     public async Task<IActionResult> GetUserCart(Guid userId)
     {
         try
@@ -60,6 +63,7 @@ public class CartController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Policy = RoleType.User)]
     public async Task<IActionResult> CreateCart([FromBody] CartModel cart)
     {
         try
@@ -80,6 +84,7 @@ public class CartController : ControllerBase
     }
     
     [HttpPut]
+    [Authorize(Policy = RoleType.User)]
     public async Task<IActionResult> UpdateCart([FromBody] CartModel cart)
     {
         try
