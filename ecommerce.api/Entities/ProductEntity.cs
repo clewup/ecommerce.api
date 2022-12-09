@@ -14,5 +14,7 @@ public class ProductEntity : BaseEntity
     
     public ICollection<ImageEntity> Images { get; set; }
     
-    public ICollection<CartProductEntity> Carts { get; set; }
+    public ICollection<CartEntity> Carts { get; set; }
+    public List<CartProductEntity> CartProducts { get; set; }
+
 }

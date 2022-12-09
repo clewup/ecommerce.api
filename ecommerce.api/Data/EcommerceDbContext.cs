@@ -14,11 +14,40 @@ public class EcommerceDbContext : DbContext
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<CartProductEntity>().HasKey(i => new { i.CartId, i.ProductId });
-
         modelBuilder.Entity<OrderEntity>()
             .HasOne(o => o.Cart)
             .WithOne(c => c.Order)
-            .HasForeignKey<CartEntity>(c => c.OrderId);
+            .HasForeignKey<OrderEntity>(o => o.CartId)
+            .IsRequired();
+
+        modelBuilder.Entity<CartEntity>()
+            .HasOne(c => c.Order)
+            .WithOne(o => o.Cart)
+            .HasForeignKey<OrderEntity>(o => o.CartId);
+
+        modelBuilder.Entity<CartEntity>()
+            .HasMany(c => c.Products)
+            .WithMany(p => p.Carts)
+            .UsingEntity<CartProductEntity>(
+                j => j
+                    .HasOne(cp => cp.Product)
+                    .WithMany(p => p.CartProducts)
+                    .HasForeignKey(cp => cp.ProductId),
+                j => j
+                    .HasOne(cp => cp.Cart)
+                    .WithMany(c => c.CartProducts)
+                    .HasForeignKey(cp => cp.CartId),
+                j =>
+                {
+                    j.ToTable("CartProducts");
+                    j.Property(cp => cp.DateAdded).HasDefaultValueSql("CURRENT_TIMESTAMP");
+                    j.HasKey(cp => new { cp.CartId, cp.ProductId });
+                });
+
+        modelBuilder.Entity<ImageEntity>()
+            .HasOne(i => i.Product)
+            .WithMany(p => p.Images)
+            .HasForeignKey(i => i.ProductId)
+            .IsRequired();
     }
 }

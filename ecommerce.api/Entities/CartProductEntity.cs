@@ -1,10 +1,9 @@
-using System.ComponentModel.DataAnnotations.Schema;
-
 namespace ecommerce.api.Entities;
 
-[Table("CartProducts")]
 public class CartProductEntity
 {
+    public DateTime DateAdded { get; set; }
+    
     public Guid CartId { get; set; }
     public CartEntity Cart { get; set; }
     

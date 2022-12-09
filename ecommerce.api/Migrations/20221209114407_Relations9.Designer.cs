@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ecommerce.api.Data;
@@ -11,9 +12,11 @@ using ecommerce.api.Data;
 namespace ecommerce.api.Migrations
 {
     [DbContext(typeof(EcommerceDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221209114407_Relations9")]
+    partial class Relations9
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -54,26 +57,6 @@ namespace ecommerce.api.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Carts");
-                });
-
-            modelBuilder.Entity("ecommerce.api.Entities.CartProductEntity", b =>
-                {
-                    b.Property<Guid>("CartId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("ProductId")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("DateAdded")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-                    b.HasKey("CartId", "ProductId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("CartProducts", (string)null);
                 });
 
             modelBuilder.Entity("ecommerce.api.Entities.ImageEntity", b =>
@@ -214,6 +197,9 @@ namespace ecommerce.api.Migrations
                     b.Property<DateTime>("AddedDate")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<Guid>("CartId")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("Category")
                         .IsRequired()
                         .HasColumnType("text");
@@ -244,26 +230,9 @@ namespace ecommerce.api.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CartId");
+
                     b.ToTable("Products");
-                });
-
-            modelBuilder.Entity("ecommerce.api.Entities.CartProductEntity", b =>
-                {
-                    b.HasOne("ecommerce.api.Entities.CartEntity", "Cart")
-                        .WithMany("CartProducts")
-                        .HasForeignKey("CartId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ecommerce.api.Entities.ProductEntity", "Product")
-                        .WithMany("CartProducts")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Cart");
-
-                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("ecommerce.api.Entities.ImageEntity", b =>
@@ -288,18 +257,27 @@ namespace ecommerce.api.Migrations
                     b.Navigation("Cart");
                 });
 
+            modelBuilder.Entity("ecommerce.api.Entities.ProductEntity", b =>
+                {
+                    b.HasOne("ecommerce.api.Entities.CartEntity", "Cart")
+                        .WithMany("Products")
+                        .HasForeignKey("CartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cart");
+                });
+
             modelBuilder.Entity("ecommerce.api.Entities.CartEntity", b =>
                 {
-                    b.Navigation("CartProducts");
-
                     b.Navigation("Order")
                         .IsRequired();
+
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("ecommerce.api.Entities.ProductEntity", b =>
                 {
-                    b.Navigation("CartProducts");
-
                     b.Navigation("Images");
                 });
 #pragma warning restore 612, 618
