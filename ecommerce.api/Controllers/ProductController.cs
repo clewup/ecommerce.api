@@ -1,5 +1,6 @@
 using ecommerce.api.Classes;
 using ecommerce.api.Managers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ecommerce.api.Controllers;
@@ -76,6 +77,7 @@ public class ProductController : ControllerBase
         }
     }
     
+    [Authorize]
     [HttpPost]
     public async Task<IActionResult> CreateProduct([FromBody] ProductModel product)
     {
@@ -96,6 +98,7 @@ public class ProductController : ControllerBase
         }
     }
     
+    [Authorize]
     [HttpPut]
     public async Task<IActionResult> UpdateProduct([FromBody] ProductModel product)
     {
@@ -121,6 +124,7 @@ public class ProductController : ControllerBase
         }
     }
     
+    [Authorize]
     [HttpDelete]
     [Route("{id}")]
     public async Task<IActionResult> DeleteProduct(Guid id)
@@ -141,6 +145,4 @@ public class ProductController : ControllerBase
             throw;
         }
     }
-    
-    
 }

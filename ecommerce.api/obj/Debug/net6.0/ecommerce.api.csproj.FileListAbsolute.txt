@@ -52,3 +52,10 @@
 /Users/clew/Documents/repos/ecommerce.api/ecommerce.api/bin/Debug/net6.0/Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore.dll
 /Users/clew/Documents/repos/ecommerce.api/ecommerce.api/bin/Debug/net6.0/AutoMapper.dll
 /Users/clew/Documents/repos/ecommerce.api/ecommerce.api/bin/Debug/net6.0/AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+/Users/clew/Documents/repos/ecommerce.api/ecommerce.api/bin/Debug/net6.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
+/Users/clew/Documents/repos/ecommerce.api/ecommerce.api/bin/Debug/net6.0/Microsoft.IdentityModel.JsonWebTokens.dll
+/Users/clew/Documents/repos/ecommerce.api/ecommerce.api/bin/Debug/net6.0/Microsoft.IdentityModel.Logging.dll
+/Users/clew/Documents/repos/ecommerce.api/ecommerce.api/bin/Debug/net6.0/Microsoft.IdentityModel.Protocols.dll
+/Users/clew/Documents/repos/ecommerce.api/ecommerce.api/bin/Debug/net6.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+/Users/clew/Documents/repos/ecommerce.api/ecommerce.api/bin/Debug/net6.0/Microsoft.IdentityModel.Tokens.dll
+/Users/clew/Documents/repos/ecommerce.api/ecommerce.api/bin/Debug/net6.0/System.IdentityModel.Tokens.Jwt.dll
