@@ -20,7 +20,6 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet]
-    [Authorize(Policy = RoleType.User)]
     public async Task<IActionResult> GetProducts()
     {
         try
@@ -41,7 +40,6 @@ public class ProductController : ControllerBase
     
     [HttpGet]
     [Route("{id}")]
-    [Authorize(Policy = RoleType.User)]
     public async Task<IActionResult> GetProduct(Guid id)
     {
         try
@@ -62,7 +60,6 @@ public class ProductController : ControllerBase
 
     [HttpGet]
     [Route("categories")]
-    [Authorize(Policy = RoleType.User)]
     public async Task<IActionResult> GetProductCategories()
     {
         try

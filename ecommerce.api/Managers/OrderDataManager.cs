@@ -23,6 +23,8 @@ public class OrderDataManager
     {
         var orders = await _context.Orders
             .Include(o => o.Cart)
+            .ThenInclude(c => c.Products)
+            .ThenInclude(p => p.Images)
             .ToListAsync();
         
         return orders;
@@ -32,6 +34,8 @@ public class OrderDataManager
     {
         var orders = await _context.Orders
             .Include(o => o.Cart)
+            .ThenInclude(c => c.Products)
+            .ThenInclude(p => p.Images)
             .Where(o => o.UserId == userId)
             .ToListAsync();
         
@@ -40,7 +44,11 @@ public class OrderDataManager
 
     public async Task<OrderEntity?> GetOrder(Guid id)
     {
-        var order = await _context.Orders.FirstOrDefaultAsync(o => o.Id == id);
+        var order = await _context.Orders
+            .Include(o => o.Cart)
+            .ThenInclude(c => c.Products)
+            .ThenInclude(p => p.Images)
+            .FirstOrDefaultAsync(o => o.Id == id);
         return order;
     }
 
