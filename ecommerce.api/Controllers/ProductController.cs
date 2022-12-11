@@ -39,7 +39,7 @@ public class ProductController : ControllerBase
     }
     
     [HttpGet]
-    [Route("featured/{amount=amount}")]
+    [Route("featured")]
     public async Task<IActionResult> GetMostDiscountedProducts(int amount)
     {
         try
