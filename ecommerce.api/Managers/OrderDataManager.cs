@@ -57,7 +57,10 @@ public class OrderDataManager
     {
         var mappedOrder = _mapper.Map<OrderEntity>(order);
         
-        var cart = await _context.Carts.FirstOrDefaultAsync(c => c.UserId == order.UserId);
+        var cart = await _context.Carts
+            .Include(c => c.Products)
+            .ThenInclude(p => p.Images)
+            .FirstOrDefaultAsync(c => c.Id == order.Cart.Id);
         
         mappedOrder.Cart = cart;
         
@@ -74,6 +77,8 @@ public class OrderDataManager
     {
         var existingOrder = await _context.Orders
                 .Include(o => o.Cart)
+                .ThenInclude(c => c.Products)
+                .ThenInclude(p => p.Images)
                 .FirstOrDefaultAsync(o => o.Id == order.Id && o.UserId == order.UserId);
         
         var cart = await _context.Carts.FirstOrDefaultAsync(c => c.UserId == order.UserId);
