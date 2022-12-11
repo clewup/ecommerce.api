@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace ecommerce.api.Classes;
 
 public class OrderModel
@@ -7,7 +9,7 @@ public class OrderModel
     public string FirstName { get; set; } = "";
     public string LastName { get; set; } = "";
     public string Email { get; set; } = "";
-    public AddressModel DeliveryAddress { get; set; } = new AddressModel();
-    public CartModel Cart { get; set; } = new CartModel();
+    public AddressModel DeliveryAddress { get; set; }
+    public CartModel Cart { get; set; }
     public DateTime OrderDate { get; set; }
 }

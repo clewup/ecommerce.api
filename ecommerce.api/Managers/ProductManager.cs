@@ -20,14 +20,14 @@ public class ProductManager
     {
         var products = await _productDataManager.GetProducts();
 
-        return _mapper.Map<List<ProductModel>>(products);
+        return _mapper.Map<List<ProductModel>>(products);;
     }
     
     public async Task<List<ProductModel>?> GetMostDiscountedProducts(int amount)
     {
         var products = await _productDataManager.GetMostDiscountedProducts(amount);
 
-        return _mapper.Map<List<ProductModel>>(products);
+        return _mapper.Map<List<ProductModel>>(products);;
     }
     
     public async Task<List<string>?> GetProductCategories()
@@ -64,6 +64,6 @@ public class ProductManager
 
     public async void DeleteProduct(Guid id)
     {
-        await _productDataManager.DeleteProduct(id);
+        _productDataManager.DeleteProduct(id);
     }
 }

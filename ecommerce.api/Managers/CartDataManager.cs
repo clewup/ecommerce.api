@@ -3,6 +3,7 @@ using ecommerce.api.Classes;
 using ecommerce.api.Data;
 using ecommerce.api.Entities;
 using ecommerce.api.Infrastructure;
+using ecommerce.api.Services.Mappers;
 using Microsoft.EntityFrameworkCore;
 
 namespace ecommerce.api.Managers;
@@ -52,14 +53,7 @@ public class CartDataManager
     {
         var totalledCart = CalculateCartTotal(cart);
 
-        var mappedProducts = _mapper.Map<ICollection<ProductEntity>>(totalledCart.Products);
-        
-        var mappedCart = new CartEntity()
-        {
-            UserId = totalledCart.UserId,
-            Total = totalledCart.Total,
-            Products = mappedProducts,
-        };
+        var mappedCart = _mapper.Map<CartEntity>(totalledCart);
         
         var products = await _context.Products
                 .Include(p => p.Images)
@@ -90,13 +84,8 @@ public class CartDataManager
                 .Where(p => mappedProducts
                 .Contains(p)).ToListAsync();
 
-        if (existingCart == null)
-            return null;
-        
         existingCart.Products = products;
         existingCart.Total = totalledCart.Total;
-        
-        existingCart.UpdatedDate = DateTime.UtcNow;
 
         await _context.SaveChangesAsync();
 
@@ -110,9 +99,6 @@ public class CartDataManager
             .ThenInclude(p => p.Images)
             .FirstOrDefaultAsync(c => c.Id == id);
 
-        if (existingCart == null)
-            return;
-        
         existingCart.Status = StatusType.Inactive;
         
         await _context.SaveChangesAsync();

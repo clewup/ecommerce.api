@@ -1,6 +1,7 @@
 using ecommerce.api.Classes;
 using ecommerce.api.Data;
 using ecommerce.api.Entities;
+using ecommerce.api.Services.Mappers;
 using Microsoft.EntityFrameworkCore;
 
 namespace ecommerce.api.Managers;
@@ -48,7 +49,7 @@ public class ProductDataManager
         return categories;
     }
 
-    public async Task<ProductEntity?> GetProduct(Guid id)
+    public async Task<ProductEntity> GetProduct(Guid id)
     {
         var product = await _context.Products
             .Include(p => p.Images)
@@ -62,12 +63,12 @@ public class ProductDataManager
     {
         var mappedProduct = new ProductEntity()
         {
+            Id = product.Id,
             Name = product.Name,
             Description = product.Description,
             Category = product.Category,
-            Color = product.Color,
             PricePerUnit = product.PricePerUnit,
-            Discount = product.Discount,
+            Discount = product.Discount
         };
         
         await _context.Products.AddAsync(mappedProduct);
@@ -76,36 +77,28 @@ public class ProductDataManager
         return mappedProduct;
     }
 
-    public async Task<ProductEntity?> UpdateProduct(ProductModel product)
+    public async Task<ProductEntity> UpdateProduct(ProductModel product)
     {
         var existingProduct = await _context.Products
             .Include(p => p.Images)
             .FirstOrDefaultAsync(p => p.Id == product.Id);
-
-        if (existingProduct == null)
-            return null;
         
         existingProduct.Name = product.Name;
         existingProduct.Description = product.Description;
         existingProduct.Category = product.Category;
-        existingProduct.Color = product.Color;
         existingProduct.PricePerUnit = product.PricePerUnit;
         existingProduct.Discount = product.Discount;
-        
-        existingProduct.UpdatedDate = DateTime.UtcNow;
         
         await _context.SaveChangesAsync();
 
         return existingProduct;
     }
 
-    public async Task DeleteProduct(Guid id)
+    public async void DeleteProduct(Guid id)
     {
         var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
 
-        if (product == null) return;
-        
         _context.Products.Remove(product);
-        await _context.SaveChangesAsync();
+        _context.SaveChanges();
     }
 }

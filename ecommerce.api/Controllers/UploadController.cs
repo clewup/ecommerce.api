@@ -1,3 +1,4 @@
+using ecommerce.api.Classes;
 using ecommerce.api.Infrastructure;
 using ecommerce.api.Managers;
 using Microsoft.AspNetCore.Authorization;
