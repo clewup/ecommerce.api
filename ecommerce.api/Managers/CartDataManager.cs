@@ -23,6 +23,7 @@ public class CartDataManager
     {
         var carts = await _context.Carts
             .Include(c => c.Products)
+            .ThenInclude(p => p.Images)
             .ToListAsync();
 
         return carts;
@@ -55,7 +56,8 @@ public class CartDataManager
         var mappedCart = _mapper.Map<CartEntity>(totalledCart);
         
         var products = await _context.Products
-            .Where(p => mappedCart.Products
+                .Include(p => p.Images)
+                .Where(p => mappedCart.Products
                 .Contains(p)).ToListAsync();
 
         mappedCart.Products = products;
@@ -72,12 +74,14 @@ public class CartDataManager
         
         var existingCart = await _context.Carts
                 .Include(c => c.Products)
+                .ThenInclude(p => p.Images)
                 .FirstOrDefaultAsync(c => c.Id == totalledCart.Id);
 
         var mappedProducts = _mapper.Map<ICollection<ProductEntity>>(totalledCart.Products);
 
         var products = await _context.Products
-            .Where(p => mappedProducts
+                .Include(p => p.Images)
+                .Where(p => mappedProducts
                 .Contains(p)).ToListAsync();
 
         existingCart.Products = products;
@@ -92,6 +96,7 @@ public class CartDataManager
     {
         var existingCart = await _context.Carts
             .Include(c => c.Products)
+            .ThenInclude(p => p.Images)
             .FirstOrDefaultAsync(c => c.Id == id);
 
         existingCart.Status = StatusType.Inactive;
