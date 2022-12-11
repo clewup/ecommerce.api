@@ -1,31 +1,24 @@
 using AutoMapper;
 using ecommerce.api.Classes;
-using ecommerce.api.Data;
-using ecommerce.api.Entities;
-using ecommerce.api.Services.Mappers;
-using Microsoft.EntityFrameworkCore;
 
 namespace ecommerce.api.Managers;
 
 public class CartManager
 {
     private readonly CartDataManager _cartDataManager;
-    private readonly ProductManager _productManager;
     private readonly IMapper _mapper;
 
-    public CartManager(IMapper mapper, CartDataManager cartDataManager, ProductManager productManager)
+    public CartManager(IMapper mapper, CartDataManager cartDataManager)
     {
         _mapper = mapper;
         _cartDataManager = cartDataManager;
-        _productManager = productManager;
     }
     
     public async Task<List<CartModel>> GetCarts()
     {
         var carts = await _cartDataManager.GetCarts();
 
-        return _mapper.Map<List<CartModel>>(carts);;
-
+        return _mapper.Map<List<CartModel>>(carts);
     }
     
     public async Task<CartModel?> GetCart(Guid id)
