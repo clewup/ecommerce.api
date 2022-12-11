@@ -24,11 +24,12 @@ public class ProductDataManager
         return products;
     }
     
-    public async Task<List<ProductEntity>> GetProductsByIds(List<Guid> ids)
+    public async Task<List<ProductEntity>> GetMostDiscountedProducts(int amount)
     {
         var products = await _context.Products
             .Include(p => p.Images)
-            .Where(p => ids.Contains(p.Id))
+            .OrderBy(p => p.Discount)
+            .Take(amount)
             .ToListAsync();
 
         return products;

@@ -23,6 +23,13 @@ public class ProductManager
         return _mapper.Map<List<ProductModel>>(products);;
     }
     
+    public async Task<List<ProductModel>?> GetMostDiscountedProducts(int amount)
+    {
+        var products = await _productDataManager.GetMostDiscountedProducts(amount);
+
+        return _mapper.Map<List<ProductModel>>(products);;
+    }
+    
     public async Task<List<string>?> GetProductCategories()
     {
         var categories = await _productDataManager.GetProductCategories();

@@ -39,6 +39,26 @@ public class ProductController : ControllerBase
     }
     
     [HttpGet]
+    [Route("featured/{amount=amount}")]
+    public async Task<IActionResult> GetMostDiscountedProducts(int amount)
+    {
+        try
+        {
+            var products = await _productManager.GetProducts();
+
+            if (products == null)
+                return NoContent();
+            
+            return Ok(products);
+        }
+        catch (Exception)
+        {
+            _logger.LogCritical("ProductController.GetMostDiscountedProducts: Could not retrieve most discounted products");
+            throw;
+        }
+    }
+    
+    [HttpGet]
     [Route("{id}")]
     public async Task<IActionResult> GetProduct(Guid id)
     {
