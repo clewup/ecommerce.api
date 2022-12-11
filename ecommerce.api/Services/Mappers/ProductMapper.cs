@@ -8,7 +8,7 @@ public class ProductMapper : Profile
 {
     public ProductMapper()
     {
-        CreateMap<ImageEntity, ImageModel>().ReverseMap();
-        CreateMap<ProductEntity, ProductModel>().ReverseMap();
+        CreateMap<ProductEntity, ProductModel>();
+        CreateMap<ProductModel, ProductEntity>();
     }
 }

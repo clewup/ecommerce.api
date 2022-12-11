@@ -8,6 +8,7 @@ public class ImageMapper : Profile
 {
     public ImageMapper()
     {
-        CreateMap<ImageEntity, ImageModel>().ReverseMap();
+        CreateMap<ImageEntity, ImageModel>();
+        CreateMap<ImageModel, ImageEntity>();
     }
 }

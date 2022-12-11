@@ -8,7 +8,9 @@ public class CartMapper : Profile
 {
     public CartMapper()
     {
-        CreateMap<ProductModel, ProductEntity>().ReverseMap();
-        CreateMap<CartEntity, CartModel>().ReverseMap();
+        CreateMap<ProductEntity, ProductModel>();
+        CreateMap<ProductModel, ProductEntity>();
+        CreateMap<CartEntity, CartModel>();
+        CreateMap<CartModel, CartEntity>();
     }
 }
