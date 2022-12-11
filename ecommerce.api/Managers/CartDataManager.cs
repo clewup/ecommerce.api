@@ -51,16 +51,16 @@ public class CartDataManager
 
     public async Task<CartEntity> CreateCart(CartModel cart)
     {
-        var totalledCart = CalculateCartTotal(cart);
-
-        var mappedCart = _mapper.Map<CartEntity>(totalledCart);
+        var mappedCart = _mapper.Map<CartEntity>(cart);
         
         var products = await _context.Products
                 .Include(p => p.Images)
                 .Where(p => mappedCart.Products
                 .Contains(p)).ToListAsync();
+        var cartTotal = CalculateCartTotal(cart);
 
         mappedCart.Products = products;
+        mappedCart.Total = cartTotal;
         
         await _context.Carts.AddAsync(mappedCart);
         await _context.SaveChangesAsync();
@@ -70,48 +70,35 @@ public class CartDataManager
 
     public async Task<CartEntity?> UpdateCart(CartModel cart)
     {
-        var totalledCart = CalculateCartTotal(cart);
-        
         var existingCart = await _context.Carts
                 .Include(c => c.Products)
                 .ThenInclude(p => p.Images)
-                .FirstOrDefaultAsync(c => c.Id == totalledCart.Id);
+                .FirstOrDefaultAsync(c => c.Id == cart.Id);
 
-        var mappedProducts = _mapper.Map<ICollection<ProductEntity>>(totalledCart.Products);
+        var mappedProducts = _mapper.Map<ICollection<ProductEntity>>(cart.Products);
 
         var products = await _context.Products
                 .Include(p => p.Images)
                 .Where(p => mappedProducts
                 .Contains(p)).ToListAsync();
+        var cartTotal = CalculateCartTotal(cart);
 
         existingCart.Products = products;
-        existingCart.Total = totalledCart.Total;
+        existingCart.Total = cartTotal;
+        existingCart.UpdatedDate = DateTime.UtcNow;
 
         await _context.SaveChangesAsync();
 
         return existingCart;
     }
 
-    public async Task MakeCartInactive(Guid id)
-    {
-        var existingCart = await _context.Carts
-            .Include(c => c.Products)
-            .ThenInclude(p => p.Images)
-            .FirstOrDefaultAsync(c => c.Id == id);
-
-        existingCart.Status = StatusType.Inactive;
-        
-        await _context.SaveChangesAsync();
-    }
-
-    private CartModel CalculateCartTotal(CartModel cart)
+    private double CalculateCartTotal(CartModel cart)
     {
         double calculatedTotal = 0;
         foreach (var product in cart.Products)
         {
             calculatedTotal += product.PricePerUnit;
         }
-        cart.Total = calculatedTotal;
-        return cart;
+        return calculatedTotal;
     }
 }

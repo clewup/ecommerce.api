@@ -1,6 +1,8 @@
+using AutoMapper;
 using ecommerce.api.Classes;
 using ecommerce.api.Data;
 using ecommerce.api.Entities;
+using ecommerce.api.Infrastructure;
 using ecommerce.api.Services.Mappers;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,14 +11,12 @@ namespace ecommerce.api.Managers;
 public class OrderDataManager
 {
     private readonly EcommerceDbContext _context;
-    private readonly AuthManager _authManager;
-    private readonly CartDataManager _cartDataManager;
+    private readonly IMapper _mapper;
 
-    public OrderDataManager(EcommerceDbContext context, AuthManager authManager, CartDataManager cartDataManager)
+    public OrderDataManager(IMapper mapper, EcommerceDbContext context)
     {
+        _mapper = mapper;
         _context = context;
-        _authManager = authManager;
-        _cartDataManager = cartDataManager;
     }
     
     public async Task<List<OrderEntity>> GetOrders()
@@ -49,79 +49,51 @@ public class OrderDataManager
             .ThenInclude(c => c.Products)
             .ThenInclude(p => p.Images)
             .FirstOrDefaultAsync(o => o.Id == id);
+        
         return order;
     }
 
     public async Task<OrderEntity> CreateOrder(OrderModel order)
     {
-        var userId = order.UserId;
-        var cart = await _cartDataManager.GetUserCart(userId);
+        var mappedOrder = _mapper.Map<OrderEntity>(order);
         
-        var mappedOrder = new OrderEntity()
-        {
-            Id = Guid.NewGuid(),
-            UserId = userId,
-            FirstName = order.FirstName,
-            LastName = order.LastName,
-            Email = order.Email,
-            LineOne = order.DeliveryAddress.LineOne,
-            LineTwo = order.DeliveryAddress.LineTwo,
-            LineThree = order.DeliveryAddress.LineThree,
-            Postcode = order.DeliveryAddress.Postcode,
-            City = order.DeliveryAddress.City,
-            County = order.DeliveryAddress.County,
-            Country = order.DeliveryAddress.Country,
-            Cart = cart,
-            OrderDate = DateTime.UtcNow,
-        };
-
+        var cart = await _context.Carts.FirstOrDefaultAsync(c => c.UserId == order.UserId);
+        
+        mappedOrder.Cart = cart;
+        
         await _context.Orders.AddAsync(mappedOrder);
+        
+        cart.Status = StatusType.Inactive;
+        
         await _context.SaveChangesAsync();
-
-        await _cartDataManager.MakeCartInactive(cart.Id);
         
         return mappedOrder;
     }
 
     public async Task<OrderEntity> UpdateOrder(OrderModel order)
     {
-        var userId = order.UserId;
-        var cart = await _cartDataManager.GetUserCart(userId);
-        
-        var mappedOrder = new OrderEntity()
-        {
-            UserId = userId,
-            FirstName = order.FirstName,
-            LastName = order.LastName,
-            Email = order.Email,
-            LineOne = order.DeliveryAddress.LineOne,
-            LineTwo = order.DeliveryAddress.LineTwo,
-            LineThree = order.DeliveryAddress.LineThree,
-            Postcode = order.DeliveryAddress.Postcode,
-            City = order.DeliveryAddress.City,
-            County = order.DeliveryAddress.County,
-            Country = order.DeliveryAddress.Country,
-            Cart = cart,
-        };
-        
         var existingOrder = await _context.Orders
                 .Include(o => o.Cart)
-                .FirstOrDefaultAsync(o => o.Id == mappedOrder.Id && o.UserId == userId);
+                .FirstOrDefaultAsync(o => o.Id == order.Id && o.UserId == order.UserId);
+        
+        var cart = await _context.Carts.FirstOrDefaultAsync(c => c.UserId == order.UserId);
 
-        existingOrder.FirstName = mappedOrder.FirstName;
-        existingOrder.LastName = mappedOrder.LastName;
-        existingOrder.Email = mappedOrder.Email;
-        existingOrder.LineOne = mappedOrder.LineOne;
-        existingOrder.LineTwo = mappedOrder.LineTwo;
-        existingOrder.LineThree = mappedOrder.LineThree;
-        existingOrder.Postcode = mappedOrder.Postcode;
-        existingOrder.City = mappedOrder.City;
-        existingOrder.County = mappedOrder.County;
-        existingOrder.Country = mappedOrder.Country;
-        existingOrder.Cart = mappedOrder.Cart;
+        existingOrder.FirstName = order.FirstName;
+        existingOrder.LastName = order.LastName;
+        existingOrder.Email = order.Email;
+        existingOrder.LineOne = order.DeliveryAddress.Country;
+        existingOrder.LineTwo = order.DeliveryAddress.Country;
+        existingOrder.LineThree = order.DeliveryAddress.Country;
+        existingOrder.Postcode = order.DeliveryAddress.Country;
+        existingOrder.City = order.DeliveryAddress.Country;
+        existingOrder.County = order.DeliveryAddress.Country;
+        existingOrder.Country = order.DeliveryAddress.Country;
+        existingOrder.Cart = cart;
+        
+        existingOrder.UpdatedDate = DateTime.UtcNow;
 
         await _context.SaveChangesAsync();
 
-        return mappedOrder;
+        return existingOrder;
     }
 }

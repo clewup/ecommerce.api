@@ -10,24 +10,22 @@ namespace ecommerce.api.Managers;
 public class OrderManager
 {
     private readonly OrderDataManager _orderDataManager;
-    private readonly CartManager _cartManager;
     private readonly IMapper _mapper;
 
-    public OrderManager(IMapper mapper, OrderDataManager orderDataManager, CartManager cartManager)
+    public OrderManager(IMapper mapper, OrderDataManager orderDataManager)
     {
         _mapper = mapper;
         _orderDataManager = orderDataManager;
-        _cartManager = cartManager;
     }
     
-    public async Task<List<OrderModel>?> GetOrders()
+    public async Task<List<OrderModel>> GetOrders()
     {
         var orders = await _orderDataManager.GetOrders();
 
         return _mapper.Map<List<OrderModel>>(orders);
     }
 
-    public async Task<List<OrderModel>?> GetUserOrders(Guid userId)
+    public async Task<List<OrderModel>> GetUserOrders(Guid userId)
     {
         var orders = await _orderDataManager.GetUserOrders(userId);
 

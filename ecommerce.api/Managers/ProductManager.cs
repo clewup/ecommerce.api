@@ -16,21 +16,21 @@ public class ProductManager
         _imageDataManager = imageDataManager;
     }   
     
-    public async Task<List<ProductModel>?> GetProducts()
+    public async Task<List<ProductModel>> GetProducts()
     {
         var products = await _productDataManager.GetProducts();
 
         return _mapper.Map<List<ProductModel>>(products);;
     }
     
-    public async Task<List<ProductModel>?> GetMostDiscountedProducts(int amount)
+    public async Task<List<ProductModel>> GetMostDiscountedProducts(int amount)
     {
         var products = await _productDataManager.GetMostDiscountedProducts(amount);
 
         return _mapper.Map<List<ProductModel>>(products);;
     }
     
-    public async Task<List<string>?> GetProductCategories()
+    public async Task<List<string>> GetProductCategories()
     {
         var categories = await _productDataManager.GetProductCategories();
         return categories;
@@ -62,8 +62,8 @@ public class ProductManager
         return _mapper.Map<ProductModel>(updatedProduct);
     }
 
-    public async void DeleteProduct(Guid id)
+    public async Task DeleteProduct(Guid id)
     {
-        _productDataManager.DeleteProduct(id);
+        await _productDataManager.DeleteProduct(id);
     }
 }
