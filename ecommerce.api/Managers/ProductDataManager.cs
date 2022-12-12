@@ -40,14 +40,9 @@ public class ProductDataManager
     
     public async Task<List<string>> GetProductCategories()
     {
-        var products = await _context.Products.Distinct().ToListAsync();
+        var products = await _context.Products.ToListAsync();
 
-        List<string> categories = new List<string>();
-        
-        foreach (var product in products)
-        {
-            categories.Add(product.Category);
-        }
+        var categories = products.Select(p => p.Category).Distinct().ToList();
 
         return categories;
     }
