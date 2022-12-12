@@ -40,7 +40,7 @@ public class ProductDataManager
     
     public async Task<List<string>> GetProductCategories()
     {
-        var products = await _context.Products.ToListAsync();
+        var products = await _context.Products.Distinct().ToListAsync();
 
         List<string> categories = new List<string>();
         
