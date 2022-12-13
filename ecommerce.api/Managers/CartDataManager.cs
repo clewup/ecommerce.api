@@ -96,7 +96,8 @@ public class CartDataManager
             : CalculateCartTotal(cart);
 
         existingCart.Products = products;
-        existingCart.Discount = existingDiscount;
+        if (existingDiscount != null) 
+            existingCart.Discount = existingDiscount;
         existingCart.Total = cartTotal;
         existingCart.UpdatedDate = DateTime.UtcNow;
 
