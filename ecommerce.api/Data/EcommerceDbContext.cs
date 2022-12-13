@@ -11,6 +11,7 @@ public class EcommerceDbContext : DbContext
     public virtual DbSet<OrderEntity> Orders { get; set; }
     public virtual DbSet<ProductEntity> Products { get; set; }
     public virtual DbSet<ImageEntity> Images { get; set; }
+    public virtual DbSet<DiscountEntity> Discounts { get; set; }
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -23,7 +24,8 @@ public class EcommerceDbContext : DbContext
         modelBuilder.Entity<CartEntity>()
             .HasOne(c => c.Order)
             .WithOne(o => o.Cart)
-            .HasForeignKey<OrderEntity>(o => o.CartId);
+            .HasForeignKey<OrderEntity>(o => o.CartId)
+            .IsRequired(false);
 
         modelBuilder.Entity<CartEntity>()
             .HasMany(c => c.Products)
@@ -44,6 +46,12 @@ public class EcommerceDbContext : DbContext
                     j.HasKey(cp => new { cp.CartId, cp.ProductId });
                 });
 
+        modelBuilder.Entity<CartEntity>()
+            .HasOne(c => c.Discount)
+            .WithMany(d => d.Carts)
+            .HasForeignKey(c => c.DiscountId)
+            .IsRequired(false);
+        
         modelBuilder.Entity<ImageEntity>()
             .HasOne(i => i.Product)
             .WithMany(p => p.Images)

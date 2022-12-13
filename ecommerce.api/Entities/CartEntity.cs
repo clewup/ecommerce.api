@@ -12,4 +12,7 @@ public class CartEntity : BaseEntity
     public List<CartProductEntity> CartProducts { get; set; }
     
     public OrderEntity Order { get; set; }
+    
+    public Guid? DiscountId { get; set; }
+    public DiscountEntity Discount { get; set; }
 }

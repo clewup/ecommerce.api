@@ -28,6 +28,12 @@
 
     <ItemGroup>
       <Compile Remove="Classes\Size.cs" />
+      <Compile Remove="Migrations\20221213210050_Discounts10.cs" />
+      <Compile Remove="Migrations\20221213210050_Discounts10.Designer.cs" />
+      <Compile Remove="Migrations\20221213204910_Discounts3.cs" />
+      <Compile Remove="Migrations\20221213204910_Discounts3.Designer.cs" />
+      <Compile Remove="Migrations\20221213204701_Discounts2.cs" />
+      <Compile Remove="Migrations\20221213204701_Discounts2.Designer.cs" />
     </ItemGroup>
 
     <ItemGroup>

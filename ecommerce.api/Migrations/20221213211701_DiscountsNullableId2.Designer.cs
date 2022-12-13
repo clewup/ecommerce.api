@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ecommerce.api.Data;
@@ -11,9 +12,11 @@ using ecommerce.api.Data;
 namespace ecommerce.api.Migrations
 {
     [DbContext(typeof(EcommerceDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221213211701_DiscountsNullableId2")]
+    partial class DiscountsNullableId2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -335,7 +338,9 @@ namespace ecommerce.api.Migrations
                 {
                     b.HasOne("ecommerce.api.Entities.CartEntity", "Cart")
                         .WithOne("Order")
-                        .HasForeignKey("ecommerce.api.Entities.OrderEntity", "CartId");
+                        .HasForeignKey("ecommerce.api.Entities.OrderEntity", "CartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Cart");
                 });
