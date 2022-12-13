@@ -81,7 +81,7 @@ public class CartDataManager
                 .ThenInclude(p => p.Images)
                 .FirstOrDefaultAsync(c => c.Id == cart.Id);
 
-        var existingDiscount = cart.Discount != null
+        var existingDiscount = cart.Discount?.Code != null
             ? await _context.Discounts.FirstOrDefaultAsync(d => d.Code == cart.Discount.Code)
             : null;
 
@@ -96,6 +96,7 @@ public class CartDataManager
             : CalculateCartTotal(cart);
 
         existingCart.Products = products;
+        existingCart.Discount = existingDiscount;
         existingCart.Total = cartTotal;
         existingCart.UpdatedDate = DateTime.UtcNow;
 
