@@ -12,5 +12,4 @@ public class ProductModel
     public string Color { get; set; } = "";
     public double PricePerUnit { get; set; }
     public double Discount { get; set; }
-    
 }

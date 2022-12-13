@@ -11,9 +11,6 @@ public class CartMapper : Profile
         CreateMap<ProductEntity, ProductModel>();
         CreateMap<ProductModel, ProductEntity>();
         
-        CreateMap<DiscountEntity, DiscountModel>();
-        CreateMap<DiscountModel, DiscountEntity>();
-        
         CreateMap<CartEntity, CartModel>();
         CreateMap<CartModel, CartEntity>();
     }
