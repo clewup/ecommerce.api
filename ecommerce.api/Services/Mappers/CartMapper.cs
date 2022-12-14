@@ -15,7 +15,7 @@ public class CartMapper : Profile
             opt => 
                 opt.MapFrom(entity => entity.Discount.Code));;
         
-        CreateMap<CartModel, CartEntity>().ForMember(entity => entity.Discount.Code, 
+        CreateMap<CartModel, CartEntity>().ForPath(entity => entity.Discount.Code, 
             opt => 
                 opt.MapFrom(model => model.Discount));;
     }
