@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ecommerce.api.Controllers;
 
-[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class StatisticsController : ControllerBase

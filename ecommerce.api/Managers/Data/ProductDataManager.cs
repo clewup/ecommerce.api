@@ -50,7 +50,7 @@ public class ProductDataManager
     {
         var products = await _context.Products
             .Include(p => p.Images)
-            .OrderBy(p => p.Discount)
+            .OrderByDescending(p => p.Discount)
             .Take(amount)
             .ToListAsync();
 
