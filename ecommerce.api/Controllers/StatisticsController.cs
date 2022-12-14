@@ -21,7 +21,7 @@ public class StatisticsController : ControllerBase
     }
 
     [HttpGet]
-    [Route("cartproducts")]
+    [Route("popular")]
     public async Task<IActionResult> GetPopularProducts(int amount)
     {
         try
