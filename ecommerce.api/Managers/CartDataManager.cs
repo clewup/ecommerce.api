@@ -61,6 +61,20 @@ public class CartDataManager
         mappedCart.Products = products;
         mappedCart.Total = cartTotal;
         
+        if (cart.Discount != null)
+        {
+            var existingDiscount = await _context.Discounts.FirstOrDefaultAsync(d => d.Code == cart.Discount);
+
+            if (existingDiscount != null)
+            {
+                cartTotal = 
+                    cart.Total - (cart.Total * existingDiscount.Percentage / 100);
+
+                mappedCart.Discount = existingDiscount;
+                mappedCart.Total = cartTotal;
+            }
+        }
+        
         await _context.Carts.AddAsync(mappedCart);
         await _context.SaveChangesAsync();
 
@@ -85,6 +99,20 @@ public class CartDataManager
         existingCart.Products = products;
         existingCart.Total = cartTotal;
         existingCart.UpdatedDate = DateTime.UtcNow;
+
+        if (cart.Discount != null)
+        {
+            var existingDiscount = await _context.Discounts.FirstOrDefaultAsync(d => d.Code == cart.Discount);
+
+            if (existingDiscount != null)
+            {
+                cartTotal = 
+                    cart.Total - (cart.Total * existingDiscount.Percentage / 100);
+
+                existingCart.Discount = existingDiscount;
+                existingCart.Total = cartTotal;
+            }
+        }
 
         await _context.SaveChangesAsync();
 

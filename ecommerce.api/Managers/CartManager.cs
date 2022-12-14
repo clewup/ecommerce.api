@@ -53,7 +53,7 @@ public class CartManager
     public async Task<CartModel> UpdateCart(CartModel cart)
     {
         var updatedCart = await _cartDataManager.UpdateCart(cart);
-        
+
         return _mapper.Map<CartModel>(updatedCart);
     }
 }
