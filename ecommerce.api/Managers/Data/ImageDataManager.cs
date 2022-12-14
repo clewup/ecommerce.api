@@ -3,7 +3,7 @@ using ecommerce.api.Data;
 using ecommerce.api.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace ecommerce.api.Managers;
+namespace ecommerce.api.Managers.Data;
 
 public class ImageDataManager
 {

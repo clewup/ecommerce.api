@@ -2,10 +2,9 @@ using AutoMapper;
 using ecommerce.api.Classes;
 using ecommerce.api.Data;
 using ecommerce.api.Entities;
-using ecommerce.api.Services.Mappers;
 using Microsoft.EntityFrameworkCore;
 
-namespace ecommerce.api.Managers;
+namespace ecommerce.api.Managers.Data;
 
 public class ProductDataManager
 {
@@ -23,6 +22,26 @@ public class ProductDataManager
         var products = await _context.Products
             .Include(p => p.Images)
             .ToListAsync();
+
+        return products;
+    }
+    
+    public async Task<List<ProductEntity>> GetProducts(List<Guid> productIds)
+    {
+        var products = await _context.Products
+                .Include(p => p.Images)
+                .Where(p => productIds
+                .Contains(p.Id)).ToListAsync();
+
+        return products;
+    }
+    
+    public async Task<List<ProductEntity>> GetProducts(CartEntity cart)
+    {
+        var products = await _context.Products
+            .Include(p => p.Images)
+            .Where(p => cart.Products
+                .Contains(p)).ToListAsync();
 
         return products;
     }

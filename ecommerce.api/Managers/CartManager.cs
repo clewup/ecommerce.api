@@ -1,5 +1,6 @@
 using AutoMapper;
 using ecommerce.api.Classes;
+using ecommerce.api.Managers.Data;
 
 namespace ecommerce.api.Managers;
 

@@ -3,10 +3,9 @@ using ecommerce.api.Classes;
 using ecommerce.api.Data;
 using ecommerce.api.Entities;
 using ecommerce.api.Infrastructure;
-using ecommerce.api.Services.Mappers;
 using Microsoft.EntityFrameworkCore;
 
-namespace ecommerce.api.Managers;
+namespace ecommerce.api.Managers.Data;
 
 public class OrderDataManager
 {

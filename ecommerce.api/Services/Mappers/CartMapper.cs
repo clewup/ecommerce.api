@@ -10,13 +10,8 @@ public class CartMapper : Profile
     {
         CreateMap<ProductEntity, ProductModel>();
         CreateMap<ProductModel, ProductEntity>();
-        
-        CreateMap<CartEntity, CartModel>().ForMember(model => model.Discount, 
-            opt => 
-                opt.MapFrom(entity => entity.Discount.Code));;
-        
-        CreateMap<CartModel, CartEntity>().ForPath(entity => entity.Discount.Code, 
-            opt => 
-                opt.MapFrom(model => model.Discount));;
+
+        CreateMap<CartEntity, CartModel>();
+        CreateMap<CartModel, CartEntity>();
     }
 }

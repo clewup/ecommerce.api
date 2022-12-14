@@ -4,6 +4,7 @@ using CloudinaryDotNet;
 using ecommerce.api.Data;
 using ecommerce.api.Infrastructure;
 using ecommerce.api.Managers;
+using ecommerce.api.Managers.Data;
 using ecommerce.api.Services.Mappers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -95,8 +96,9 @@ builder.Services.AddTransient<CartDataManager>();
 builder.Services.AddTransient<OrderManager>();
 builder.Services.AddTransient<OrderDataManager>();
 builder.Services.AddTransient<UploadManager>();
-builder.Services.AddTransient<ImageDataManager>();
-
+builder.Services.AddTransient<ImageDataManager>();    
+builder.Services.AddTransient<StatisticsManager>();    
+builder.Services.AddTransient<StatisticsDataManager>();    
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 var app = builder.Build();

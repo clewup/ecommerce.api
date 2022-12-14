@@ -1,5 +1,6 @@
 using AutoMapper;
 using ecommerce.api.Classes;
+using ecommerce.api.Managers.Data;
 
 namespace ecommerce.api.Managers;
 
@@ -19,13 +20,6 @@ public class ProductManager
     public async Task<List<ProductModel>> GetProducts()
     {
         var products = await _productDataManager.GetProducts();
-
-        return _mapper.Map<List<ProductModel>>(products);;
-    }
-    
-    public async Task<List<ProductModel>> GetMostDiscountedProducts(int amount)
-    {
-        var products = await _productDataManager.GetMostDiscountedProducts(amount);
 
         return _mapper.Map<List<ProductModel>>(products);;
     }

@@ -26,7 +26,7 @@ public class ProductController : ControllerBase
         {
             var products = await _productManager.GetProducts();
 
-            if (products == null)
+            if (!products.Any())
                 return NoContent();
             
             return Ok(products);
@@ -37,27 +37,7 @@ public class ProductController : ControllerBase
             throw;
         }
     }
-    
-    [HttpGet]
-    [Route("featured")]
-    public async Task<IActionResult> GetMostDiscountedProducts(int amount)
-    {
-        try
-        {
-            var products = await _productManager.GetProducts();
 
-            if (products == null)
-                return NoContent();
-            
-            return Ok(products);
-        }
-        catch (Exception)
-        {
-            _logger.LogCritical("ProductController.GetMostDiscountedProducts: Could not retrieve most discounted products");
-            throw;
-        }
-    }
-    
     [HttpGet]
     [Route("{id}")]
     public async Task<IActionResult> GetProduct(Guid id)
@@ -86,7 +66,7 @@ public class ProductController : ControllerBase
         {
             var categories = await _productManager.GetProductCategories();
             
-            if (categories == null)
+            if (!categories.Any())
                 return NoContent();
             
             return Ok(categories);
@@ -160,7 +140,8 @@ public class ProductController : ControllerBase
             if (existingProduct == null)
                 return NoContent();
             
-            _productManager.DeleteProduct(id);
+            await _productManager.DeleteProduct(id);
+            
             return NoContent();
         }
         catch (Exception)

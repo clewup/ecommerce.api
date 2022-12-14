@@ -2,6 +2,7 @@ using AutoMapper;
 using ecommerce.api.Classes;
 using ecommerce.api.Data;
 using ecommerce.api.Entities;
+using ecommerce.api.Managers.Data;
 using ecommerce.api.Services.Mappers;
 using Microsoft.EntityFrameworkCore;
 

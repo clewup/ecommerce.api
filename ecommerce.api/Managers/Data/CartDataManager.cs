@@ -5,17 +5,19 @@ using ecommerce.api.Entities;
 using ecommerce.api.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
-namespace ecommerce.api.Managers;
+namespace ecommerce.api.Managers.Data;
 
 public class CartDataManager
 {
     private readonly EcommerceDbContext _context;
     private readonly IMapper _mapper;
+    private readonly ProductDataManager _productDataManager;
 
-    public CartDataManager(IMapper mapper, EcommerceDbContext context)
+    public CartDataManager(IMapper mapper, EcommerceDbContext context, ProductDataManager productDataManager)
     {
         _mapper = mapper;
         _context = context;
+        _productDataManager = productDataManager;
     }
     
     public async Task<List<CartEntity>> GetCarts()
@@ -51,29 +53,12 @@ public class CartDataManager
     public async Task<CartEntity> CreateCart(CartModel cart)
     {
         var mappedCart = _mapper.Map<CartEntity>(cart);
-        
-        var products = await _context.Products
-                .Include(p => p.Images)
-                .Where(p => mappedCart.Products
-                .Contains(p)).ToListAsync();
+
+        var products = await _productDataManager.GetProducts(mappedCart);
         var cartTotal = CalculateCartTotal(cart);
 
         mappedCart.Products = products;
         mappedCart.Total = cartTotal;
-        
-        if (cart.Discount != null)
-        {
-            var existingDiscount = await _context.Discounts.FirstOrDefaultAsync(d => d.Code == cart.Discount);
-
-            if (existingDiscount != null)
-            {
-                cartTotal = 
-                    cart.Total - (cart.Total * existingDiscount.Percentage / 100);
-
-                mappedCart.Discount = existingDiscount;
-                mappedCart.Total = cartTotal;
-            }
-        }
         
         await _context.Carts.AddAsync(mappedCart);
         await _context.SaveChangesAsync();
@@ -88,31 +73,12 @@ public class CartDataManager
                 .ThenInclude(p => p.Images)
                 .FirstOrDefaultAsync(c => c.Id == cart.Id);
 
-        var mappedProducts = _mapper.Map<ICollection<ProductEntity>>(cart.Products);
-
-        var products = await _context.Products
-                .Include(p => p.Images)
-                .Where(p => mappedProducts
-                .Contains(p)).ToListAsync();
+        var products = await _productDataManager.GetProducts(_mapper.Map<CartEntity>(cart));
         var cartTotal = CalculateCartTotal(cart);
 
         existingCart.Products = products;
         existingCart.Total = cartTotal;
         existingCart.UpdatedDate = DateTime.UtcNow;
-
-        if (cart.Discount != null)
-        {
-            var existingDiscount = await _context.Discounts.FirstOrDefaultAsync(d => d.Code == cart.Discount);
-
-            if (existingDiscount != null)
-            {
-                cartTotal = 
-                    cart.Total - (cart.Total * existingDiscount.Percentage / 100);
-
-                existingCart.Discount = existingDiscount;
-                existingCart.Total = cartTotal;
-            }
-        }
 
         await _context.SaveChangesAsync();
 
