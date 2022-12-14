@@ -17,7 +17,7 @@ public class StatisticsManager
         _productDataManager = productDataManager;
     }
 
-    public async Task<List<ProductModel>> GetPopularProducts(int amount = 10)
+    public async Task<List<ProductModel>> GetMostPopularProducts(int amount = 10)
     {
         var cartProducts = await _statisticsDataManager.GetCartProducts();
 

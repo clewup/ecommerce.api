@@ -22,11 +22,11 @@ public class StatisticsController : ControllerBase
 
     [HttpGet]
     [Route("popular")]
-    public async Task<IActionResult> GetPopularProducts(int amount)
+    public async Task<IActionResult> GetMostPopularProducts(int amount)
     {
         try
         {
-            var products = await _statisticsManager.GetPopularProducts(amount);
+            var products = await _statisticsManager.GetMostPopularProducts(amount);
 
             if (!products.Any())
                 return NoContent();
