@@ -43,8 +43,8 @@ builder.Services.AddCors(options =>
             policy.WithOrigins(
                     "http://localhost:3000",
                     "https://localhost:3000",
-                    "http://ecommerce.clewup.co.uk/",
-                    "https://ecommerce.clewup.co.uk/")
+                    "http://ecommerce.clewup.co.uk",
+                    "https://ecommerce.clewup.co.uk")
                 .AllowAnyHeader()
                 .AllowAnyMethod();
         });
