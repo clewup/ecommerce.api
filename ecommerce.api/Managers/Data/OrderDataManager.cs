@@ -29,13 +29,13 @@ public class OrderDataManager
         return orders;
     }
     
-    public async Task<List<OrderEntity>> GetUserOrders(Guid userId)
+    public async Task<List<OrderEntity>> GetUserOrders(UserModel user)
     {
         var orders = await _context.Orders
             .Include(o => o.Cart)
             .ThenInclude(c => c.Products)
             .ThenInclude(p => p.Images)
-            .Where(o => o.UserId == userId)
+            .Where(o => o.UserId == user.Id)
             .ToListAsync();
         
         return orders;
@@ -52,27 +52,29 @@ public class OrderDataManager
         return order;
     }
 
-    public async Task<OrderEntity> CreateOrder(OrderModel order)
+    public async Task<OrderEntity> CreateOrder(OrderModel order, UserModel user)
     {
         var mappedOrder = _mapper.Map<OrderEntity>(order);
         
-        var cart = await _context.Carts
+        var exitingCart = await _context.Carts
             .Include(c => c.Products)
             .ThenInclude(p => p.Images)
             .FirstOrDefaultAsync(c => c.Id == order.Cart.Id);
         
-        mappedOrder.Cart = cart;
+        mappedOrder.Cart = exitingCart;
+        mappedOrder.AddedDate = DateTime.UtcNow;
+        mappedOrder.AddedBy = user.Email;
         
         await _context.Orders.AddAsync(mappedOrder);
         
-        cart.Status = StatusType.Inactive;
+        exitingCart.Status = StatusType.Inactive;
         
         await _context.SaveChangesAsync();
         
         return mappedOrder;
     }
 
-    public async Task<OrderEntity> UpdateOrder(OrderModel order)
+    public async Task<OrderEntity> UpdateOrder(OrderModel order, UserModel user)
     {
         var existingOrder = await _context.Orders
                 .Include(o => o.Cart)
@@ -80,7 +82,7 @@ public class OrderDataManager
                 .ThenInclude(p => p.Images)
                 .FirstOrDefaultAsync(o => o.Id == order.Id && o.UserId == order.UserId);
         
-        var cart = await _context.Carts.FirstOrDefaultAsync(c => c.UserId == order.UserId);
+        var existingCart = await _context.Carts.FirstOrDefaultAsync(c => c.UserId == order.UserId);
 
         existingOrder.FirstName = order.FirstName;
         existingOrder.LastName = order.LastName;
@@ -92,9 +94,10 @@ public class OrderDataManager
         existingOrder.City = order.DeliveryAddress.Country;
         existingOrder.County = order.DeliveryAddress.Country;
         existingOrder.Country = order.DeliveryAddress.Country;
-        existingOrder.Cart = cart;
+        existingOrder.Cart = existingCart;
         
         existingOrder.UpdatedDate = DateTime.UtcNow;
+        existingOrder.UpdatedBy = user.Email;
 
         await _context.SaveChangesAsync();
 

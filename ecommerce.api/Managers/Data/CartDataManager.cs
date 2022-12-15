@@ -40,25 +40,28 @@ public class CartDataManager
         return cart;
     }
     
-    public async Task<CartEntity?> GetUserCart(Guid userId)
+    public async Task<CartEntity?> GetUserCart(UserModel user)
     {
         var cart = await _context.Carts
             .Include(c => c.Products)
             .ThenInclude(p => p.Images)
-            .FirstOrDefaultAsync(c => c.UserId == userId && c.Status == StatusType.Active);
+            .FirstOrDefaultAsync(c => c.UserId == user.Id && c.Status == StatusType.Active);
         
         return cart;
     }
 
-    public async Task<CartEntity> CreateCart(CartModel cart)
+    public async Task<CartEntity> CreateCart(CartModel cart, UserModel user)
     {
         var mappedCart = _mapper.Map<CartEntity>(cart);
 
         var products = await _productDataManager.GetProducts(mappedCart);
         var cartTotal = CalculateCartTotal(cart);
 
+        mappedCart.UserId = user.Id;
         mappedCart.Products = products;
         mappedCart.Total = cartTotal;
+        mappedCart.AddedDate = DateTime.UtcNow;
+        mappedCart.AddedBy = user.Email;
         
         await _context.Carts.AddAsync(mappedCart);
         await _context.SaveChangesAsync();
@@ -66,7 +69,7 @@ public class CartDataManager
         return mappedCart;
     }
 
-    public async Task<CartEntity> UpdateCart(CartModel cart)
+    public async Task<CartEntity> UpdateCart(CartModel cart, UserModel user)
     {
         var existingCart = await _context.Carts
                 .Include(c => c.Products)
@@ -79,6 +82,7 @@ public class CartDataManager
         existingCart.Products = products;
         existingCart.Total = cartTotal;
         existingCart.UpdatedDate = DateTime.UtcNow;
+        existingCart.UpdatedBy = user.Email;
 
         await _context.SaveChangesAsync();
 
@@ -90,7 +94,7 @@ public class CartDataManager
         double calculatedTotal = 0;
         foreach (var product in cart.Products)
         {
-            calculatedTotal += product.PricePerUnit;
+            calculatedTotal += product.Price;
         }
         return calculatedTotal;
     }

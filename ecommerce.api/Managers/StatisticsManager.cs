@@ -34,8 +34,12 @@ public class StatisticsManager
     
     public async Task<List<ProductModel>> GetMostDiscountedProducts(int amount = 10)
     {
-        var products = await _productDataManager.GetMostDiscountedProducts(amount);
+        var products = await _productDataManager.GetProducts();
 
-        return _mapper.Map<List<ProductModel>>(products);;
+        var discountedProducts = products.Where(p => p.Discount > 0)
+            .OrderByDescending(p => p.Discount)
+            .Take(amount).ToList();
+
+        return _mapper.Map<List<ProductModel>>(discountedProducts);;
     }
 }

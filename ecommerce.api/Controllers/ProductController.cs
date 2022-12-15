@@ -11,11 +11,13 @@ namespace ecommerce.api.Controllers;
 public class ProductController : ControllerBase
 {
     private readonly ILogger<ProductController> _logger;
+    private readonly ClaimsManager _claimsManager;
     private readonly ProductManager _productManager;
 
-    public ProductController(ILogger<ProductController> logger, ProductManager productManager)
+    public ProductController(ILogger<ProductController> logger, ClaimsManager claimsManager, ProductManager productManager)
     {
         _logger = logger;
+        _claimsManager = claimsManager;
         _productManager = productManager;
     }
 
@@ -25,9 +27,6 @@ public class ProductController : ControllerBase
         try
         {
             var products = await _productManager.GetProducts();
-
-            if (!products.Any())
-                return NoContent();
             
             return Ok(products);
         }
@@ -45,9 +44,6 @@ public class ProductController : ControllerBase
         try
         {
             var product = await _productManager.GetProduct(id);
-
-            if (product == null)
-                return NoContent();
             
             return Ok(product);
         }
@@ -65,9 +61,6 @@ public class ProductController : ControllerBase
         try
         {
             var categories = await _productManager.GetProductCategories();
-            
-            if (!categories.Any())
-                return NoContent();
             
             return Ok(categories);
         }
@@ -90,7 +83,8 @@ public class ProductController : ControllerBase
                 return BadRequest(ModelState);
             }
             
-            var createdProduct = await _productManager.CreateProduct(product);
+            var user = _claimsManager.GetUser(Request);
+            var createdProduct = await _productManager.CreateProduct(product, user);
             return Created("product", createdProduct);
         }
         catch (Exception)
@@ -117,7 +111,8 @@ public class ProductController : ControllerBase
             if (existingProduct == null)
                 return NoContent();
             
-            var updatedProduct = await _productManager.UpdateProduct(product);
+            var user = _claimsManager.GetUser(Request);
+            var updatedProduct = await _productManager.UpdateProduct(product, user);
             return Ok(updatedProduct);
         }
         catch (Exception)

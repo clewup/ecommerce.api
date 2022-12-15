@@ -46,18 +46,6 @@ public class ProductDataManager
         return products;
     }
     
-    public async Task<List<ProductEntity>> GetMostDiscountedProducts(int amount)
-    {
-        var products = await _context.Products
-            .Include(p => p.Images)
-            .Where(p => p.Discount > 0)
-            .OrderByDescending(p => p.Discount)
-            .Take(amount)
-            .ToListAsync();
-
-        return products;
-    }
-    
     public async Task<List<string>> GetProductCategories()
     {
         var products = await _context.Products.ToListAsync();
@@ -77,9 +65,11 @@ public class ProductDataManager
         return product;
     }
 
-    public async Task<ProductEntity> CreateProduct(ProductModel product)
+    public async Task<ProductEntity> CreateProduct(ProductModel product, UserModel user)
     {
         var mappedProduct = _mapper.Map<ProductEntity>(product);
+        mappedProduct.AddedDate = DateTime.UtcNow;
+        mappedProduct.AddedBy = user.Email;
         
         await _context.Products.AddAsync(mappedProduct);
         await _context.SaveChangesAsync();
@@ -87,23 +77,25 @@ public class ProductDataManager
         return mappedProduct;
     }
 
-    public async Task<ProductEntity> UpdateProduct(ProductModel product)
+    public async Task<ProductEntity> UpdateProduct(ProductModel product, UserModel user)
     {
         var existingProduct = await _context.Products
             .Include(p => p.Images)
             .FirstOrDefaultAsync(p => p.Id == product.Id);
 
         var images = await _context.Images.Where(i => i.ProductId == product.Id).ToListAsync();
-        
+
         existingProduct.Name = product.Name;
         existingProduct.Images = images;
         existingProduct.Description = product.Description;
         existingProduct.Category = product.Category;
         existingProduct.Color = product.Color;
-        existingProduct.PricePerUnit = product.PricePerUnit;
+        existingProduct.Stock = product.Stock;
+        existingProduct.Price = product.Price;
         existingProduct.Discount = product.Discount;
         
         existingProduct.UpdatedDate = DateTime.UtcNow;
+        existingProduct.UpdatedBy = user.Email;
         
         await _context.SaveChangesAsync();
 

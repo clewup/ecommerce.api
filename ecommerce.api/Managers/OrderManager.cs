@@ -26,9 +26,9 @@ public class OrderManager
         return _mapper.Map<List<OrderModel>>(orders);
     }
 
-    public async Task<List<OrderModel>> GetUserOrders(Guid userId)
+    public async Task<List<OrderModel>> GetUserOrders(UserModel user)
     {
-        var orders = await _orderDataManager.GetUserOrders(userId);
+        var orders = await _orderDataManager.GetUserOrders(user);
 
         return _mapper.Map<List<OrderModel>>(orders);
     }
@@ -40,16 +40,16 @@ public class OrderManager
         return _mapper.Map<OrderModel>(order);
     }
     
-    public async Task<OrderModel> CreateOrder(OrderModel order)
+    public async Task<OrderModel> CreateOrder(OrderModel order, UserModel user)
     {
-        var createdOrder = await _orderDataManager.CreateOrder(order);
+        var createdOrder = await _orderDataManager.CreateOrder(order, user);
         
         return _mapper.Map<OrderModel>(createdOrder);
     }
 
-    public async Task<OrderModel> UpdateOrder(OrderModel order)
+    public async Task<OrderModel> UpdateOrder(OrderModel order, UserModel user)
     {
-        var updatedOrder = await _orderDataManager.CreateOrder(order);
+        var updatedOrder = await _orderDataManager.UpdateOrder(order, user);
         
         return _mapper.Map<OrderModel>(updatedOrder);
     }

@@ -12,11 +12,13 @@ namespace ecommerce.api.Controllers;
 public class CartController : ControllerBase
 {
     private readonly ILogger<CartController> _logger;
+    private readonly ClaimsManager _claimsManager;
     private readonly CartManager _cartManager;
 
-    public CartController(ILogger<CartController> logger, CartManager cartManager)
+    public CartController(ILogger<CartController> logger, ClaimsManager claimsManager, CartManager cartManager)
     {
         _logger = logger;
+        _claimsManager = claimsManager;
         _cartManager = cartManager;
     }
     
@@ -42,13 +44,14 @@ public class CartController : ControllerBase
     }
     
     [HttpGet]
-    [Route("user/{userId}")]
+    [Route("user")]
     [Authorize(Policy = RoleType.User)]
-    public async Task<IActionResult> GetUserCart(Guid userId)
+    public async Task<IActionResult> GetUserCart()
     {
         try
         {
-            var cart = await _cartManager.GetUserCart(userId);
+            var user = _claimsManager.GetUser(Request);
+            var cart = await _cartManager.GetUserCart(user);
             
             if (cart == null)
                 return NoContent();
@@ -57,7 +60,7 @@ public class CartController : ControllerBase
         }
         catch (Exception)
         {
-            _logger.LogCritical("CartController.GetUserCart: Could not retrieve user cart for user {UserId}", userId);
+            _logger.LogCritical($"CartController.GetUserCart: Could not retrieve user cart");
             throw;
         }
     }
@@ -73,7 +76,9 @@ public class CartController : ControllerBase
                 return BadRequest(ModelState);
             }
             
-            var createdCart = await _cartManager.CreateCart(cart);
+            var user = _claimsManager.GetUser(Request);
+            var createdCart = await _cartManager.CreateCart(cart, user);
+            
             return Created("cart", createdCart);
         }
         catch (Exception)
@@ -94,12 +99,13 @@ public class CartController : ControllerBase
                 return BadRequest(ModelState);
             }
 
-            var existingCart = await _cartManager.GetUserCart(cart.UserId);
+            var user = _claimsManager.GetUser(Request);
+            var existingCart = await _cartManager.GetUserCart(user);
             
             if (existingCart == null)
                 return NoContent();
             
-            var updatedCart = await _cartManager.UpdateCart(cart);
+            var updatedCart = await _cartManager.UpdateCart(cart, user);
             
             return Ok(updatedCart);
         }

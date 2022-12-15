@@ -34,9 +34,9 @@ public class CartManager
 
     }
     
-    public async Task<CartModel?> GetUserCart(Guid userId)
+    public async Task<CartModel?> GetUserCart(UserModel user)
     {
-        var cart = await _cartDataManager.GetUserCart(userId);
+        var cart = await _cartDataManager.GetUserCart(user);
         
         if (cart == null)
             return null;
@@ -44,16 +44,16 @@ public class CartManager
         return _mapper.Map<CartModel>(cart);
     }
     
-    public async Task<CartModel> CreateCart(CartModel cart)
+    public async Task<CartModel> CreateCart(CartModel cart, UserModel user)
     {
-        var createdCart = await _cartDataManager.CreateCart(cart);
+        var createdCart = await _cartDataManager.CreateCart(cart, user);
         
         return _mapper.Map<CartModel>(createdCart);
     }
 
-    public async Task<CartModel> UpdateCart(CartModel cart)
+    public async Task<CartModel> UpdateCart(CartModel cart, UserModel user)
     {
-        var updatedCart = await _cartDataManager.UpdateCart(cart);
+        var updatedCart = await _cartDataManager.UpdateCart(cart, user);
 
         return _mapper.Map<CartModel>(updatedCart);
     }

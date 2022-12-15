@@ -27,9 +27,6 @@ public class StatisticsController : ControllerBase
         {
             var products = await _statisticsManager.GetMostPopularProducts(amount);
 
-            if (!products.Any())
-                return NoContent();
-            
             return Ok(products);
         }
         catch (Exception)
@@ -47,9 +44,6 @@ public class StatisticsController : ControllerBase
         {
             var products = await _statisticsManager.GetMostDiscountedProducts(amount);
 
-            if (!products.Any())
-                return NoContent();
-            
             return Ok(products);
         }
         catch (Exception)

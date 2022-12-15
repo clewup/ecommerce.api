@@ -11,11 +11,13 @@ namespace ecommerce.api.Controllers;
 public class OrderController : ControllerBase
 {
     private readonly ILogger<OrderController> _logger;
+    private readonly ClaimsManager _claimsManager;
     private readonly OrderManager _orderManager;
 
-    public OrderController(ILogger<OrderController> logger, OrderManager orderManager)
+    public OrderController(ILogger<OrderController> logger, ClaimsManager claimsManager, OrderManager orderManager)
     {
         _logger = logger;
+        _claimsManager = claimsManager;
         _orderManager = orderManager;
     }
 
@@ -27,9 +29,6 @@ public class OrderController : ControllerBase
         {
             var orders = await _orderManager.GetOrders();
             
-            if (orders == null)
-                return NoContent();
-            
             return Ok(orders);
         }
         catch (Exception)
@@ -40,16 +39,14 @@ public class OrderController : ControllerBase
     }
     
     [HttpGet]
-    [Route("user/{userId}")]
     [Authorize(Policy = RoleType.User)]
+    [Route("user")]
     public async Task<IActionResult> GetUserOrders(Guid userId)
     {
         try
         {
-            var orders = await _orderManager.GetUserOrders(userId);
-
-            if (orders == null)
-                return NoContent();
+            var user = _claimsManager.GetUser(Request);
+            var orders = await _orderManager.GetUserOrders(user);
             
             return Ok(orders);
         }
@@ -92,12 +89,13 @@ public class OrderController : ControllerBase
                 return BadRequest(ModelState);
             }
             
-            var createdOrder = await _orderManager.CreateOrder(order);
+            var user = _claimsManager.GetUser(Request);
+            var createdOrder = await _orderManager.CreateOrder(order, user);
             return Created("order", createdOrder);
         }
         catch (Exception)
         {
-            _logger.LogCritical("OrderController.CreateOrder: Could not create order for user {OrderUserId}", order.UserId);
+            _logger.LogCritical("OrderController.CreateOrder: Could not create order");
             throw;
         }
     }
@@ -118,12 +116,14 @@ public class OrderController : ControllerBase
             if (existingOrder == null)
                 return NoContent();
             
-            var updatedOrder = await _orderManager.UpdateOrder(order);
+            var user = _claimsManager.GetUser(Request);
+            var updatedOrder = await _orderManager.UpdateOrder(order, user);
+            
             return Ok(updatedOrder);
         }
         catch (Exception)
         {
-            _logger.LogCritical("OrderController.UpdateOrder: Could not update order for user {OrderUserId}", order.UserId);
+            _logger.LogCritical("OrderController.UpdateOrder: Could not update order");
             throw;
         }
     }

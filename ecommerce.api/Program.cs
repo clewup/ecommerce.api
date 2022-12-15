@@ -99,6 +99,7 @@ builder.Services.AddTransient<UploadManager>();
 builder.Services.AddTransient<ImageDataManager>();    
 builder.Services.AddTransient<StatisticsManager>();    
 builder.Services.AddTransient<StatisticsDataManager>();    
+builder.Services.AddTransient<ClaimsManager>();    
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 var app = builder.Build();
