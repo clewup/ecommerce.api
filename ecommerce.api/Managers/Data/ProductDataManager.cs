@@ -46,6 +46,16 @@ public class ProductDataManager
         return products;
     }
     
+    public async Task<List<ProductEntity>> GetProducts(OrderEntity order)
+    {
+        var products = await _context.Products
+            .Include(p => p.Images)
+            .Where(p => order.Cart.Products
+                .Contains(p)).ToListAsync();
+
+        return products;
+    }
+    
     public async Task<List<string>> GetProductCategories()
     {
         var products = await _context.Products.ToListAsync();
@@ -109,6 +119,24 @@ public class ProductDataManager
         if (product != null)
         {
             _context.Products.Remove(product);
+            await _context.SaveChangesAsync();
+        }
+    }
+
+    public async Task UpdateProductStock(OrderEntity order)
+    {
+        var products = await GetProducts(order);
+
+        foreach (var product in products)
+        {
+            var existingProduct = await _context.Products
+                .FirstOrDefaultAsync(p => p.Id == product.Id);
+            
+            if (existingProduct == null)
+                throw new Exception($"Product {product.Id} could not be found");
+
+            existingProduct.Stock -= 1;
+
             await _context.SaveChangesAsync();
         }
     }
