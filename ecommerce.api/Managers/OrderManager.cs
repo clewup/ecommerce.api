@@ -1,3 +1,4 @@
+using System.Text.Json;
 using AutoMapper;
 using ecommerce.api.Classes;
 using ecommerce.api.Data;
@@ -49,8 +50,7 @@ public class OrderManager
 
         if (orderProducts.Any(op => op.Stock == 0))
         {
-            var unavailableProducts = orderProducts.FindAll(op => op.Stock == 0);
-            throw new Exception($"{unavailableProducts} are no longer in stock.");
+            throw new BadHttpRequestException("One or more products are unavailable.", 406);
         }
         
         var createdOrder = await _orderDataManager.CreateOrder(order, user);
@@ -66,8 +66,7 @@ public class OrderManager
 
         if (orderProducts.Any(op => op.Stock == 0))
         {
-            var unavailableProducts = orderProducts.FindAll(op => op.Stock == 0);
-            throw new Exception($"{unavailableProducts} are no longer in stock.");
+            throw new BadHttpRequestException("One or more products are unavailable.", 406);
         }
         
         var updatedOrder = await _orderDataManager.UpdateOrder(order, user);

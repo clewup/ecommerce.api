@@ -81,6 +81,9 @@ public class ProductDataManager
         mappedProduct.AddedDate = DateTime.UtcNow;
         mappedProduct.AddedBy = user.Email;
         
+        if (mappedProduct.Discount > 0)
+            mappedProduct.Price -= (mappedProduct.Price * mappedProduct.Discount / 100);
+        
         await _context.Products.AddAsync(mappedProduct);
         await _context.SaveChangesAsync();
         
