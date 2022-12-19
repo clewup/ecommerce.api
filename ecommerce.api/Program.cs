@@ -19,13 +19,14 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Database
+var connectionString = Environment.GetEnvironmentVariable("DATABASE_URL") ?? "";
 builder.Services.AddEntityFrameworkNpgsql().AddDbContext<EcommerceDbContext>(opt =>
-    opt.UseNpgsql(builder.Configuration.GetConnectionString("EcommerceConnection")));
+    opt.UseNpgsql(builder.Configuration.GetConnectionString(connectionString)));
 
 // Cloudinary
-var cloudName = builder.Configuration.GetValue<string>("CloudinaryConfig:CloudName");
-var apiKey = builder.Configuration.GetValue<string>("CloudinaryConfig:ApiKey");
-var apiSecret = builder.Configuration.GetValue<string>("CloudinaryConfig:ApiSecret");
+var cloudName = Environment.GetEnvironmentVariable("CLOUDINARY_NAME");
+var apiKey = Environment.GetEnvironmentVariable("CLOUDINARY_KEY");
+var apiSecret = Environment.GetEnvironmentVariable("CLOUDINARY_SECRET");
 
 if (new[] { cloudName, apiKey, apiSecret }.Any(string.IsNullOrWhiteSpace))
 {
@@ -58,9 +59,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
         ValidateIssuer = true,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
-        ValidIssuer = builder.Configuration["Jwt:Issuer"],
-        ValidAudience = builder.Configuration["Jwt:Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+        ValidIssuer = Environment.GetEnvironmentVariable("JWT_ISSUER"),
+        ValidAudience = Environment.GetEnvironmentVariable("JWT_AUDIENCE"),
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("JWT_KEY")!))
     };
 });
 builder.Services.AddAuthorization(options =>
