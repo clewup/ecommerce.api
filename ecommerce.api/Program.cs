@@ -1,4 +1,6 @@
+using System.Collections;
 using System.Text;
+using System.Text.RegularExpressions;
 using AutoMapper;
 using CloudinaryDotNet;
 using ecommerce.api.Data;
@@ -17,12 +19,17 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+foreach (DictionaryEntry de in Environment.GetEnvironmentVariables())
+    Console.WriteLine("  {0} = {1}", de.Key, de.Value);
 
 // Database
-var connectionString = Environment.GetEnvironmentVariable("DATABASE_URL") ?? "";
-builder.Services.AddEntityFrameworkNpgsql().AddDbContext<EcommerceDbContext>(opt =>
-    opt.UseNpgsql(builder.Configuration.GetConnectionString(connectionString)));
-
+builder.Services.AddEntityFrameworkNpgsql().AddDbContext<EcommerceDbContext>(options =>
+{
+    var m = Regex.Match(Environment.GetEnvironmentVariable("DATABASE_URL"), @"postgres://(.*):(.*)@(.*):(.*)/(.*)");
+    options.UseNpgsql(
+        $"Server={m.Groups[3]};Port={m.Groups[4]};User Id={m.Groups[1]};Password={m.Groups[2]};Database={m.Groups[5]};sslmode=Prefer;Trust Server Certificate=true");
+});
+    
 // Cloudinary
 var cloudName = Environment.GetEnvironmentVariable("CLOUDINARY_NAME");
 var apiKey = Environment.GetEnvironmentVariable("CLOUDINARY_KEY");
