@@ -19,13 +19,24 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-foreach (DictionaryEntry de in Environment.GetEnvironmentVariables())
-    Console.WriteLine("  {0} = {1}", de.Key, de.Value);
+
+var isDevelopment = builder.Environment.IsDevelopment();
+
+if (isDevelopment)
+{
+    // Local Connection Strings
+    builder.Configuration.AddJsonFile("appsettings.Local.json", optional: true, reloadOnChange: true);
+}
 
 // Database
+var connectionString = Environment.GetEnvironmentVariable("DATABASE_URL");
+                           
+if (isDevelopment)
+    connectionString = builder.Configuration.GetConnectionString("EcommerceConnection");
+
 builder.Services.AddEntityFrameworkNpgsql().AddDbContext<EcommerceDbContext>(options =>
 {
-    var m = Regex.Match(Environment.GetEnvironmentVariable("DATABASE_URL"), @"postgres://(.*):(.*)@(.*):(.*)/(.*)");
+    var m = Regex.Match(connectionString, @"postgres://(.*):(.*)@(.*):(.*)/(.*)");
     options.UseNpgsql(
         $"Server={m.Groups[3]};Port={m.Groups[4]};User Id={m.Groups[1]};Password={m.Groups[2]};Database={m.Groups[5]};sslmode=Prefer;Trust Server Certificate=true");
 });
@@ -35,9 +46,11 @@ var cloudName = Environment.GetEnvironmentVariable("CLOUDINARY_NAME");
 var apiKey = Environment.GetEnvironmentVariable("CLOUDINARY_KEY");
 var apiSecret = Environment.GetEnvironmentVariable("CLOUDINARY_SECRET");
 
-if (new[] { cloudName, apiKey, apiSecret }.Any(string.IsNullOrWhiteSpace))
+if (isDevelopment)
 {
-    throw new ArgumentException("Please specify Cloudinary account details!");
+    cloudName = builder.Configuration["Cloudinary:CloudName"];
+    apiKey = builder.Configuration["Cloudinary:ApiKey"];
+    apiSecret = builder.Configuration["Cloudinary:ApiSecret"];
 }
 
 builder.Services.AddSingleton(new Cloudinary(new Account(cloudName, apiKey, apiSecret)));
@@ -49,8 +62,6 @@ builder.Services.AddCors(options =>
         policy  =>
         {
             policy.WithOrigins(
-                    "http://localhost:3000",
-                    "https://localhost:3000",
                     "http://ecommerce.clewup.co.uk",
                     "https://ecommerce.clewup.co.uk")
                 .AllowAnyHeader()
@@ -58,7 +69,34 @@ builder.Services.AddCors(options =>
         });
 });
 
+if (isDevelopment)
+{
+    builder.Services.AddCors(options =>
+    {
+        options.AddPolicy(name: CorsPolicy,
+            policy  =>
+            {
+                policy.WithOrigins(
+                        "http://localhost:3000",
+                        "https://localhost:3000")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
+            });
+    });
+}
+
 // Jwt
+var jwtIssuer = Environment.GetEnvironmentVariable("JWT_ISSUER");
+var jwtAudience = Environment.GetEnvironmentVariable("JWT_AUDIENCE");
+var jwtKey = Environment.GetEnvironmentVariable("JWT_KEY");
+
+if (isDevelopment)
+{
+    jwtIssuer = builder.Configuration["Jwt:Issuer"];
+    jwtAudience = builder.Configuration["Jwt:Audience"];
+    jwtKey = builder.Configuration["Jwt:Key"];
+}
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {
     options.TokenValidationParameters = new TokenValidationParameters
@@ -66,9 +104,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
         ValidateIssuer = true,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
-        ValidIssuer = Environment.GetEnvironmentVariable("JWT_ISSUER"),
-        ValidAudience = Environment.GetEnvironmentVariable("JWT_AUDIENCE"),
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("JWT_KEY")!))
+        ValidIssuer = jwtIssuer,
+        ValidAudience = jwtAudience,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
     };
 });
 builder.Services.AddAuthorization(options =>

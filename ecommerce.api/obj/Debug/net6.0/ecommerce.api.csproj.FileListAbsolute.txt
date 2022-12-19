@@ -59,3 +59,4 @@
 /Users/clew/Documents/repos/ecommerce.api/ecommerce.api/bin/Debug/net6.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 /Users/clew/Documents/repos/ecommerce.api/ecommerce.api/bin/Debug/net6.0/Microsoft.IdentityModel.Tokens.dll
 /Users/clew/Documents/repos/ecommerce.api/ecommerce.api/bin/Debug/net6.0/System.IdentityModel.Tokens.Jwt.dll
+/Users/clew/Documents/repos/ecommerce.api/ecommerce.api/bin/Debug/net6.0/appsettings.Local.json
