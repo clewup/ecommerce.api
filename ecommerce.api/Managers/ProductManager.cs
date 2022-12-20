@@ -24,6 +24,13 @@ public class ProductManager
         return _mapper.Map<List<ProductModel>>(products);;
     }
     
+    public async Task<List<ProductModel>> GetProductsBySearchCriteria(SearchCriteriaModel searchCriteria)
+    {
+        var products = await _productDataManager.GetProductsBySearchCriteria(searchCriteria);
+
+        return _mapper.Map<List<ProductModel>>(products);;
+    }
+    
     public async Task<List<string>> GetProductCategories()
     {
         var categories = await _productDataManager.GetProductCategories();

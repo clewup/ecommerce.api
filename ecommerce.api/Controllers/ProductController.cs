@@ -38,6 +38,26 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet]
+    [Route("search")]
+    public async Task<IActionResult> GetProductsBySearchCriteria([FromQuery] SearchCriteriaModel searchCriteria)
+    {
+        try
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var products = await _productManager.GetProductsBySearchCriteria(searchCriteria);
+            
+            return Ok(products);
+        }
+        catch (Exception)
+        {
+            _logger.LogCritical("ProductController.GetProductsBySearchCriteria: Could not retrieve products by criteria");
+            throw;
+        }
+    }
+
+    [HttpGet]
     [Route("{id}")]
     public async Task<IActionResult> GetProduct(Guid id)
     {

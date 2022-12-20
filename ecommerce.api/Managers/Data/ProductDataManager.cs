@@ -2,6 +2,7 @@ using AutoMapper;
 using ecommerce.api.Classes;
 using ecommerce.api.Data;
 using ecommerce.api.Entities;
+using ecommerce.api.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
 namespace ecommerce.api.Managers.Data;
@@ -22,6 +23,84 @@ public class ProductDataManager
         var products = await _context.Products
             .Include(p => p.Images)
             .ToListAsync();
+
+        return products;
+    }
+    
+    public async Task<List<ProductEntity>> GetProductsBySearchCriteria(SearchCriteriaModel searchCriteria)
+    {
+        var searchTerm = !string.IsNullOrWhiteSpace(searchCriteria.SearchTerm) 
+            ? searchCriteria.SearchTerm.Replace("-", " ")
+            : null;
+        var category = !string.IsNullOrWhiteSpace(searchCriteria.Category) 
+            ? searchCriteria.Category.Replace("-", " ")
+            : null;
+        var inStock = !string.IsNullOrWhiteSpace(searchCriteria.InStock) 
+            ? searchCriteria.InStock 
+            : null;
+        var onSale = !string.IsNullOrWhiteSpace(searchCriteria.OnSale) 
+            ? searchCriteria.OnSale 
+            : null;
+        var minPrice = !string.IsNullOrWhiteSpace(searchCriteria.MinPrice) 
+            ? searchCriteria.MinPrice 
+            : null;
+        var maxPrice = !string.IsNullOrWhiteSpace(searchCriteria.MaxPrice) 
+            ? searchCriteria.MaxPrice 
+            : null;
+        var sortBy = !string.IsNullOrWhiteSpace(searchCriteria.SortBy) 
+            ? searchCriteria.SortBy 
+            : null;
+        var sortVariation = !string.IsNullOrWhiteSpace(searchCriteria.SortVariation) 
+            ? searchCriteria.SortVariation 
+            : null;
+        
+        var products = await _context.Products
+            .Include(p => p.Images)
+            .ToListAsync();
+
+        if (searchTerm != null)
+            products = products.Where(p => p.Name.Contains(searchTerm)).ToList();
+        
+        if (category != null)
+            products = products.Where(p => p.Category == category).ToList();
+        
+        if (inStock != null)
+        {
+            if (bool.Parse(inStock) == true)
+                products = products.Where(p => p.Stock > 0).ToList();
+            if (bool.Parse(inStock) == false)
+                products = products.Where(p => p.Stock == 0).ToList();
+        }
+        
+        if (onSale != null)
+        {
+            if (bool.Parse(onSale) == true)
+                products = products.Where(p => p.Discount > 0).ToList();
+        }
+
+        if (minPrice != null && maxPrice != null)
+        {
+            products = products.Where(p => p.Price >= int.Parse(minPrice) 
+                                           && p.Price <= int.Parse(maxPrice)).ToList();
+        }
+
+        if (sortBy != null && sortVariation != null)
+        {
+            if (sortVariation == SortVariationType.Ascending)
+            {
+                if (sortBy == SortByType.Price)
+                    products = products.OrderBy(p => p.Price).ToList();
+            }
+
+            if (sortVariation == SortVariationType.Descending)
+            {
+                if (sortBy == SortByType.Price)
+                    products = products.OrderByDescending(p => p.Price).ToList();
+            }
+        }
+
+        products = products.Skip((searchCriteria.PageNumber - 1) * searchCriteria.PageSize)
+            .Take(searchCriteria.PageSize).ToList();
 
         return products;
     }
