@@ -99,9 +99,6 @@ public class ProductDataManager
             }
         }
 
-        products = products.Skip((searchCriteria.PageNumber - 1) * searchCriteria.PageSize)
-            .Take(searchCriteria.PageSize).ToList();
-
         return products;
     }
     
