@@ -146,6 +146,15 @@ public class ProductDataManager
 
         return categories;
     }
+    
+    public async Task<List<string>> GetProductRanges()
+    {
+        var products = await _context.Products.ToListAsync();
+
+        var ranges = products.Select(p => p.Range).Distinct().ToList();
+
+        return ranges;
+    }
 
     public async Task<ProductEntity?> GetProduct(Guid id)
     {

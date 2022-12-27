@@ -36,6 +36,12 @@ public class ProductManager
         var categories = await _productDataManager.GetProductCategories();
         return categories;
     }
+    
+    public async Task<List<string>> GetProductRanges()
+    {
+        var ranges = await _productDataManager.GetProductRanges();
+        return ranges;
+    }
 
     public async Task<ProductModel?> GetProduct(Guid id)
     {

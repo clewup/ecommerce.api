@@ -91,6 +91,23 @@ public class ProductController : ControllerBase
         }
     }
     
+    [HttpGet]
+    [Route("ranges")]
+    public async Task<IActionResult> GetProductRanges()
+    {
+        try
+        {
+            var ranges = await _productManager.GetProductRanges();
+            
+            return Ok(ranges);
+        }
+        catch (Exception)
+        {
+            _logger.LogCritical($"ProductController.GetProductRanges: Could not retrieve product ranges");
+            throw;
+        }
+    }
+    
     [Authorize]
     [HttpPost]
     [Authorize(Policy = RoleType.Employee)]
