@@ -35,6 +35,9 @@ public class ProductDataManager
         var category = !string.IsNullOrWhiteSpace(searchCriteria.Category) 
             ? searchCriteria.Category.Replace("-", " ")
             : null;
+        var range = !string.IsNullOrWhiteSpace(searchCriteria.Range)
+            ? searchCriteria.Range
+            : null;
         var inStock = !string.IsNullOrWhiteSpace(searchCriteria.InStock) 
             ? searchCriteria.InStock 
             : null;
@@ -63,6 +66,9 @@ public class ProductDataManager
         
         if (category != null)
             products = products.Where(p => p.Category == category).ToList();
+
+        if (range != null)
+            products = products.Where(p => p.Range == range).ToList();
         
         if (inStock != null)
         {
@@ -178,6 +184,7 @@ public class ProductDataManager
         existingProduct.Images = images;
         existingProduct.Description = product.Description;
         existingProduct.Category = product.Category;
+        existingProduct.Range = product.Range;
         existingProduct.Color = product.Color;
         existingProduct.Stock = product.Stock;
         existingProduct.Price = product.Price;
