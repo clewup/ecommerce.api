@@ -90,7 +90,7 @@ public class CartDataManager : ICartDataManager
         return existingCart;
     }
 
-    private double CalculateCartTotal(CartModel cart)
+    public double CalculateCartTotal(CartModel cart)
     {
         double calculatedTotal = 0;
         foreach (var product in cart.Products)
