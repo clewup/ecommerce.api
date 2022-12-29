@@ -1,6 +1,7 @@
 using ecommerce.api.Classes;
 using ecommerce.api.Infrastructure;
 using ecommerce.api.Managers;
+using ecommerce.api.Managers.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,10 +12,10 @@ namespace ecommerce.api.Controllers;
 public class ProductController : ControllerBase
 {
     private readonly ILogger<ProductController> _logger;
-    private readonly ClaimsManager _claimsManager;
-    private readonly ProductManager _productManager;
+    private readonly IClaimsManager _claimsManager;
+    private readonly IProductManager _productManager;
 
-    public ProductController(ILogger<ProductController> logger, ClaimsManager claimsManager, ProductManager productManager)
+    public ProductController(ILogger<ProductController> logger, IClaimsManager claimsManager, IProductManager productManager)
     {
         _logger = logger;
         _claimsManager = claimsManager;

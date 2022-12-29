@@ -1,10 +1,11 @@
 using System.Security.Claims;
 using ecommerce.api.Classes;
 using ecommerce.api.Infrastructure;
+using ecommerce.api.Managers.Contracts;
 
 namespace ecommerce.api.Managers;
 
-public class ClaimsManager
+public class ClaimsManager : IClaimsManager
 {
     public UserModel GetUser(HttpRequest request)
     {

@@ -1,6 +1,7 @@
 using ecommerce.api.Classes;
 using ecommerce.api.Infrastructure;
 using ecommerce.api.Managers;
+using ecommerce.api.Managers.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,9 +12,9 @@ namespace ecommerce.api.Controllers;
 public class StatisticsController : ControllerBase
 {
     private readonly ILogger<StatisticsController> _logger;
-    private readonly StatisticsManager _statisticsManager;
+    private readonly IStatisticsManager _statisticsManager;
 
-    public StatisticsController(ILogger<StatisticsController> logger, StatisticsManager statisticsManager)
+    public StatisticsController(ILogger<StatisticsController> logger, IStatisticsManager statisticsManager)
     {
         _logger = logger;
         _statisticsManager = statisticsManager;

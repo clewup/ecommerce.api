@@ -1,6 +1,7 @@
 using ecommerce.api.Classes;
 using ecommerce.api.Infrastructure;
 using ecommerce.api.Managers;
+using ecommerce.api.Managers.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,10 +13,10 @@ namespace ecommerce.api.Controllers;
 public class CartController : ControllerBase
 {
     private readonly ILogger<CartController> _logger;
-    private readonly ClaimsManager _claimsManager;
-    private readonly CartManager _cartManager;
+    private readonly IClaimsManager _claimsManager;
+    private readonly ICartManager _cartManager;
 
-    public CartController(ILogger<CartController> logger, ClaimsManager claimsManager, CartManager cartManager)
+    public CartController(ILogger<CartController> logger, IClaimsManager claimsManager, ICartManager cartManager)
     {
         _logger = logger;
         _claimsManager = claimsManager;

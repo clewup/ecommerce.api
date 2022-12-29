@@ -1,6 +1,7 @@
 using ecommerce.api.Classes;
 using ecommerce.api.Infrastructure;
 using ecommerce.api.Managers;
+using ecommerce.api.Managers.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,10 +12,10 @@ namespace ecommerce.api.Controllers;
 public class OrderController : ControllerBase
 {
     private readonly ILogger<OrderController> _logger;
-    private readonly ClaimsManager _claimsManager;
-    private readonly OrderManager _orderManager;
+    private readonly IClaimsManager _claimsManager;
+    private readonly IOrderManager _orderManager;
 
-    public OrderController(ILogger<OrderController> logger, ClaimsManager claimsManager, OrderManager orderManager)
+    public OrderController(ILogger<OrderController> logger, IClaimsManager claimsManager, IOrderManager orderManager)
     {
         _logger = logger;
         _claimsManager = claimsManager;

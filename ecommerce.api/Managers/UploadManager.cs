@@ -1,10 +1,11 @@
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 using ecommerce.api.Classes;
+using ecommerce.api.Managers.Contracts;
 
 namespace ecommerce.api.Managers;
 
-public class UploadManager
+public class UploadManager : IUploadManager
 {
     private readonly Cloudinary _cloudinary;
 

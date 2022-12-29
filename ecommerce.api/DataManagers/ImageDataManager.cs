@@ -1,11 +1,12 @@
 using ecommerce.api.Classes;
 using ecommerce.api.Data;
+using ecommerce.api.DataManagers.Contracts;
 using ecommerce.api.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace ecommerce.api.Managers.Data;
+namespace ecommerce.api.DataManagers;
 
-public class ImageDataManager
+public class ImageDataManager : IImageDataManager
 {
     private readonly EcommerceDbContext _context;
 

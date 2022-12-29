@@ -1,15 +1,17 @@
 using AutoMapper;
 using ecommerce.api.Classes;
-using ecommerce.api.Managers.Data;
+using ecommerce.api.DataManagers;
+using ecommerce.api.DataManagers.Contracts;
+using ecommerce.api.Managers.Contracts;
 
 namespace ecommerce.api.Managers;
 
-public class CartManager
+public class CartManager : ICartManager
 {
-    private readonly CartDataManager _cartDataManager;
+    private readonly ICartDataManager _cartDataManager;
     private readonly IMapper _mapper;
 
-    public CartManager(IMapper mapper, CartDataManager cartDataManager)
+    public CartManager(IMapper mapper, ICartDataManager cartDataManager)
     {
         _mapper = mapper;
         _cartDataManager = cartDataManager;

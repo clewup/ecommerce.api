@@ -1,16 +1,18 @@
 using AutoMapper;
 using ecommerce.api.Classes;
-using ecommerce.api.Managers.Data;
+using ecommerce.api.DataManagers;
+using ecommerce.api.DataManagers.Contracts;
+using ecommerce.api.Managers.Contracts;
 
 namespace ecommerce.api.Managers;
 
-public class ProductManager
+public class ProductManager : IProductManager
 {
-    private readonly ProductDataManager _productDataManager;
-    private readonly ImageDataManager _imageDataManager;
+    private readonly IProductDataManager _productDataManager;
+    private readonly IImageDataManager _imageDataManager;
     private readonly IMapper _mapper;
 
-    public ProductManager(IMapper mapper, ProductDataManager productDataManager, ImageDataManager imageDataManager)
+    public ProductManager(IMapper mapper, IProductDataManager productDataManager, IImageDataManager imageDataManager)
     {
         _mapper = mapper;
         _productDataManager = productDataManager;

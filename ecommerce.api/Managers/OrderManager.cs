@@ -1,21 +1,19 @@
-using System.Text.Json;
 using AutoMapper;
 using ecommerce.api.Classes;
-using ecommerce.api.Data;
+using ecommerce.api.DataManagers;
+using ecommerce.api.DataManagers.Contracts;
 using ecommerce.api.Entities;
-using ecommerce.api.Managers.Data;
-using ecommerce.api.Services.Mappers;
-using Microsoft.EntityFrameworkCore;
+using ecommerce.api.Managers.Contracts;
 
 namespace ecommerce.api.Managers;
 
-public class OrderManager
+public class OrderManager : IOrderManager
 {
     private readonly IMapper _mapper;
-    private readonly OrderDataManager _orderDataManager;
-    private readonly ProductDataManager _productDataManager;
+    private readonly IOrderDataManager _orderDataManager;
+    private readonly IProductDataManager _productDataManager;
 
-    public OrderManager(IMapper mapper, OrderDataManager orderDataManager, ProductDataManager productDataManager)
+    public OrderManager(IMapper mapper, IOrderDataManager orderDataManager, IProductDataManager productDataManager)
     {
         _mapper = mapper;
         _orderDataManager = orderDataManager;

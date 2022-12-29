@@ -1,13 +1,14 @@
 using AutoMapper;
 using ecommerce.api.Classes;
 using ecommerce.api.Data;
+using ecommerce.api.DataManagers.Contracts;
 using ecommerce.api.Entities;
 using ecommerce.api.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
-namespace ecommerce.api.Managers.Data;
+namespace ecommerce.api.DataManagers;
 
-public class ProductDataManager
+public class ProductDataManager : IProductDataManager
 {
     private readonly EcommerceDbContext _context;
     private readonly IMapper _mapper;

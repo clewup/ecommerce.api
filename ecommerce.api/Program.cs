@@ -4,10 +4,12 @@ using System.Text.RegularExpressions;
 using AutoMapper;
 using CloudinaryDotNet;
 using ecommerce.api.Data;
+using ecommerce.api.DataManagers;
+using ecommerce.api.DataManagers.Contracts;
 using ecommerce.api.Infrastructure;
 using ecommerce.api.Managers;
-using ecommerce.api.Managers.Data;
-using ecommerce.api.Services.Mappers;
+using ecommerce.api.Managers.Contracts;
+using ecommerce.api.Mappers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -120,18 +122,20 @@ IMapper mapper = mapperConfig.CreateMapper();
 builder.Services.AddSingleton(mapper);
 
 // Managers
-builder.Services.AddTransient<AuthManager>();
-builder.Services.AddTransient<ProductManager>();
-builder.Services.AddTransient<ProductDataManager>();
-builder.Services.AddTransient<CartManager>();
-builder.Services.AddTransient<CartDataManager>();
-builder.Services.AddTransient<OrderManager>();
-builder.Services.AddTransient<OrderDataManager>();
-builder.Services.AddTransient<UploadManager>();
-builder.Services.AddTransient<ImageDataManager>();    
-builder.Services.AddTransient<StatisticsManager>();    
-builder.Services.AddTransient<StatisticsDataManager>();    
-builder.Services.AddTransient<ClaimsManager>();    
+builder.Services.AddTransient<IAuthManager, AuthManager>();
+builder.Services.AddTransient<IProductManager, ProductManager>();
+builder.Services.AddTransient<ICartManager, CartManager>();
+builder.Services.AddTransient<IOrderManager, OrderManager>();
+builder.Services.AddTransient<IUploadManager, UploadManager>();
+builder.Services.AddTransient<IStatisticsManager, StatisticsManager>();    
+builder.Services.AddTransient<IClaimsManager, ClaimsManager>();    
+
+// Data Managers
+builder.Services.AddTransient<IProductDataManager, ProductDataManager>();
+builder.Services.AddTransient<ICartDataManager, CartDataManager>();
+builder.Services.AddTransient<IOrderDataManager, OrderDataManager>();
+builder.Services.AddTransient<IImageDataManager, ImageDataManager>(); 
+builder.Services.AddTransient<IStatisticsDataManager, StatisticsDataManager>();    
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 var app = builder.Build();

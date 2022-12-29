@@ -1,6 +1,7 @@
 using ecommerce.api.Classes;
 using ecommerce.api.Infrastructure;
 using ecommerce.api.Managers;
+using ecommerce.api.Managers.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,9 +13,9 @@ namespace ecommerce.api.Controllers;
 public class UploadController : ControllerBase
 {
     private readonly ILogger<UploadController> _logger;
-    private readonly UploadManager _uploadManager;
+    private readonly IUploadManager _uploadManager;
 
-    public UploadController(ILogger<UploadController> logger, UploadManager uploadManager)
+    public UploadController(ILogger<UploadController> logger, IUploadManager uploadManager)
     {
         _logger = logger;
         _uploadManager = uploadManager;

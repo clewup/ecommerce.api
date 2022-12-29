@@ -1,19 +1,20 @@
 using AutoMapper;
 using ecommerce.api.Classes;
 using ecommerce.api.Data;
+using ecommerce.api.DataManagers.Contracts;
 using ecommerce.api.Entities;
 using ecommerce.api.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
-namespace ecommerce.api.Managers.Data;
+namespace ecommerce.api.DataManagers;
 
-public class CartDataManager
+public class CartDataManager : ICartDataManager
 {
     private readonly EcommerceDbContext _context;
     private readonly IMapper _mapper;
-    private readonly ProductDataManager _productDataManager;
+    private readonly IProductDataManager _productDataManager;
 
-    public CartDataManager(IMapper mapper, EcommerceDbContext context, ProductDataManager productDataManager)
+    public CartDataManager(IMapper mapper, EcommerceDbContext context, IProductDataManager productDataManager)
     {
         _mapper = mapper;
         _context = context;

@@ -1,14 +1,14 @@
 using ecommerce.api.Classes;
+using ecommerce.api.Managers.Contracts;
 
 namespace ecommerce.api.Managers;
 
-public class AuthManager
+public class AuthManager : IAuthManager
 {
     public AuthManager()
     {
     }
 
-    // TODO: Implement call to the Auth API.
     public async Task<UserModel> GetUser(Guid userId)
     {
         return null;
