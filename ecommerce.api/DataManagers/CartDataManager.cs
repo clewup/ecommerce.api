@@ -97,6 +97,6 @@ public class CartDataManager : ICartDataManager
         {
             calculatedTotal += product.Price;
         }
-        return calculatedTotal;
+        return Math.Round(calculatedTotal, 2, MidpointRounding.ToEven);;
     }
 }

@@ -16,7 +16,6 @@ public class ProductEntity : BaseEntity
     public double Discount { get; set; }
     
     public ICollection<ImageEntity> Images { get; set; }
-    
     public ICollection<CartEntity> Carts { get; set; }
     public List<CartProductEntity> CartProducts { get; set; }
 

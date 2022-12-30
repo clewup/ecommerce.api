@@ -174,7 +174,9 @@ public class ProductDataManager : IProductDataManager
         mappedProduct.AddedBy = user.Email;
         
         if (mappedProduct.Discount > 0)
-            mappedProduct.Price -= (mappedProduct.Price * mappedProduct.Discount / 100);
+            mappedProduct.Price -= mappedProduct.Price * mappedProduct.Discount / 100;
+        
+        mappedProduct.Price = Math.Round(mappedProduct.Price, 2, MidpointRounding.ToEven);
         
         await _context.Products.AddAsync(mappedProduct);
         await _context.SaveChangesAsync();
@@ -197,7 +199,7 @@ public class ProductDataManager : IProductDataManager
         existingProduct.Range = product.Range;
         existingProduct.Color = product.Color;
         existingProduct.Stock = product.Stock;
-        existingProduct.Price = product.Price;
+        existingProduct.Price = Math.Round(product.Price, 2, MidpointRounding.ToEven);
         existingProduct.Discount = product.Discount;
         
         existingProduct.UpdatedDate = DateTime.UtcNow;

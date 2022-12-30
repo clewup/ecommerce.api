@@ -122,7 +122,6 @@ IMapper mapper = mapperConfig.CreateMapper();
 builder.Services.AddSingleton(mapper);
 
 // Managers
-builder.Services.AddTransient<IAuthManager, AuthManager>();
 builder.Services.AddTransient<IProductManager, ProductManager>();
 builder.Services.AddTransient<ICartManager, CartManager>();
 builder.Services.AddTransient<IOrderManager, OrderManager>();
