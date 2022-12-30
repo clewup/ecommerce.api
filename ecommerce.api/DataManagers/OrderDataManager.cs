@@ -57,18 +57,18 @@ public class OrderDataManager : IOrderDataManager
     {
         var mappedOrder = _mapper.Map<OrderEntity>(order);
         
-        var exitingCart = await _context.Carts
+        var existingCart = await _context.Carts
             .Include(c => c.Products)
             .ThenInclude(p => p.Images)
             .FirstOrDefaultAsync(c => c.Id == order.Cart.Id);
         
-        mappedOrder.Cart = exitingCart;
+        mappedOrder.Cart = existingCart;
         mappedOrder.AddedDate = DateTime.UtcNow;
         mappedOrder.AddedBy = user.Email;
         
         await _context.Orders.AddAsync(mappedOrder);
         
-        exitingCart.Status = StatusType.Inactive;
+        existingCart.Status = StatusType.Inactive;
         
         await _context.SaveChangesAsync();
         

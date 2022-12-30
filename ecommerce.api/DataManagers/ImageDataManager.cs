@@ -18,7 +18,7 @@ public class ImageDataManager : IImageDataManager
     public async Task<List<ImageEntity>> GetImages(Guid productId)
     {
         var images = await _context.Images
-            .Where(i => i.Product.Id == productId)
+            .Where(i => i.ProductId == productId)
             .ToListAsync();
 
         return images;
