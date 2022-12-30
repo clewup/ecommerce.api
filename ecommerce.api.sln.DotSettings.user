@@ -5,7 +5,7 @@
     &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.DataManagers.CartDataManagerTests.CartDataManager_GetCarts_Successful&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=4a8ebad0_002D30bf_002D41cf_002Dbc0b_002D3fd101b7430f/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="CartDataManager_GetCarts_Successful #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=4a8ebad0_002D30bf_002D41cf_002Dbc0b_002D3fd101b7430f/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="CartDataManager_GetCarts_Successful #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;TestAncestor&gt;
     &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.DataManagers.CartDataManagerTests&lt;/TestId&gt;
     &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.DataManagers.ImageDataManagerTests.ImageDataManager_GetImages_Successful&lt;/TestId&gt;
@@ -47,5 +47,47 @@
     &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Managers.ProductManagerTests&lt;/TestId&gt;
     &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Managers.StatisticsManagerTests.StatisticsManager_GetMostPopularProducts_Successful&lt;/TestId&gt;
     &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Managers.StatisticsManagerTests&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Controllers.CartControllerTests.CartController_GetCart_Successful&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Controllers.CartControllerTests.CartController_GetCart_Unsuccessful&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Controllers.CartControllerTests.CartController_GetUserCart_Successful&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Controllers.CartControllerTests.CartController_GetUserCart_Unsuccessful&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Controllers.CartControllerTests.CartController_CreateCart_Successful&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Controllers.CartControllerTests.CartController_CreateCart_Unsuccessful&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Controllers.CartControllerTests.CartController_UpdateCart_Successful&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Controllers.CartControllerTests.CartController_UpdateCart_Unsuccessful&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Controllers.CartControllerTests&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Controllers.OrderControllerTests.OrderController_GetOrders_Successful&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Controllers.OrderControllerTests.OrderController_GetUserOrders_Successful&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Controllers.OrderControllerTests.OrderController_GetOrder_Successful&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Controllers.OrderControllerTests.OrderController_GetOrder_Unsuccessful&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Controllers.OrderControllerTests.OrderController_CreateOrder_Successful&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Controllers.OrderControllerTests.OrderController_UpdateOrder_Successful&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Controllers.OrderControllerTests.OrderController_CreateOrder_Unsuccessful&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Controllers.OrderControllerTests.OrderController_UpdateOrder_ModelState_Unsuccessful&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Controllers.OrderControllerTests.OrderController_UpdateOrder_NonExisting_Unsuccessful&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Controllers.ProductControllerTests.ProductController_GetProducts_Successful&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=55cdefcb_002D4382_002D40ca_002Db782_002D74bb7ca5eb2d/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="OrderController_GetOrders_Successful" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Controllers.OrderControllerTests.OrderController_GetOrders_Successful&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=7920b4b1_002Db4d0_002D421c_002Dbdfb_002D3e7ee02c5052/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="ProductController_GetProducts_Successful" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Controllers.ProductControllerTests.ProductController_GetProducts_Successful&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Controllers.ProductControllerTests.ProductController_GetProductsBySearchCritiera_Successful&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Controllers.ProductControllerTests.ProductController_GetProductsBySearchCriteria_Unsuccessful&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Controllers.ProductControllerTests.ProductController_GetProduct_Successful&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Controllers.ProductControllerTests.ProductController_GetProduct_Unsuccessful&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Controllers.ProductControllerTests.ProductController_GetProductCategories_Successful&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Controllers.ProductControllerTests.ProductController_GetProductRanges_Successful&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Controllers.ProductControllerTests.ProductController_CreateProduct_Successful&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Controllers.ProductControllerTests.ProductController_UpdateProduct_Successful&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Controllers.ProductControllerTests.ProductController_CreateProduct_NonExisting_Unsuccessful&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Controllers.ProductControllerTests.ProductController_CreateProduct_Unsuccessful&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Controllers.ProductControllerTests.ProductController_UpdateProduct_ModelState_Unsuccessful&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Controllers.StatisticsControllerTests&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Controllers.UploadControllerTests.UploadController_UploadImage_Successful&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

@@ -65,6 +65,9 @@ public class ProductController : ControllerBase
         try
         {
             var product = await _productManager.GetProduct(id);
+
+            if (product == null)
+                return NoContent();
             
             return Ok(product);
         }
