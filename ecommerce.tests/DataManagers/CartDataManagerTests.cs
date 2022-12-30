@@ -14,7 +14,7 @@ namespace ecommerce.tests.DataManagers;
 public class CartDataManagerTests
 {
     DbContextOptions<EcommerceDbContext> options = new DbContextOptionsBuilder<EcommerceDbContext>()
-        .UseInMemoryDatabase(databaseName: "EcommerceDb")
+        .UseInMemoryDatabase(databaseName: "CartDataManagerTests")
         .Options;
     
     public CartDataManagerTests()

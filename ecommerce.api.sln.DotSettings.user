@@ -34,5 +34,6 @@
     &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.DataManagers.ProductDataManagerTests.ProductDataManager_DeleteProduct_Successful&lt;/TestId&gt;
     &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.DataManagers.ProductDataManagerTests.ProductDataManager_UpdateProductStock_Successful&lt;/TestId&gt;
     &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.DataManagers.ProductDataManagerTests&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.DataManagers.StatisticsDataManagerTests.StatisticsDataManager_GetCartProducts_Successful&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

@@ -10,7 +10,7 @@ namespace ecommerce.tests.DataManagers;
 public class ImageDataManagerTests
 {
     DbContextOptions<EcommerceDbContext> options = new DbContextOptionsBuilder<EcommerceDbContext>()
-        .UseInMemoryDatabase(databaseName: "EcommerceDb")
+        .UseInMemoryDatabase(databaseName: "ImageDataManagerTests")
         .Options;
 
     public ImageDataManagerTests()

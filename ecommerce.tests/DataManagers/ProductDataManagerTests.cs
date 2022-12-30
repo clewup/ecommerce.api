@@ -12,7 +12,7 @@ namespace ecommerce.tests.DataManagers;
 public class ProductDataManagerTests
 {
     DbContextOptions<EcommerceDbContext> options = new DbContextOptionsBuilder<EcommerceDbContext>()
-        .UseInMemoryDatabase(databaseName: "EcommerceDb")
+        .UseInMemoryDatabase(databaseName: "ProductDataManagerTests")
         .Options;
 
     public ProductDataManagerTests()

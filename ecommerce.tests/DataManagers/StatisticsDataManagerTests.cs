@@ -8,7 +8,7 @@ namespace ecommerce.tests.DataManagers;
 public class StatisticsDataManagerTests
 {
     DbContextOptions<EcommerceDbContext> options = new DbContextOptionsBuilder<EcommerceDbContext>()
-        .UseInMemoryDatabase(databaseName: "EcommerceDb")
+        .UseInMemoryDatabase(databaseName: "StatisticsDataManagerTests")
         .Options;
 
     public StatisticsDataManagerTests()

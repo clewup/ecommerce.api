@@ -12,7 +12,7 @@ namespace ecommerce.tests.DataManagers;
 public class OrderDataManagerTests
 {
     DbContextOptions<EcommerceDbContext> options = new DbContextOptionsBuilder<EcommerceDbContext>()
-        .UseInMemoryDatabase(databaseName: "EcommerceDb")
+        .UseInMemoryDatabase(databaseName: "OrderDataManagerTests")
         .EnableSensitiveDataLogging()
         .Options;
     
