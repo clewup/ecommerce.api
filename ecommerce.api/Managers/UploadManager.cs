@@ -16,7 +16,6 @@ public class UploadManager : IUploadManager
 
     public async Task<ImageModel> UploadImage(IFormFile image)
     {
-
         using (var stream = new MemoryStream())
         {
             await image.CopyToAsync(stream);

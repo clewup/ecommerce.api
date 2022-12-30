@@ -35,5 +35,17 @@
     &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.DataManagers.ProductDataManagerTests.ProductDataManager_UpdateProductStock_Successful&lt;/TestId&gt;
     &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.DataManagers.ProductDataManagerTests&lt;/TestId&gt;
     &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.DataManagers.StatisticsDataManagerTests.StatisticsDataManager_GetCartProducts_Successful&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Managers.CartManagerTests.CartManager_GetCarts_Successful&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Managers.CartManagerTests.CartManager_GetCart_Successful&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Managers.CartManagerTests.CartManager_GetUserCart_Successful&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Managers.CartManagerTests.CartManager_CreateCart_Successful&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Managers.CartManagerTests.CartManager_UpdateCart_Successful&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Managers.OrderManagerTests.OrderManager_GetOrders_Successful&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Managers.OrderManagerTests.OrderManager_GetUserOrders_Successful&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Managers.OrderManagerTests&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Managers.ProductManagerTests.ProductManager_GetProducts_Successful&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Managers.ProductManagerTests&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Managers.StatisticsManagerTests.StatisticsManager_GetMostPopularProducts_Successful&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Managers.StatisticsManagerTests&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
