@@ -1,7 +1,7 @@
-using ecommerce.api.Classes;
 using ecommerce.api.Controllers;
 using ecommerce.api.Infrastructure;
 using ecommerce.api.Managers.Contracts;
+using ecommerce.api.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;

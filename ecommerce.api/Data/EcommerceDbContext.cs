@@ -7,26 +7,33 @@ public class EcommerceDbContext : DbContext
 {
     public EcommerceDbContext(DbContextOptions<EcommerceDbContext> options):base(options) {  }
     
-    public virtual DbSet<CartEntity> Carts { get; set; }
     public virtual DbSet<OrderEntity> Orders { get; set; }
+    public virtual DbSet<CartEntity> Carts { get; set; }
     public virtual DbSet<ProductEntity> Products { get; set; }
     public virtual DbSet<ImageEntity> Images { get; set; }
     
+    public virtual DbSet<OrderProductEntity> OrderProducts { get; set; }
     public virtual DbSet<CartProductEntity> CartProducts { get; set; }
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<OrderEntity>()
-            .HasOne(o => o.Cart)
-            .WithOne(c => c.Order)
-            .HasForeignKey<OrderEntity>(o => o.CartId)
-            .IsRequired();
-
-        modelBuilder.Entity<CartEntity>()
-            .HasOne(c => c.Order)
-            .WithOne(o => o.Cart)
-            .HasForeignKey<OrderEntity>(o => o.CartId)
-            .IsRequired(false);
+            .HasMany(o => o.Products)
+            .WithMany(p => p.Orders)
+            .UsingEntity<OrderProductEntity>(
+                j => j
+                    .HasOne(op => op.Product)
+                    .WithMany(p => p.OrderProducts)
+                    .HasForeignKey(cp => cp.ProductId),
+                j => j
+                    .HasOne(op => op.Order)
+                    .WithMany(o => o.OrderProducts)
+                    .HasForeignKey(op => op.OrderId),
+                j =>
+                {
+                    j.ToTable("OrderProducts");
+                    j.HasKey(op => new { op.OrderId, op.ProductId });
+                });
 
         modelBuilder.Entity<CartEntity>()
             .HasMany(c => c.Products)
@@ -43,7 +50,6 @@ public class EcommerceDbContext : DbContext
                 j =>
                 {
                     j.ToTable("CartProducts");
-                    j.Property(cp => cp.DateAdded).HasDefaultValueSql("CURRENT_TIMESTAMP");
                     j.HasKey(cp => new { cp.CartId, cp.ProductId });
                 });
 

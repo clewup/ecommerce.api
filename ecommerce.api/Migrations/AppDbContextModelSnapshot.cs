@@ -35,10 +35,16 @@ namespace ecommerce.api.Migrations
                     b.Property<DateTime>("AddedDate")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<double?>("DiscountedTotal")
+                        .HasColumnType("double precision");
+
                     b.Property<int>("Status")
                         .HasColumnType("integer");
 
                     b.Property<double>("Total")
+                        .HasColumnType("double precision");
+
+                    b.Property<double>("TotalSavings")
                         .HasColumnType("double precision");
 
                     b.Property<string>("UpdatedBy")
@@ -63,11 +69,6 @@ namespace ecommerce.api.Migrations
 
                     b.Property<Guid>("ProductId")
                         .HasColumnType("uuid");
-
-                    b.Property<DateTime>("DateAdded")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.HasKey("CartId", "ProductId");
 
@@ -126,9 +127,6 @@ namespace ecommerce.api.Migrations
                     b.Property<DateTime>("AddedDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<Guid>("CartId")
-                        .HasColumnType("uuid");
-
                     b.Property<string>("City")
                         .IsRequired()
                         .HasColumnType("text");
@@ -140,6 +138,9 @@ namespace ecommerce.api.Migrations
                     b.Property<string>("County")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<double?>("DiscountedTotal")
+                        .HasColumnType("double precision");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -172,6 +173,12 @@ namespace ecommerce.api.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("integer");
 
+                    b.Property<double>("Total")
+                        .HasColumnType("double precision");
+
+                    b.Property<double>("TotalSavings")
+                        .HasColumnType("double precision");
+
                     b.Property<string>("UpdatedBy")
                         .IsRequired()
                         .HasColumnType("text");
@@ -184,10 +191,22 @@ namespace ecommerce.api.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CartId")
-                        .IsUnique();
-
                     b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("ecommerce.api.Entities.OrderProductEntity", b =>
+                {
+                    b.Property<Guid>("OrderId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("OrderId", "ProductId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("OrderProducts", (string)null);
                 });
 
             modelBuilder.Entity("ecommerce.api.Entities.ProductEntity", b =>
@@ -218,6 +237,9 @@ namespace ecommerce.api.Migrations
                     b.Property<double>("Discount")
                         .HasColumnType("double precision");
 
+                    b.Property<double?>("DiscountedPrice")
+                        .HasColumnType("double precision");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
@@ -234,6 +256,12 @@ namespace ecommerce.api.Migrations
 
                     b.Property<int>("Stock")
                         .HasColumnType("integer");
+
+                    b.Property<string>("Subcategory")
+                        .HasColumnType("text");
+
+                    b.Property<double?>("TotalSavings")
+                        .HasColumnType("double precision");
 
                     b.Property<string>("UpdatedBy")
                         .IsRequired()
@@ -277,21 +305,33 @@ namespace ecommerce.api.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("ecommerce.api.Entities.OrderEntity", b =>
+            modelBuilder.Entity("ecommerce.api.Entities.OrderProductEntity", b =>
                 {
-                    b.HasOne("ecommerce.api.Entities.CartEntity", "Cart")
-                        .WithOne("Order")
-                        .HasForeignKey("ecommerce.api.Entities.OrderEntity", "CartId");
+                    b.HasOne("ecommerce.api.Entities.OrderEntity", "Order")
+                        .WithMany("OrderProducts")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("Cart");
+                    b.HasOne("ecommerce.api.Entities.ProductEntity", "Product")
+                        .WithMany("OrderProducts")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("ecommerce.api.Entities.CartEntity", b =>
                 {
                     b.Navigation("CartProducts");
+                });
 
-                    b.Navigation("Order")
-                        .IsRequired();
+            modelBuilder.Entity("ecommerce.api.Entities.OrderEntity", b =>
+                {
+                    b.Navigation("OrderProducts");
                 });
 
             modelBuilder.Entity("ecommerce.api.Entities.ProductEntity", b =>
@@ -299,6 +339,8 @@ namespace ecommerce.api.Migrations
                     b.Navigation("CartProducts");
 
                     b.Navigation("Images");
+
+                    b.Navigation("OrderProducts");
                 });
 #pragma warning restore 612, 618
         }

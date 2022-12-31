@@ -1,5 +1,5 @@
-using ecommerce.api.Classes;
 using ecommerce.api.Entities;
+using ecommerce.api.Models;
 
 namespace ecommerce.api.DataManagers.Contracts;
 
@@ -10,5 +10,4 @@ public interface ICartDataManager
     Task<CartEntity?> GetUserCart(UserModel user);
     Task<CartEntity> CreateCart(CartModel cart, UserModel user);
     Task<CartEntity> UpdateCart(CartModel cart, UserModel user);
-    double CalculateCartTotal(CartModel cart);
 }

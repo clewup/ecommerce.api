@@ -1,8 +1,4 @@
-using ecommerce.api.Classes;
-using ecommerce.api.Infrastructure;
-using ecommerce.api.Managers;
 using ecommerce.api.Managers.Contracts;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ecommerce.api.Controllers;

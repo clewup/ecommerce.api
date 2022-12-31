@@ -1,9 +1,10 @@
 using AutoMapper;
-using ecommerce.api.Classes;
 using ecommerce.api.Data;
 using ecommerce.api.DataManagers.Contracts;
 using ecommerce.api.Entities;
 using ecommerce.api.Infrastructure;
+using ecommerce.api.Models;
+using ecommerce.api.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace ecommerce.api.DataManagers;
@@ -56,11 +57,17 @@ public class CartDataManager : ICartDataManager
         var mappedCart = _mapper.Map<CartEntity>(cart);
 
         var products = await _productDataManager.GetProducts(mappedCart);
-        var cartTotal = CalculateCartTotal(cart);
 
         mappedCart.UserId = user.Id;
         mappedCart.Products = products;
-        mappedCart.Total = cartTotal;
+        mappedCart.Total = products.CalculateTotal();
+
+        if (products.Any(x => x.Discount > 0))
+        {
+            mappedCart.DiscountedTotal = products.CalculateDiscountedTotal();
+            mappedCart.TotalSavings = products.CalculateTotalSavings();
+        }
+        
         mappedCart.AddedDate = DateTime.UtcNow;
         mappedCart.AddedBy = user.Email;
         
@@ -78,25 +85,21 @@ public class CartDataManager : ICartDataManager
                 .FirstOrDefaultAsync(c => c.Id == cart.Id);
 
         var products = await _productDataManager.GetProducts(_mapper.Map<CartEntity>(cart));
-        var cartTotal = CalculateCartTotal(cart);
 
         existingCart.Products = products;
-        existingCart.Total = cartTotal;
+        existingCart.Total = products.CalculateTotal();
+
+        if (products.Any(x => x.Discount > 0))
+        {
+            existingCart.DiscountedTotal = products.CalculateDiscountedTotal();
+            existingCart.TotalSavings = products.CalculateTotalSavings();
+        }
+        
         existingCart.UpdatedDate = DateTime.UtcNow;
         existingCart.UpdatedBy = user.Email;
 
         await _context.SaveChangesAsync();
 
         return existingCart;
-    }
-
-    public double CalculateCartTotal(CartModel cart)
-    {
-        double calculatedTotal = 0;
-        foreach (var product in cart.Products)
-        {
-            calculatedTotal += product.Price;
-        }
-        return Math.Round(calculatedTotal, 2, MidpointRounding.ToEven);;
     }
 }

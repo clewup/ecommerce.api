@@ -1,6 +1,6 @@
 using ecommerce.api.Infrastructure;
 
-namespace ecommerce.api.Classes;
+namespace ecommerce.api.Models;
 
 public class SearchCriteriaModel
 {

@@ -1,7 +1,7 @@
-using ecommerce.api.Classes;
 using ecommerce.api.Data;
 using ecommerce.api.DataManagers.Contracts;
 using ecommerce.api.Entities;
+using ecommerce.api.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace ecommerce.api.DataManagers;

@@ -1,9 +1,9 @@
 using AutoMapper;
-using ecommerce.api.Classes;
 using ecommerce.api.DataManagers.Contracts;
 using ecommerce.api.Entities;
 using ecommerce.api.Infrastructure;
 using ecommerce.api.Managers;
+using ecommerce.api.Models;
 using Moq;
 
 namespace ecommerce.tests.Managers;

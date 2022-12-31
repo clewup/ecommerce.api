@@ -1,5 +1,5 @@
-using ecommerce.api.Classes;
 using ecommerce.api.Entities;
+using ecommerce.api.Models;
 
 namespace ecommerce.api.DataManagers.Contracts;
 

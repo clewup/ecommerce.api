@@ -1,8 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Diagnostics.CodeAnalysis;
-using ecommerce.api.Classes;
-
 namespace ecommerce.api.Entities;
 
 public class OrderEntity : BaseEntity
@@ -18,7 +13,10 @@ public class OrderEntity : BaseEntity
     public string City { get; set; } = "";
     public string County { get; set; } = "";
     public string Country { get; set; } = "";
+    public double Total { get; set; }
+    public double? DiscountedTotal { get; set; }
+    public double TotalSavings { get; set; }
     
-    public Guid CartId { get; set; }
-    public CartEntity Cart { get; set; }
+    public ICollection<ProductEntity> Products { get; set; }
+    public List<OrderProductEntity> OrderProducts { get; set; }
 }

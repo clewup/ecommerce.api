@@ -17,7 +17,6 @@ public class StatisticsDataManagerTests
         {
             context.CartProducts.Add(new CartProductEntity
             {
-                DateAdded = DateTime.UtcNow.AddDays(-2),
                 CartId = Guid.Parse("D09DA6FD-5460-4FCA-A454-51640A896E11"),
                 Cart = new CartEntity
                 {
@@ -25,7 +24,6 @@ public class StatisticsDataManagerTests
                     UserId = Guid.Parse("C25F6176-F36A-4624-93A1-D84400517413"),
                     Total = 124.99,
                     Products = new List<ProductEntity>(),
-                    Order = new OrderEntity(),
                 },
                 ProductId = Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AA8"),
                 Product = new ProductEntity()
@@ -51,7 +49,6 @@ public class StatisticsDataManagerTests
             });
             context.CartProducts.Add(new CartProductEntity
             {
-                DateAdded = DateTime.UtcNow.AddDays(-2),
                 CartId = Guid.Parse("DAFA5DEF-C822-4EEF-B670-1465266C171E"),
                 Cart = new CartEntity
                 {
@@ -59,7 +56,6 @@ public class StatisticsDataManagerTests
                     UserId = Guid.Parse("C25F6176-F36A-4624-93A1-D84400517413"),
                     Total = 124.99,
                     Products = new List<ProductEntity>(),
-                    Order = new OrderEntity(),
                 },
                 ProductId = Guid.Parse("D08B30FB-EA25-4F6F-A386-4D247F5537FE"),
                 Product = new ProductEntity()

@@ -1,4 +1,5 @@
-using ecommerce.api.Classes;
+
+using ecommerce.api.Models;
 
 namespace ecommerce.api.Managers.Contracts;
 

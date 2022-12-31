@@ -1,8 +1,7 @@
 using AutoMapper;
-using ecommerce.api.Classes;
-using ecommerce.api.DataManagers;
 using ecommerce.api.DataManagers.Contracts;
 using ecommerce.api.Managers.Contracts;
+using ecommerce.api.Models;
 
 namespace ecommerce.api.Managers;
 

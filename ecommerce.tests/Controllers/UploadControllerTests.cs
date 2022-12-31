@@ -1,5 +1,3 @@
-using Castle.Core.Logging;
-using ecommerce.api.Classes;
 using ecommerce.api.Controllers;
 using ecommerce.api.Managers.Contracts;
 using Microsoft.AspNetCore.Http;

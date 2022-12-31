@@ -1,9 +1,10 @@
 using AutoMapper;
-using ecommerce.api.Classes;
 using ecommerce.api.Data;
 using ecommerce.api.DataManagers.Contracts;
 using ecommerce.api.Entities;
 using ecommerce.api.Infrastructure;
+using ecommerce.api.Models;
+using ecommerce.api.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace ecommerce.api.DataManagers;
@@ -133,7 +134,7 @@ public class ProductDataManager : IProductDataManager
     {
         var products = await _context.Products
             .Include(p => p.Images)
-            .Where(p => order.Cart.Products
+            .Where(p => order.Products
                 .Contains(p)).ToListAsync();
 
         return products;
@@ -170,13 +171,17 @@ public class ProductDataManager : IProductDataManager
     public async Task<ProductEntity> CreateProduct(ProductModel product, UserModel user)
     {
         var mappedProduct = _mapper.Map<ProductEntity>(product);
+        
+        mappedProduct.Price = mappedProduct.CalculatePrice();
+
+        if (product.Discount > 0)
+        {
+            mappedProduct.DiscountedPrice = mappedProduct.CalculateDiscountedPrice();
+            mappedProduct.TotalSavings = mappedProduct.CalculateTotalSavings();
+        }
+        
         mappedProduct.AddedDate = DateTime.UtcNow;
         mappedProduct.AddedBy = user.Email;
-        
-        if (mappedProduct.Discount > 0)
-            mappedProduct.Price -= mappedProduct.Price * mappedProduct.Discount / 100;
-        
-        mappedProduct.Price = Math.Round(mappedProduct.Price, 2, MidpointRounding.ToEven);
         
         await _context.Products.AddAsync(mappedProduct);
         await _context.SaveChangesAsync();
@@ -199,8 +204,14 @@ public class ProductDataManager : IProductDataManager
         existingProduct.Range = product.Range;
         existingProduct.Color = product.Color;
         existingProduct.Stock = product.Stock;
-        existingProduct.Price = Math.Round(product.Price, 2, MidpointRounding.ToEven);
+        existingProduct.Price = product.CalculatePrice();
         existingProduct.Discount = product.Discount;
+
+        if (product.Discount > 0)
+        {
+            existingProduct.DiscountedPrice = product.CalculateDiscountedPrice();
+            existingProduct.TotalSavings = product.CalculateTotalSavings();
+        }
         
         existingProduct.UpdatedDate = DateTime.UtcNow;
         existingProduct.UpdatedBy = user.Email;

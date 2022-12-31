@@ -1,11 +1,10 @@
 using AutoMapper;
-using ecommerce.api.Classes;
 using ecommerce.api.Data;
 using ecommerce.api.DataManagers;
 using ecommerce.api.DataManagers.Contracts;
 using ecommerce.api.Entities;
 using ecommerce.api.Infrastructure;
-using Microsoft.AspNetCore.Identity;
+using ecommerce.api.Models;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 
@@ -115,7 +114,6 @@ public class CartDataManagerTests
 
             var result = await cartDataManager.GetCarts();
             
-            Assert.IsType<List<CartEntity>>(result);
             Assert.Equal(3, result.Count());
         }
     }
@@ -132,7 +130,6 @@ public class CartDataManagerTests
 
             var result = await cartDataManager.GetCart(Guid.Parse("6BA2368C-5551-4503-A32F-6E2C7FBE3CB0"));
 
-            Assert.IsType<CartEntity>(result);
             Assert.Equal(60.00, result?.Total);
             Assert.Equal(2, result?.Products.Count());
         }
@@ -166,7 +163,6 @@ public class CartDataManagerTests
 
             var result = await cartDataManager.GetUserCart(user);
             
-            Assert.IsType<CartEntity>(result);
             Assert.Equal(60.00, result?.Total);
             Assert.Equal(2, result?.Products.Count());
         }
@@ -281,7 +277,6 @@ public class CartDataManagerTests
             
             Assert.Equal(30.00, result?.Total);
             Assert.Equal(1, result?.Products.Count());
-            Assert.IsType<CartEntity>(result);
         }
     }
     
@@ -332,64 +327,6 @@ public class CartDataManagerTests
             var result = await cartDataManager.UpdateCart(cart, user);
             
             Assert.Equal(0, result?.Total);
-            Assert.IsType<CartEntity>(result);
-        }
-    }
-    
-    [Fact]
-    public async void CartDataManager_CalculateCartTotal_Successful()
-    {
-        var mockedMapper = new Mock<IMapper>();
-        var mockedProductDataManager = new Mock<IProductDataManager>();
-        
-        using (var context = new EcommerceDbContext(options))
-        {
-            var cart = new CartModel()
-            {
-                UserId = Guid.Parse("ABFED34A-07F3-421E-BDE9-60B8E3D679A4"),
-                Id = Guid.Parse("6BA2368C-5551-4503-A32F-6E2C7FBE3CB2"),
-                Total = 30.00,
-                Products = new List<ProductModel>()
-                {
-                    new ProductModel()
-                    {
-                        Id = Guid.Parse("4171E36F-9F23-4E51-801C-53B6920C12C8"),
-                        Name = "PRODUCT_NAME",
-                        Description = "PRODUCT_DESCRIPTION",
-                        Category = "PRODUCT_CATEGORY",
-                        Range = "PRODUCT_RANGE",
-                        Color = "PRODUCT_COLOR",
-                        Stock = 10,
-                        Price = 30.00,
-                        Discount = 0,
-                        Images = new List<string>()
-                        {
-                            "HTTP://IMAGE_URL.COM"
-                        }
-                    },
-                    new ProductModel()
-                    {
-                        Id = Guid.Parse("3171E36F-9F23-4E51-801C-53B6920C12C8"),
-                        Name = "PRODUCT_NAME",
-                        Description = "PRODUCT_DESCRIPTION",
-                        Category = "PRODUCT_CATEGORY",
-                        Range = "PRODUCT_RANGE",
-                        Color = "PRODUCT_COLOR",
-                        Stock = 10,
-                        Price = 30.00,
-                        Discount = 0,
-                        Images = new List<string>()
-                        {
-                            "HTTP://IMAGE_URL.COM"
-                        }
-                    }
-                }
-            };
-            var cartDataManager = new CartDataManager( mockedMapper.Object, context, mockedProductDataManager.Object);
-
-            var result = cartDataManager.CalculateCartTotal(cart);
-            
-            Assert.Equal(60.00, result);
         }
     }
 }

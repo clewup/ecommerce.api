@@ -1,8 +1,8 @@
-using ecommerce.api.Classes;
 using ecommerce.api.Data;
 using ecommerce.api.DataManagers;
 using ecommerce.api.Entities;
 using ecommerce.api.Infrastructure;
+using ecommerce.api.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace ecommerce.tests.DataManagers;
@@ -45,7 +45,6 @@ public class ImageDataManagerTests
 
             var result = await imageDataManager.GetImages(Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AA7"));
             
-            Assert.IsType<List<ImageEntity>>(result);
             Assert.Equal(4, result.Count());
         }
     }

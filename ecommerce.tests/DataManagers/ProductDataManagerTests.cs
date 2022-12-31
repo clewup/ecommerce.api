@@ -1,9 +1,9 @@
 using AutoMapper;
-using ecommerce.api.Classes;
 using ecommerce.api.Data;
 using ecommerce.api.DataManagers;
 using ecommerce.api.Entities;
 using ecommerce.api.Infrastructure;
+using ecommerce.api.Models;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 
@@ -316,7 +316,7 @@ public class ProductDataManagerTests
 
             var result = await productDataManager.GetProducts(cart);
             
-            Assert.Equal(1, result.Count);
+            Assert.Single(result);
         }
     }
     
@@ -325,32 +325,29 @@ public class ProductDataManagerTests
     {
         var order = new OrderEntity()
         {
-            Cart = new CartEntity()
+            Products = new List<ProductEntity>()
             {
-                Products = new List<ProductEntity>()
+                new ProductEntity()
                 {
-                    new ProductEntity()
+                    Id = Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AA8"),
+                    Name = "PRODUCT_1_NAME",
+                    Description = "PRODUCT_1_DESCRIPTION",
+                    Category = "PRODUCT_1_CATEGORY",
+                    Range = "PRODUCT_1_RANGE",
+                    Color = "PRODUCT_1_COLOR",
+                    Stock = 0,
+                    Price = 30.00,
+                    Discount = 0,
+                    Images = new List<ImageEntity>()
                     {
-                        Id = Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AA8"),
-                        Name = "PRODUCT_1_NAME",
-                        Description = "PRODUCT_1_DESCRIPTION",
-                        Category = "PRODUCT_1_CATEGORY",
-                        Range = "PRODUCT_1_RANGE",
-                        Color = "PRODUCT_1_COLOR",
-                        Stock = 0,
-                        Price = 30.00,
-                        Discount = 0,
-                        Images = new List<ImageEntity>()
+                        new ImageEntity()
                         {
-                            new ImageEntity()
-                            {
-                                Url = new Uri("HTTP://IMAGE_URL.COM"),
-                                ProductId = Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AA8"),
-                            }
+                            Url = new Uri("HTTP://IMAGE_URL.COM"),
+                            ProductId = Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AA8"),
                         }
                     }
                 }
-            }
+            },
         };
         
         var mockedMapper = new Mock<IMapper>();
@@ -361,7 +358,7 @@ public class ProductDataManagerTests
 
             var result = await productDataManager.GetProducts(order);
             
-            Assert.Equal(1, result.Count);
+            Assert.Single(result);
         }
     }
     
@@ -572,32 +569,29 @@ public class ProductDataManagerTests
     {
         var order = new OrderEntity()
         {
-            Cart = new CartEntity()
+            Products = new List<ProductEntity>()
             {
-                Products = new List<ProductEntity>()
+                new ProductEntity()
                 {
-                    new ProductEntity()
+                    Id = Guid.Parse("261B5815-904C-4989-8B4B-55D02F1FE194"),
+                    Name = "PRODUCT_3_NAME",
+                    Description = "PRODUCT_3_DESCRIPTION",
+                    Category = "PRODUCT_2_CATEGORY",
+                    Range = "PRODUCT_2_RANGE",
+                    Color = "PRODUCT_3_COLOR",
+                    Stock = 10,
+                    Price = 40.00,
+                    Discount = 10, 
+                    Images = new List<ImageEntity>()
                     {
-                        Id = Guid.Parse("261B5815-904C-4989-8B4B-55D02F1FE194"),
-                        Name = "PRODUCT_3_NAME",
-                        Description = "PRODUCT_3_DESCRIPTION",
-                        Category = "PRODUCT_2_CATEGORY",
-                        Range = "PRODUCT_2_RANGE",
-                        Color = "PRODUCT_3_COLOR",
-                        Stock = 10,
-                        Price = 40.00,
-                        Discount = 10, 
-                        Images = new List<ImageEntity>()
+                        new ImageEntity()
                         {
-                            new ImageEntity()
-                            {
-                                Url = new Uri("HTTP://IMAGE_URL.COM"),
-                                ProductId = Guid.Parse("261B5815-904C-4989-8B4B-55D02F1FE194"),
-                            }
+                            Url = new Uri("HTTP://IMAGE_URL.COM"),
+                            ProductId = Guid.Parse("261B5815-904C-4989-8B4B-55D02F1FE194"),
                         }
                     }
                 }
-            }
+            },
         };
         
         var mockedMapper = new Mock<IMapper>();

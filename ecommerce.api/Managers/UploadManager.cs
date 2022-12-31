@@ -1,6 +1,5 @@
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
-using ecommerce.api.Classes;
 using ecommerce.api.Managers.Contracts;
 
 namespace ecommerce.api.Managers;

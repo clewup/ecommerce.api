@@ -1,5 +1,3 @@
-using ecommerce.api.Classes;
-
 namespace ecommerce.api.Managers.Contracts;
 
 public interface IUploadManager

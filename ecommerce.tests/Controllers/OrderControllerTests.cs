@@ -1,7 +1,7 @@
-using ecommerce.api.Classes;
 using ecommerce.api.Controllers;
 using ecommerce.api.Infrastructure;
 using ecommerce.api.Managers.Contracts;
+using ecommerce.api.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -33,7 +33,7 @@ public class OrderControllerTests
                     County = "ORDER_COUNTY",
                     Country = "ORDER_COUNTRY",
                 },
-                Cart = new CartModel(),
+                Products = new List<ProductModel>(),
             },
             new OrderModel()
             {
@@ -52,7 +52,7 @@ public class OrderControllerTests
                     County = "ORDER_COUNTY",
                     Country = "ORDER_COUNTRY",
                 },
-                Cart = new CartModel(),
+                Products = new List<ProductModel>(),
             },
         };
             
@@ -91,7 +91,7 @@ public class OrderControllerTests
                     County = "ORDER_COUNTY",
                     Country = "ORDER_COUNTRY",
                 },
-                Cart = new CartModel(),
+                Products = new List<ProductModel>(),
             },
             new OrderModel()
             {
@@ -110,7 +110,7 @@ public class OrderControllerTests
                     County = "ORDER_COUNTY",
                     Country = "ORDER_COUNTRY",
                 },
-                Cart = new CartModel(),
+                Products = new List<ProductModel>(),
             },
         };
         var user = new UserModel()
@@ -161,7 +161,7 @@ public class OrderControllerTests
                 County = "ORDER_COUNTY",
                 Country = "ORDER_COUNTRY",
             },
-            Cart = new CartModel(),
+            Products = new List<ProductModel>(),
         };
             
         var mockedLogger = new Mock<ILogger<OrderController>>();
@@ -212,7 +212,7 @@ public class OrderControllerTests
                 County = "ORDER_COUNTY",
                 Country = "ORDER_COUNTRY",
             },
-            Cart = new CartModel(),
+            Products = new List<ProductModel>(),
         };
         var createdOrder = new OrderModel()
         {
@@ -231,7 +231,7 @@ public class OrderControllerTests
                 County = "ORDER_COUNTY",
                 Country = "ORDER_COUNTRY",
             },
-            Cart = new CartModel(),
+            Products = new List<ProductModel>(),
         };
         var user = new UserModel()
         {
@@ -281,7 +281,7 @@ public class OrderControllerTests
                 County = "ORDER_COUNTY",
                 Country = "ORDER_COUNTRY",
             },
-            Cart = new CartModel(),
+            Products = new List<ProductModel>(),
         };
             
         var mockedLogger = new Mock<ILogger<OrderController>>();
@@ -317,7 +317,7 @@ public class OrderControllerTests
                 County = "ORDER_COUNTY",
                 Country = "ORDER_COUNTRY",
             },
-            Cart = new CartModel(),
+            Products = new List<ProductModel>(),
         };
         var updatedOrder = new OrderModel()
         {
@@ -336,7 +336,7 @@ public class OrderControllerTests
                 County = "ORDER_COUNTY",
                 Country = "ORDER_COUNTRY",
             },
-            Cart = new CartModel(),
+            Products = new List<ProductModel>(),
         };
         var user = new UserModel()
         {
@@ -387,7 +387,7 @@ public class OrderControllerTests
                 County = "ORDER_COUNTY",
                 Country = "ORDER_COUNTRY",
             },
-            Cart = new CartModel(),
+            Products = new List<ProductModel>(),
         };
         
         var mockedLogger = new Mock<ILogger<OrderController>>();
@@ -422,7 +422,7 @@ public class OrderControllerTests
                 County = "ORDER_COUNTY",
                 Country = "ORDER_COUNTRY",
             },
-            Cart = new CartModel(),
+            Products = new List<ProductModel>(),
         };
             
         var mockedLogger = new Mock<ILogger<OrderController>>();
