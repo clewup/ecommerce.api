@@ -26,7 +26,7 @@ public class OrderModel
     
     public double Total { get; set; }
     
-    public double? DiscountedPrice { get; set; }
+    public double? DiscountedTotal { get; set; }
     
     public double? TotalSavings { get; set; }
     

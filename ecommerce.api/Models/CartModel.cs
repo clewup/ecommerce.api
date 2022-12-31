@@ -12,7 +12,7 @@ public class CartModel
     public List<ProductModel> Products { get; set; }
     
     public double Total { get; set; }
-    public double? DiscountedPrice { get; set; }
+    public double? DiscountedTotal { get; set; }
     
     public double? TotalSavings { get; set; }
 }
