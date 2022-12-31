@@ -74,8 +74,6 @@ public class OrderDataManagerTests
                         {
                             new ImageEntity()
                             {
-                                Title = "IMAGE_TITLE",
-                                Description = "IMAGE_DESCRIPTION",
                                 Url = new Uri("HTTP://IMAGE_URL.COM"),
                                 ProductId = Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AA8"),
                             }
@@ -96,8 +94,6 @@ public class OrderDataManagerTests
                         {
                             new ImageEntity()
                             {
-                                Title = "IMAGE_TITLE",
-                                Description = "IMAGE_DESCRIPTION",
                                 Url = new Uri("HTTP://IMAGE_URL.COM"),
                                 ProductId = Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AA6"),
                             }
@@ -127,8 +123,6 @@ public class OrderDataManagerTests
                         {
                             new ImageEntity()
                             {
-                                Title = "IMAGE_TITLE",
-                                Description = "IMAGE_DESCRIPTION",
                                 Url = new Uri("HTTP://IMAGE_URL.COM"),
                                 ProductId = Guid.Parse("B184FE3C-36F2-4301-AEC8-D17B20AE8292"),
                             }
@@ -149,8 +143,6 @@ public class OrderDataManagerTests
                         {
                             new ImageEntity()
                             {
-                                Title = "IMAGE_TITLE",
-                                Description = "IMAGE_DESCRIPTION",
                                 Url = new Uri("HTTP://IMAGE_URL.COM"),
                                 ProductId = Guid.Parse("99F24373-06B5-457C-B27C-4D4623317D8C"),
                             }

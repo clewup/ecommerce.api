@@ -24,11 +24,11 @@ public class ImageDataManager : IImageDataManager
         return images;
     }
     
-    public async Task UploadImage(ImageModel image, ProductEntity product, UserModel user)
+    public async Task UploadImage(string imageUrl, ProductEntity product, UserModel user)
     {
         var mappedImage = new ImageEntity()
         {
-            Url = image.Url,
+            Url = new Uri(imageUrl),
             Product = product,
             AddedDate = DateTime.UtcNow,
             AddedBy = user.Email,

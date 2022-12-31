@@ -8,7 +8,10 @@ public class ImageMapper : Profile
 {
     public ImageMapper()
     {
-        CreateMap<ImageEntity, ImageModel>();
-        CreateMap<ImageModel, ImageEntity>();
+        CreateMap<ImageEntity, String>().ConvertUsing(i => i.Url.ToString());
+        
+        CreateMap<String, ImageEntity>().ForMember(entity => entity.Url, 
+            opt => 
+                opt.MapFrom(src => src));
     }
 }

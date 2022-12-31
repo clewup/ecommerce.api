@@ -15,12 +15,7 @@ public class UploadControllerTests
     public async void UploadController_UploadImage_Successful()
     {
         var image = new Mock<IFormFile>();
-        var createdImage = new ImageModel
-        {
-            Title = "IMAGE_TITLE",
-            Description = "IMAGE_DESCRIPTION",
-            Url = new Uri("HTTP://IMAGE_URL.COM"),
-        };
+        var createdImage = "HTTP://IMAGE_URL.COM";
         
         var mockedLogger = new Mock<ILogger<UploadController>>();
         var mockedUploadManager = new Mock<IUploadManager>();

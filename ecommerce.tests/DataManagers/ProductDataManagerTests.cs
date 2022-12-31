@@ -34,8 +34,6 @@ public class ProductDataManagerTests
                 {
                     new ImageEntity()
                     {
-                        Title = "IMAGE_TITLE",
-                        Description = "IMAGE_DESCRIPTION",
                         Url = new Uri("HTTP://IMAGE_URL.COM"),
                         ProductId = Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AA8"),
                     }
@@ -56,8 +54,6 @@ public class ProductDataManagerTests
                 {
                     new ImageEntity()
                     {
-                        Title = "IMAGE_TITLE",
-                        Description = "IMAGE_DESCRIPTION",
                         Url = new Uri("HTTP://IMAGE_URL.COM"),
                         ProductId = Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AA6"),
                     }
@@ -78,8 +74,6 @@ public class ProductDataManagerTests
                 {
                     new ImageEntity()
                     {
-                        Title = "IMAGE_TITLE",
-                        Description = "IMAGE_DESCRIPTION",
                         Url = new Uri("HTTP://IMAGE_URL.COM"),
                         ProductId = Guid.Parse("261B5815-904C-4989-8B4B-55D02F1FE194"),
                     }
@@ -306,8 +300,6 @@ public class ProductDataManagerTests
                     {
                         new ImageEntity()
                         {
-                            Title = "IMAGE_TITLE",
-                            Description = "IMAGE_DESCRIPTION",
                             Url = new Uri("HTTP://IMAGE_URL.COM"),
                             ProductId = Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AA8"),
                         }
@@ -352,8 +344,6 @@ public class ProductDataManagerTests
                         {
                             new ImageEntity()
                             {
-                                Title = "IMAGE_TITLE",
-                                Description = "IMAGE_DESCRIPTION",
                                 Url = new Uri("HTTP://IMAGE_URL.COM"),
                                 ProductId = Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AA8"),
                             }
@@ -445,14 +435,9 @@ public class ProductDataManagerTests
             Stock = 0,
             Price = 289.99,
             Discount = 0,
-            Images = new List<ImageModel>()
+            Images = new List<string>()
             {
-                new ImageModel()
-                {
-                    Title = "IMAGE_TITLE",
-                    Description = "IMAGE_DESCRIPTION",
-                    Url = new Uri("HTTP://IMAGE_URL.COM"),
-                }
+                "HTTP://IMAGE_URL.COM",
             }
         };
         var mappedProduct = new ProductEntity()
@@ -470,8 +455,6 @@ public class ProductDataManagerTests
             {
                 new ImageEntity()
                 {
-                    Title = "IMAGE_TITLE",
-                    Description = "IMAGE_DESCRIPTION",
                     Url = new Uri("HTTP://IMAGE_URL.COM"),
                     ProductId = Guid.Parse("5700E7D4-D117-4B90-8B85-9C740FB790F4"),
                 }
@@ -527,14 +510,9 @@ public class ProductDataManagerTests
             Stock = 10,
             Price = 59.99,
             Discount = 20,
-            Images = new List<ImageModel>()
+            Images = new List<string>()
             {
-                new ImageModel()
-                {
-                    Title = "IMAGE_TITLE",
-                    Description = "IMAGE_DESCRIPTION",
-                    Url = new Uri("HTTP://IMAGE_URL.COM"),
-                }
+                "HTTP://IMAGE_URL.COM",
             }
         };
         var user = new UserModel
@@ -613,8 +591,6 @@ public class ProductDataManagerTests
                         {
                             new ImageEntity()
                             {
-                                Title = "IMAGE_TITLE",
-                                Description = "IMAGE_DESCRIPTION",
                                 Url = new Uri("HTTP://IMAGE_URL.COM"),
                                 ProductId = Guid.Parse("261B5815-904C-4989-8B4B-55D02F1FE194"),
                             }

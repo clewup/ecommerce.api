@@ -19,22 +19,16 @@ public class ImageDataManagerTests
         {
             context.Images.Add(new ImageEntity()
             {
-                Title = "IMAGE_1_TITLE",
-                Description = "IMAGE_1_DESCRIPTION",
                 Url = new Uri("HTTP://IMAGE_1_URL.COM"),
                 ProductId = Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AA7"),
             });
             context.Images.Add(new ImageEntity()
             {
-                Title = "IMAGE_2_TITLE",
-                Description = "IMAGE_2_DESCRIPTION",
                 Url = new Uri("HTTP://IMAGE_2_URL.COM"),
                 ProductId = Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AA7"),
             });
             context.Images.Add(new ImageEntity()
             {
-                Title = "IMAGE_3_TITLE",
-                Description = "IMAGE_3_DESCRIPTION",
                 Url = new Uri("HTTP://IMAGE_3_URL.COM"),
                 ProductId = Guid.Parse("73FB7638-4B16-490C-8CDB-2042EE131AA7"),
             });
@@ -59,12 +53,7 @@ public class ImageDataManagerTests
     [Fact]
     public async void ImageDataManager_UploadImage_Successful()
     {
-        var image = new ImageModel()
-        {
-            Title = "IMAGE_4_TITLE",
-            Description = "IMAGE_4_DESCRIPTION",
-            Url = new Uri("HTTP://IMAGE_4_URL.COM"),
-        };
+        var image = "HTTP://IMAGE_4_URL.COM";
         var product = new ProductEntity()
         {
             Id = Guid.Parse("93FA7638-4B16-490C-8CDB-2042EE131AA7"),

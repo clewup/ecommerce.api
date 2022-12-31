@@ -43,8 +43,6 @@ public class StatisticsDataManagerTests
                     {
                         new ImageEntity()
                         {
-                            Title = "IMAGE_TITLE",
-                            Description = "IMAGE_DESCRIPTION",
                             Url = new Uri("HTTP://IMAGE_URL.COM"),
                             ProductId = Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AA8"),
                         }
@@ -79,8 +77,6 @@ public class StatisticsDataManagerTests
                     {
                         new ImageEntity()
                         {
-                            Title = "IMAGE_TITLE",
-                            Description = "IMAGE_DESCRIPTION",
                             Url = new Uri("HTTP://IMAGE_URL.COM"),
                             ProductId = Guid.Parse("D08B30FB-EA25-4F6F-A386-4D247F5537FE"),
                         }

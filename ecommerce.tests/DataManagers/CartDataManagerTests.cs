@@ -43,8 +43,6 @@ public class CartDataManagerTests
                         {
                             new ImageEntity()
                             {
-                                Title = "IMAGE_TITLE",
-                                Description = "IMAGE_DESCRIPTION",
                                 Url = new Uri("HTTP://IMAGE_URL.COM"),
                                 ProductId = Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AA7"),
                             }
@@ -74,8 +72,6 @@ public class CartDataManagerTests
                         {
                             new ImageEntity()
                             {
-                                Title = "IMAGE_TITLE",
-                                Description = "IMAGE_DESCRIPTION",
                                 Url = new Uri("HTTP://IMAGE_URL.COM"),
                                 ProductId = Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AA8"),
                             }
@@ -96,8 +92,6 @@ public class CartDataManagerTests
                         {
                             new ImageEntity()
                             {
-                                Title = "IMAGE_TITLE",
-                                Description = "IMAGE_DESCRIPTION",
                                 Url = new Uri("HTTP://IMAGE_URL.COM"),
                                 ProductId = Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AA8"),
                             }
@@ -199,14 +193,9 @@ public class CartDataManagerTests
                     Stock = 10,
                     Price = 30.00,
                     Discount = 0,
-                    Images = new List<ImageModel>()
+                    Images = new List<string>()
                     {
-                        new ImageModel()
-                        {
-                            Title = "IMAGE_TITLE",
-                            Description = "IMAGE_DESCRIPTION",
-                            Url = new Uri("HTTP://IMAGE_URL.COM"),
-                        }
+                        "HTTP://IMAGE_URL.COM"
                     }
                 }
             }
@@ -233,8 +222,6 @@ public class CartDataManagerTests
                     {
                         new ImageEntity()
                         {
-                            Title = "IMAGE_TITLE",
-                            Description = "IMAGE_DESCRIPTION",
                             Url = new Uri("HTTP://IMAGE_URL.COM"),
                             ProductId = Guid.Parse("4171E36F-9F23-4E51-801C-53B6920C12C8"),
                         }
@@ -259,8 +246,6 @@ public class CartDataManagerTests
                 {
                     new ImageEntity()
                     {
-                        Title = "IMAGE_TITLE",
-                        Description = "IMAGE_DESCRIPTION",
                         Url = new Uri("HTTP://IMAGE_URL.COM"),
                         ProductId = Guid.Parse("4171E36F-9F23-4E51-801C-53B6920C12C8"),
                     }
@@ -377,14 +362,9 @@ public class CartDataManagerTests
                         Stock = 10,
                         Price = 30.00,
                         Discount = 0,
-                        Images = new List<ImageModel>()
+                        Images = new List<string>()
                         {
-                            new ImageModel()
-                            {
-                                Title = "IMAGE_TITLE",
-                                Description = "IMAGE_DESCRIPTION",
-                                Url = new Uri("HTTP://IMAGE_URL.COM"),
-                            }
+                            "HTTP://IMAGE_URL.COM"
                         }
                     },
                     new ProductModel()
@@ -398,14 +378,9 @@ public class CartDataManagerTests
                         Stock = 10,
                         Price = 30.00,
                         Discount = 0,
-                        Images = new List<ImageModel>()
+                        Images = new List<string>()
                         {
-                            new ImageModel()
-                            {
-                                Title = "IMAGE_TITLE",
-                                Description = "IMAGE_DESCRIPTION",
-                                Url = new Uri("HTTP://IMAGE_URL.COM"),
-                            }
+                            "HTTP://IMAGE_URL.COM"
                         }
                     }
                 }

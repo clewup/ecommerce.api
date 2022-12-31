@@ -283,14 +283,9 @@ public class OrderManagerTests
                         Stock = 10,
                         Price = 30.00,
                         Discount = 0,
-                        Images = new List<ImageModel>()
+                        Images = new List<string>()
                         {
-                            new ImageModel()
-                            {
-                                Title = "IMAGE_TITLE",
-                                Description = "IMAGE_DESCRIPTION",
-                                Url = new Uri("HTTP://IMAGE_URL.COM"),
-                            }
+                            "HTTP://IMAGE_URL.COM",
                         }
                     },
                     new ProductModel()
@@ -304,14 +299,9 @@ public class OrderManagerTests
                         Stock = 10,
                         Price = 30.00,
                         Discount = 0, 
-                        Images = new List<ImageModel>()
+                        Images = new List<string>()
                         {
-                            new ImageModel()
-                            {
-                                Title = "IMAGE_TITLE",
-                                Description = "IMAGE_DESCRIPTION",
-                                Url = new Uri("HTTP://IMAGE_URL.COM"),
-                            }
+                            "HTTP://IMAGE_URL.COM",
                         }
                     }
                 },
@@ -354,8 +344,6 @@ public class OrderManagerTests
                         {
                             new ImageEntity()
                             {
-                                Title = "IMAGE_TITLE",
-                                Description = "IMAGE_DESCRIPTION",
                                 Url = new Uri("HTTP://IMAGE_URL.COM"),
                                 ProductId = Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AA4"),
                             }
@@ -376,8 +364,6 @@ public class OrderManagerTests
                         {
                             new ImageEntity()
                             {
-                                Title = "IMAGE_TITLE",
-                                Description = "IMAGE_DESCRIPTION",
                                 Url = new Uri("HTTP://IMAGE_URL.COM"),
                                 ProductId = Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AB6"),
                             }
@@ -420,14 +406,9 @@ public class OrderManagerTests
                         Stock = 10,
                         Price = 30.00,
                         Discount = 0,
-                        Images = new List<ImageModel>()
+                        Images = new List<string>()
                         {
-                            new ImageModel()
-                            {
-                                Title = "IMAGE_TITLE",
-                                Description = "IMAGE_DESCRIPTION",
-                                Url = new Uri("HTTP://IMAGE_URL.COM"),
-                            }
+                            "HTTP://IMAGE_URL.COM",
                         }
                     },
                     new ProductModel()
@@ -441,14 +422,9 @@ public class OrderManagerTests
                         Stock = 10,
                         Price = 30.00,
                         Discount = 0, 
-                        Images = new List<ImageModel>()
+                        Images = new List<string>()
                         {
-                            new ImageModel()
-                            {
-                                Title = "IMAGE_TITLE",
-                                Description = "IMAGE_DESCRIPTION",
-                                Url = new Uri("HTTP://IMAGE_URL.COM"),
-                            }
+                            "HTTP://IMAGE_URL.COM",
                         }
                     }
                 },
@@ -472,8 +448,6 @@ public class OrderManagerTests
                         {
                             new ImageEntity()
                             {
-                                Title = "IMAGE_TITLE",
-                                Description = "IMAGE_DESCRIPTION",
                                 Url = new Uri("HTTP://IMAGE_URL.COM"),
                                 ProductId = Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AA4"),
                             }
@@ -494,8 +468,6 @@ public class OrderManagerTests
                         {
                             new ImageEntity()
                             {
-                                Title = "IMAGE_TITLE",
-                                Description = "IMAGE_DESCRIPTION",
                                 Url = new Uri("HTTP://IMAGE_URL.COM"),
                                 ProductId = Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AB6"),
                             }
@@ -582,14 +554,9 @@ public class OrderManagerTests
                         Stock = 0,
                         Price = 30.00,
                         Discount = 0,
-                        Images = new List<ImageModel>()
+                        Images = new List<string>()
                         {
-                            new ImageModel()
-                            {
-                                Title = "IMAGE_TITLE",
-                                Description = "IMAGE_DESCRIPTION",
-                                Url = new Uri("HTTP://IMAGE_URL.COM"),
-                            }
+                            "HTTP://IMAGE_URL.COM",
                         }
                     },
                     new ProductModel()
@@ -603,14 +570,9 @@ public class OrderManagerTests
                         Stock = 10,
                         Price = 30.00,
                         Discount = 0, 
-                        Images = new List<ImageModel>()
+                        Images = new List<string>()
                         {
-                            new ImageModel()
-                            {
-                                Title = "IMAGE_TITLE",
-                                Description = "IMAGE_DESCRIPTION",
-                                Url = new Uri("HTTP://IMAGE_URL.COM"),
-                            }
+                            "HTTP://IMAGE_URL.COM",
                         }
                     }
                 },
@@ -653,8 +615,6 @@ public class OrderManagerTests
                         {
                             new ImageEntity()
                             {
-                                Title = "IMAGE_TITLE",
-                                Description = "IMAGE_DESCRIPTION",
                                 Url = new Uri("HTTP://IMAGE_URL.COM"),
                                 ProductId = Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AA4"),
                             }
@@ -675,8 +635,6 @@ public class OrderManagerTests
                         {
                             new ImageEntity()
                             {
-                                Title = "IMAGE_TITLE",
-                                Description = "IMAGE_DESCRIPTION",
                                 Url = new Uri("HTTP://IMAGE_URL.COM"),
                                 ProductId = Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AB6"),
                             }
@@ -719,14 +677,9 @@ public class OrderManagerTests
                         Stock = 0,
                         Price = 30.00,
                         Discount = 0,
-                        Images = new List<ImageModel>()
+                        Images = new List<string>()
                         {
-                            new ImageModel()
-                            {
-                                Title = "IMAGE_TITLE",
-                                Description = "IMAGE_DESCRIPTION",
-                                Url = new Uri("HTTP://IMAGE_URL.COM"),
-                            }
+                            "HTTP://IMAGE_URL.COM",
                         }
                     },
                     new ProductModel()
@@ -740,14 +693,9 @@ public class OrderManagerTests
                         Stock = 10,
                         Price = 30.00,
                         Discount = 0, 
-                        Images = new List<ImageModel>()
+                        Images = new List<string>()
                         {
-                            new ImageModel()
-                            {
-                                Title = "IMAGE_TITLE",
-                                Description = "IMAGE_DESCRIPTION",
-                                Url = new Uri("HTTP://IMAGE_URL.COM"),
-                            }
+                            "HTTP://IMAGE_URL.COM",
                         }
                     }
                 },
@@ -771,8 +719,6 @@ public class OrderManagerTests
                         {
                             new ImageEntity()
                             {
-                                Title = "IMAGE_TITLE",
-                                Description = "IMAGE_DESCRIPTION",
                                 Url = new Uri("HTTP://IMAGE_URL.COM"),
                                 ProductId = Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AA4"),
                             }
@@ -793,8 +739,6 @@ public class OrderManagerTests
                         {
                             new ImageEntity()
                             {
-                                Title = "IMAGE_TITLE",
-                                Description = "IMAGE_DESCRIPTION",
                                 Url = new Uri("HTTP://IMAGE_URL.COM"),
                                 ProductId = Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AB6"),
                             }
@@ -870,14 +814,9 @@ public class OrderManagerTests
                         Stock = 10,
                         Price = 30.00,
                         Discount = 0,
-                        Images = new List<ImageModel>()
+                        Images = new List<string>()
                         {
-                            new ImageModel()
-                            {
-                                Title = "IMAGE_TITLE",
-                                Description = "IMAGE_DESCRIPTION",
-                                Url = new Uri("HTTP://IMAGE_URL.COM"),
-                            }
+                            "HTTP://IMAGE_URL.COM",
                         }
                     },
                     new ProductModel()
@@ -891,14 +830,9 @@ public class OrderManagerTests
                         Stock = 10,
                         Price = 30.00,
                         Discount = 0, 
-                        Images = new List<ImageModel>()
+                        Images = new List<string>()
                         {
-                            new ImageModel()
-                            {
-                                Title = "IMAGE_TITLE",
-                                Description = "IMAGE_DESCRIPTION",
-                                Url = new Uri("HTTP://IMAGE_URL.COM"),
-                            }
+                            "HTTP://IMAGE_URL.COM",
                         }
                     }
                 },
@@ -941,8 +875,6 @@ public class OrderManagerTests
                         {
                             new ImageEntity()
                             {
-                                Title = "IMAGE_TITLE",
-                                Description = "IMAGE_DESCRIPTION",
                                 Url = new Uri("HTTP://IMAGE_URL.COM"),
                                 ProductId = Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AA4"),
                             }
@@ -963,8 +895,6 @@ public class OrderManagerTests
                         {
                             new ImageEntity()
                             {
-                                Title = "IMAGE_TITLE",
-                                Description = "IMAGE_DESCRIPTION",
                                 Url = new Uri("HTTP://IMAGE_URL.COM"),
                                 ProductId = Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AB6"),
                             }
@@ -1007,14 +937,9 @@ public class OrderManagerTests
                         Stock = 10,
                         Price = 30.00,
                         Discount = 0,
-                        Images = new List<ImageModel>()
+                        Images = new List<string>()
                         {
-                            new ImageModel()
-                            {
-                                Title = "IMAGE_TITLE",
-                                Description = "IMAGE_DESCRIPTION",
-                                Url = new Uri("HTTP://IMAGE_URL.COM"),
-                            }
+                            "HTTP://IMAGE_URL.COM",
                         }
                     },
                     new ProductModel()
@@ -1028,14 +953,9 @@ public class OrderManagerTests
                         Stock = 10,
                         Price = 30.00,
                         Discount = 0, 
-                        Images = new List<ImageModel>()
+                        Images = new List<string>()
                         {
-                            new ImageModel()
-                            {
-                                Title = "IMAGE_TITLE",
-                                Description = "IMAGE_DESCRIPTION",
-                                Url = new Uri("HTTP://IMAGE_URL.COM"),
-                            }
+                            "HTTP://IMAGE_URL.COM",
                         }
                     }
                 },
@@ -1059,8 +979,6 @@ public class OrderManagerTests
                         {
                             new ImageEntity()
                             {
-                                Title = "IMAGE_TITLE",
-                                Description = "IMAGE_DESCRIPTION",
                                 Url = new Uri("HTTP://IMAGE_URL.COM"),
                                 ProductId = Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AA4"),
                             }
@@ -1081,8 +999,6 @@ public class OrderManagerTests
                         {
                             new ImageEntity()
                             {
-                                Title = "IMAGE_TITLE",
-                                Description = "IMAGE_DESCRIPTION",
                                 Url = new Uri("HTTP://IMAGE_URL.COM"),
                                 ProductId = Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AB6"),
                             }
@@ -1169,14 +1085,9 @@ public class OrderManagerTests
                         Stock = 0,
                         Price = 30.00,
                         Discount = 0,
-                        Images = new List<ImageModel>()
+                        Images = new List<string>()
                         {
-                            new ImageModel()
-                            {
-                                Title = "IMAGE_TITLE",
-                                Description = "IMAGE_DESCRIPTION",
-                                Url = new Uri("HTTP://IMAGE_URL.COM"),
-                            }
+                            "HTTP://IMAGE_URL.COM",
                         }
                     },
                     new ProductModel()
@@ -1190,14 +1101,9 @@ public class OrderManagerTests
                         Stock = 10,
                         Price = 30.00,
                         Discount = 0, 
-                        Images = new List<ImageModel>()
+                        Images = new List<string>()
                         {
-                            new ImageModel()
-                            {
-                                Title = "IMAGE_TITLE",
-                                Description = "IMAGE_DESCRIPTION",
-                                Url = new Uri("HTTP://IMAGE_URL.COM"),
-                            }
+                            "HTTP://IMAGE_URL.COM",
                         }
                     }
                 },
@@ -1240,8 +1146,6 @@ public class OrderManagerTests
                         {
                             new ImageEntity()
                             {
-                                Title = "IMAGE_TITLE",
-                                Description = "IMAGE_DESCRIPTION",
                                 Url = new Uri("HTTP://IMAGE_URL.COM"),
                                 ProductId = Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AA4"),
                             }
@@ -1262,8 +1166,6 @@ public class OrderManagerTests
                         {
                             new ImageEntity()
                             {
-                                Title = "IMAGE_TITLE",
-                                Description = "IMAGE_DESCRIPTION",
                                 Url = new Uri("HTTP://IMAGE_URL.COM"),
                                 ProductId = Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AB6"),
                             }
@@ -1306,14 +1208,9 @@ public class OrderManagerTests
                         Stock = 0,
                         Price = 30.00,
                         Discount = 0,
-                        Images = new List<ImageModel>()
+                        Images = new List<string>()
                         {
-                            new ImageModel()
-                            {
-                                Title = "IMAGE_TITLE",
-                                Description = "IMAGE_DESCRIPTION",
-                                Url = new Uri("HTTP://IMAGE_URL.COM"),
-                            }
+                            "HTTP://IMAGE_URL.COM",
                         }
                     },
                     new ProductModel()
@@ -1327,14 +1224,9 @@ public class OrderManagerTests
                         Stock = 10,
                         Price = 30.00,
                         Discount = 0, 
-                        Images = new List<ImageModel>()
+                        Images = new List<string>()
                         {
-                            new ImageModel()
-                            {
-                                Title = "IMAGE_TITLE",
-                                Description = "IMAGE_DESCRIPTION",
-                                Url = new Uri("HTTP://IMAGE_URL.COM"),
-                            }
+                            "HTTP://IMAGE_URL.COM",
                         }
                     }
                 },
@@ -1358,8 +1250,6 @@ public class OrderManagerTests
                         {
                             new ImageEntity()
                             {
-                                Title = "IMAGE_TITLE",
-                                Description = "IMAGE_DESCRIPTION",
                                 Url = new Uri("HTTP://IMAGE_URL.COM"),
                                 ProductId = Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AA4"),
                             }
@@ -1380,8 +1270,6 @@ public class OrderManagerTests
                         {
                             new ImageEntity()
                             {
-                                Title = "IMAGE_TITLE",
-                                Description = "IMAGE_DESCRIPTION",
                                 Url = new Uri("HTTP://IMAGE_URL.COM"),
                                 ProductId = Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AB6"),
                             }

@@ -27,14 +27,9 @@ public class ProductControllerTests
                 Stock = 10,
                 Price = 30.00,
                 Discount = 0,
-                Images = new List<ImageModel>()
+                Images = new List<string>()
                 {
-                    new ImageModel()
-                    {
-                        Title = "IMAGE_TITLE",
-                        Description = "IMAGE_DESCRIPTION",
-                        Url = new Uri("HTTP://IMAGE_URL.COM"),
-                    }
+                    "HTTP://IMAGE_URL.COM"
                 }
             },
             new ProductModel()
@@ -48,14 +43,9 @@ public class ProductControllerTests
                 Stock = 10,
                 Price = 30.00,
                 Discount = 0, 
-                Images = new List<ImageModel>()
+                Images = new List<string>()
                 {
-                    new ImageModel()
-                    {
-                        Title = "IMAGE_TITLE",
-                        Description = "IMAGE_DESCRIPTION",
-                        Url = new Uri("HTTP://IMAGE_URL.COM"),
-                    }
+                    "HTTP://IMAGE_URL.COM"
                 }
             }
         };
@@ -88,14 +78,9 @@ public class ProductControllerTests
                 Stock = 10,
                 Price = 30.00,
                 Discount = 0,
-                Images = new List<ImageModel>()
+                Images = new List<string>()
                 {
-                    new ImageModel()
-                    {
-                        Title = "IMAGE_TITLE",
-                        Description = "IMAGE_DESCRIPTION",
-                        Url = new Uri("HTTP://IMAGE_URL.COM"),
-                    }
+                    "HTTP://IMAGE_URL.COM"
                 }
             },
             new ProductModel()
@@ -109,14 +94,9 @@ public class ProductControllerTests
                 Stock = 10,
                 Price = 30.00,
                 Discount = 0, 
-                Images = new List<ImageModel>()
+                Images = new List<string>()
                 {
-                    new ImageModel()
-                    {
-                        Title = "IMAGE_TITLE",
-                        Description = "IMAGE_DESCRIPTION",
-                        Url = new Uri("HTTP://IMAGE_URL.COM"),
-                    }
+                    "HTTP://IMAGE_URL.COM"
                 }
             }
         };
@@ -172,14 +152,9 @@ public class ProductControllerTests
             Stock = 10,
             Price = 30.00,
             Discount = 0,
-            Images = new List<ImageModel>()
+            Images = new List<string>()
             {
-                new ImageModel()
-                {
-                    Title = "IMAGE_TITLE",
-                    Description = "IMAGE_DESCRIPTION",
-                    Url = new Uri("HTTP://IMAGE_URL.COM"),
-                }
+                "HTTP://IMAGE_URL.COM"
             }
         };
         
@@ -267,14 +242,9 @@ public class ProductControllerTests
             Stock = 10,
             Price = 30.00,
             Discount = 0,
-            Images = new List<ImageModel>()
+            Images = new List<string>()
             {
-                new ImageModel()
-                {
-                    Title = "IMAGE_TITLE",
-                    Description = "IMAGE_DESCRIPTION",
-                    Url = new Uri("HTTP://IMAGE_URL.COM"),
-                }
+                "HTTP://IMAGE_URL.COM"
             }
         };
         var createdProduct = new ProductModel()
@@ -288,14 +258,9 @@ public class ProductControllerTests
             Stock = 10,
             Price = 30.00,
             Discount = 0,
-            Images = new List<ImageModel>()
+            Images = new List<string>()
             {
-                new ImageModel()
-                {
-                    Title = "IMAGE_TITLE",
-                    Description = "IMAGE_DESCRIPTION",
-                    Url = new Uri("HTTP://IMAGE_URL.COM"),
-                }
+                "HTTP://IMAGE_URL.COM"
             }
         };
         var user = new UserModel()
@@ -339,14 +304,9 @@ public class ProductControllerTests
             Stock = 10,
             Price = 30.00,
             Discount = 0,
-            Images = new List<ImageModel>()
+            Images = new List<string>()
             {
-                new ImageModel()
-                {
-                    Title = "IMAGE_TITLE",
-                    Description = "IMAGE_DESCRIPTION",
-                    Url = new Uri("HTTP://IMAGE_URL.COM"),
-                }
+                "HTTP://IMAGE_URL.COM"
             }
         };
         
@@ -377,14 +337,9 @@ public class ProductControllerTests
             Stock = 10,
             Price = 30.00,
             Discount = 0,
-            Images = new List<ImageModel>()
+            Images = new List<string>()
             {
-                new ImageModel()
-                {
-                    Title = "IMAGE_TITLE",
-                    Description = "IMAGE_DESCRIPTION",
-                    Url = new Uri("HTTP://IMAGE_URL.COM"),
-                }
+                "HTTP://IMAGE_URL.COM"
             }
         };
         var updatedProduct = new ProductModel()
@@ -398,14 +353,9 @@ public class ProductControllerTests
             Stock = 10,
             Price = 30.00,
             Discount = 0,
-            Images = new List<ImageModel>()
+            Images = new List<string>()
             {
-                new ImageModel()
-                {
-                    Title = "IMAGE_TITLE",
-                    Description = "IMAGE_DESCRIPTION",
-                    Url = new Uri("HTTP://IMAGE_URL.COM"),
-                }
+                "HTTP://IMAGE_URL.COM"
             }
         };
         var user = new UserModel()
@@ -451,14 +401,9 @@ public class ProductControllerTests
             Stock = 10,
             Price = 30.00,
             Discount = 0,
-            Images = new List<ImageModel>()
+            Images = new List<string>()
             {
-                new ImageModel()
-                {
-                    Title = "IMAGE_TITLE",
-                    Description = "IMAGE_DESCRIPTION",
-                    Url = new Uri("HTTP://IMAGE_URL.COM"),
-                }
+                "HTTP://IMAGE_URL.COM"
             }
         };
         
@@ -488,14 +433,9 @@ public class ProductControllerTests
             Stock = 10,
             Price = 30.00,
             Discount = 0,
-            Images = new List<ImageModel>()
+            Images = new List<string>()
             {
-                new ImageModel()
-                {
-                    Title = "IMAGE_TITLE",
-                    Description = "IMAGE_DESCRIPTION",
-                    Url = new Uri("HTTP://IMAGE_URL.COM"),
-                }
+                "HTTP://IMAGE_URL.COM"
             }
         };
         

@@ -14,7 +14,7 @@ public class UploadManager : IUploadManager
         _cloudinary = cloudinary;
     }
 
-    public async Task<ImageModel> UploadImage(IFormFile image)
+    public async Task<string> UploadImage(IFormFile image)
     {
         using (var stream = new MemoryStream())
         {
@@ -29,10 +29,7 @@ public class UploadManager : IUploadManager
 
             var uploadResult = await _cloudinary.UploadAsync(uploadParams);
 
-            return new ImageModel()
-            {
-                Url = uploadResult.Url,
-            };
+            return uploadResult.Url.ToString();
         }
     }
 }

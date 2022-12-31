@@ -4,5 +4,5 @@ namespace ecommerce.api.Managers.Contracts;
 
 public interface IUploadManager
 {
-    Task<ImageModel> UploadImage(IFormFile image);
+    Task<string> UploadImage(IFormFile image);
 }
