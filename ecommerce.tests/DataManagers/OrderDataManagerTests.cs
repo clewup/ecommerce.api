@@ -5,6 +5,7 @@ using ecommerce.api.DataManagers.Contracts;
 using ecommerce.api.Entities;
 using ecommerce.api.Infrastructure;
 using ecommerce.api.Models;
+using ecommerce.api.Services;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 
@@ -160,6 +161,17 @@ public class OrderDataManagerTests
             Country = "NEW_ORDER_COUNTRY",
             Products = new List<ProductEntity>(),
         };
+        var products = new List<ProductEntity>()
+        {
+            new ProductEntity()
+            {
+                Price = 30,
+            },
+            new ProductEntity()
+            {
+                Price = 30,
+            },
+        };
         var user = new UserModel
         {
             Id = Guid.Parse("A2BE8949-0B8F-42D5-836D-FD6F387A8696"),
@@ -179,6 +191,7 @@ public class OrderDataManagerTests
         var mockedMapper = new Mock<IMapper>();
         mockedMapper.Setup(x => x.Map<OrderEntity>(order)).Returns(mappedOrder);
         var mockedProductDataManager = new Mock<IProductDataManager>();
+        mockedProductDataManager.Setup(x => x.GetProducts(mappedOrder)).ReturnsAsync(products);
         
         using (var context = new EcommerceDbContext(options))
         {
@@ -219,6 +232,7 @@ public class OrderDataManagerTests
                 County = "ORDER_COUNTY",
                 Country = "ORDER_COUNTRY",
             },
+            Products = new List<ProductModel>(),
         };
         var user = new UserModel()
         {

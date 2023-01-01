@@ -74,20 +74,5 @@
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=7920b4b1_002Db4d0_002D421c_002Dbdfb_002D3e7ee02c5052/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="ProductController_GetProducts_Successful" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;TestAncestor&gt;
-    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Controllers.ProductControllerTests.ProductController_GetProducts_Successful&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Controllers.ProductControllerTests.ProductController_GetProductsBySearchCritiera_Successful&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Controllers.ProductControllerTests.ProductController_GetProductsBySearchCriteria_Unsuccessful&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Controllers.ProductControllerTests.ProductController_GetProduct_Successful&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Controllers.ProductControllerTests.ProductController_GetProduct_Unsuccessful&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Controllers.ProductControllerTests.ProductController_GetProductCategories_Successful&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Controllers.ProductControllerTests.ProductController_GetProductRanges_Successful&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Controllers.ProductControllerTests.ProductController_CreateProduct_Successful&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Controllers.ProductControllerTests.ProductController_UpdateProduct_Successful&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Controllers.ProductControllerTests.ProductController_CreateProduct_NonExisting_Unsuccessful&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Controllers.ProductControllerTests.ProductController_CreateProduct_Unsuccessful&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Controllers.ProductControllerTests.ProductController_UpdateProduct_ModelState_Unsuccessful&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Controllers.StatisticsControllerTests&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Controllers.UploadControllerTests.UploadController_UploadImage_Successful&lt;/TestId&gt;
-  &lt;/TestAncestor&gt;
+  &lt;Solution /&gt;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
