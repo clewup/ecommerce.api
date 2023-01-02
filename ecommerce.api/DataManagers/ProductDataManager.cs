@@ -3,6 +3,7 @@ using ecommerce.api.Data;
 using ecommerce.api.DataManagers.Contracts;
 using ecommerce.api.Entities;
 using ecommerce.api.Infrastructure;
+using ecommerce.api.Mappers;
 using ecommerce.api.Models;
 using ecommerce.api.Services;
 using Microsoft.EntityFrameworkCore;
@@ -12,11 +13,9 @@ namespace ecommerce.api.DataManagers;
 public class ProductDataManager : IProductDataManager
 {
     private readonly EcommerceDbContext _context;
-    private readonly IMapper _mapper;
 
-    public ProductDataManager(IMapper mapper, EcommerceDbContext context)
+    public ProductDataManager(EcommerceDbContext context)
     {
-        _mapper = mapper;
         _context = context;
     }   
     
@@ -31,11 +30,14 @@ public class ProductDataManager : IProductDataManager
     
     public async Task<List<ProductEntity>> GetProductsBySearchCriteria(SearchCriteriaModel searchCriteria)
     {
-        var searchTerm = !string.IsNullOrWhiteSpace(searchCriteria.SearchTerm) 
+        var searchTerm = !string.IsNullOrWhiteSpace(searchCriteria.SearchTerm)
             ? searchCriteria.SearchTerm.Replace("-", " ")
             : null;
         var category = !string.IsNullOrWhiteSpace(searchCriteria.Category) 
             ? searchCriteria.Category.Replace("-", " ")
+            : null;
+        var subcategory = !string.IsNullOrWhiteSpace(searchCriteria.Subcategory) 
+            ? searchCriteria.Subcategory.Replace("-", " ")
             : null;
         var range = !string.IsNullOrWhiteSpace(searchCriteria.Range)
             ? searchCriteria.Range
@@ -64,20 +66,36 @@ public class ProductDataManager : IProductDataManager
             .ToListAsync();
 
         if (searchTerm != null)
-            products = products.Where(p => p.Name.Contains(searchTerm)).ToList();
+            products = products.Where(p => 
+                p.Name.ToLower().Contains(searchTerm.ToLower()) ||
+                p.Category.ToLower().Contains(searchTerm.ToLower()) ||
+                p.Subcategory.ToLower().Contains(searchTerm.ToLower()) ||
+                p.Range.ToLower().Contains(searchTerm.ToLower()))
+                .Distinct()
+                .ToList();
         
         if (category != null)
-            products = products.Where(p => p.Category == category).ToList();
+            products = products.Where(p => string.Compare(p.Category,category,StringComparison.InvariantCultureIgnoreCase) == 0).ToList();
+        
+        if (subcategory != null)
+            products = products.Where(p => string.Compare(p.Subcategory,subcategory,StringComparison.InvariantCultureIgnoreCase) == 0).ToList();
 
         if (range != null)
-            products = products.Where(p => p.Range == range).ToList();
+            products = products.Where(p => string.Compare(p.Range,range,StringComparison.InvariantCultureIgnoreCase) == 0).ToList();
         
         if (inStock != null)
         {
             if (bool.Parse(inStock) == true)
-                products = products.Where(p => p.Stock > 0).ToList();
-            if (bool.Parse(inStock) == false)
-                products = products.Where(p => p.Stock == 0).ToList();
+            {
+                products = products.Where(p =>
+                    p.OneSize == true ||
+                    p.XSmall > 0 ||
+                    p.Small > 0 ||
+                    p.Medium > 0 ||
+                    p.Large > 0 ||
+                    p.XLarge > 0
+                ).ToList();
+            }
         }
         
         if (onSale != null)
@@ -140,24 +158,6 @@ public class ProductDataManager : IProductDataManager
         return products;
     }
     
-    public async Task<List<string>> GetProductCategories()
-    {
-        var products = await _context.Products.ToListAsync();
-
-        var categories = products.Select(p => p.Category).Distinct().ToList();
-
-        return categories;
-    }
-    
-    public async Task<List<string>> GetProductRanges()
-    {
-        var products = await _context.Products.ToListAsync();
-
-        var ranges = products.Select(p => p.Range).Distinct().ToList();
-
-        return ranges;
-    }
-
     public async Task<ProductEntity?> GetProduct(Guid id)
     {
         var product = await _context.Products
@@ -170,8 +170,8 @@ public class ProductDataManager : IProductDataManager
 
     public async Task<ProductEntity> CreateProduct(ProductModel product, UserModel user)
     {
-        var mappedProduct = _mapper.Map<ProductEntity>(product);
-        
+        var mappedProduct = product.ToEntity();
+
         mappedProduct.Price = mappedProduct.CalculatePrice();
 
         if (product.Discount > 0)
@@ -198,12 +198,23 @@ public class ProductDataManager : IProductDataManager
         var images = await _context.Images.Where(i => i.ProductId == product.Id).ToListAsync();
 
         existingProduct.Name = product.Name;
-        existingProduct.Images = images;
+        existingProduct.Color = product.Color;
         existingProduct.Description = product.Description;
+        existingProduct.Images = images;
+
         existingProduct.Category = product.Category;
         existingProduct.Range = product.Range;
-        existingProduct.Color = product.Color;
-        existingProduct.Stock = product.Stock;
+        existingProduct.OneSize = product.OneSize;
+
+        if (product.OneSize == false)
+        {
+            existingProduct.XSmall = product.Sizes.First(x => x.Size == SizeType.XSmall).Stock;
+            existingProduct.Small = product.Sizes.First(x => x.Size == SizeType.Small).Stock;
+            existingProduct.Medium = product.Sizes.First(x => x.Size == SizeType.Medium).Stock;
+            existingProduct.Large = product.Sizes.First(x => x.Size == SizeType.Large).Stock;
+            existingProduct.XLarge = product.Sizes.First(x => x.Size == SizeType.XLarge).Stock;
+        }
+        
         existingProduct.Price = product.CalculatePrice();
         existingProduct.Discount = product.Discount;
 
@@ -228,24 +239,6 @@ public class ProductDataManager : IProductDataManager
         if (product != null)
         {
             _context.Products.Remove(product);
-            await _context.SaveChangesAsync();
-        }
-    }
-
-    public async Task UpdateProductStock(OrderEntity order)
-    {
-        var products = await GetProducts(order);
-
-        foreach (var product in products)
-        {
-            var existingProduct = await _context.Products
-                .FirstOrDefaultAsync(p => p.Id == product.Id);
-            
-            if (existingProduct == null)
-                throw new Exception($"Product {product.Id} could not be found");
-
-            existingProduct.Stock -= 1;
-
             await _context.SaveChangesAsync();
         }
     }

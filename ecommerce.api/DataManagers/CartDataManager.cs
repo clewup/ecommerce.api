@@ -3,6 +3,7 @@ using ecommerce.api.Data;
 using ecommerce.api.DataManagers.Contracts;
 using ecommerce.api.Entities;
 using ecommerce.api.Infrastructure;
+using ecommerce.api.Mappers;
 using ecommerce.api.Models;
 using ecommerce.api.Services;
 using Microsoft.EntityFrameworkCore;
@@ -12,12 +13,10 @@ namespace ecommerce.api.DataManagers;
 public class CartDataManager : ICartDataManager
 {
     private readonly EcommerceDbContext _context;
-    private readonly IMapper _mapper;
     private readonly IProductDataManager _productDataManager;
 
-    public CartDataManager(IMapper mapper, EcommerceDbContext context, IProductDataManager productDataManager)
+    public CartDataManager(EcommerceDbContext context, IProductDataManager productDataManager)
     {
-        _mapper = mapper;
         _context = context;
         _productDataManager = productDataManager;
     }
@@ -54,7 +53,7 @@ public class CartDataManager : ICartDataManager
 
     public async Task<CartEntity> CreateCart(CartModel cart, UserModel user)
     {
-        var mappedCart = _mapper.Map<CartEntity>(cart);
+        var mappedCart = cart.ToEntity();
 
         var products = await _productDataManager.GetProducts(mappedCart);
 
@@ -84,7 +83,7 @@ public class CartDataManager : ICartDataManager
                 .ThenInclude(p => p.Images)
                 .FirstOrDefaultAsync(c => c.Id == cart.Id);
 
-        var products = await _productDataManager.GetProducts(_mapper.Map<CartEntity>(cart));
+        var products = await _productDataManager.GetProducts(cart.ToEntity());
 
         existingCart.Products = products;
         existingCart.Total = products.CalculateTotal();

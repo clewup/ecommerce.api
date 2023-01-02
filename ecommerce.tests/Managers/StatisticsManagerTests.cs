@@ -26,25 +26,6 @@ public class StatisticsManagerTests
                 },
                 ProductId = Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AA8"),
                 Product = new ProductEntity()
-                {
-                    Id = Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AA8"),
-                    Name = "PRODUCT_1_NAME",
-                    Description = "PRODUCT_1_DESCRIPTION",
-                    Category = "PRODUCT_1_CATEGORY",
-                    Range = "PRODUCT_1_RANGE",
-                    Color = "PRODUCT_1_COLOR",
-                    Stock = 0,
-                    Price = 30.00,
-                    Discount = 0,
-                    Images = new List<ImageEntity>()
-                    {
-                        new ImageEntity()
-                        {
-                            Url = new Uri("HTTP://IMAGE_URL.COM"),
-                            ProductId = Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AA8"),
-                        }
-                    }
-                }
             },
             new CartProductEntity()
             {
@@ -58,25 +39,6 @@ public class StatisticsManagerTests
                 },
                 ProductId = Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AA8"),
                 Product = new ProductEntity()
-                {
-                    Id = Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AA8"),
-                    Name = "PRODUCT_1_NAME",
-                    Description = "PRODUCT_1_DESCRIPTION",
-                    Category = "PRODUCT_1_CATEGORY",
-                    Range = "PRODUCT_1_RANGE",
-                    Color = "PRODUCT_1_COLOR",
-                    Stock = 0,
-                    Price = 30.00,
-                    Discount = 0,
-                    Images = new List<ImageEntity>()
-                    {
-                        new ImageEntity()
-                        {
-                            Url = new Uri("HTTP://IMAGE_URL.COM"),
-                            ProductId = Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AA8"),
-                        }
-                    }
-                }
             },
             new CartProductEntity()
             {
@@ -90,120 +52,23 @@ public class StatisticsManagerTests
                 },
                 ProductId = Guid.Parse("D08B30FB-EA25-4F6F-A386-4D247F5537FE"),
                 Product = new ProductEntity()
-                {
-                    Id = Guid.Parse("D08B30FB-EA25-4F6F-A386-4D247F5537FE"),
-                    Name = "PRODUCT_2_NAME",
-                    Description = "PRODUCT_2_DESCRIPTION",
-                    Category = "PRODUCT_2_CATEGORY",
-                    Range = "PRODUCT_2_RANGE",
-                    Color = "PRODUCT_2_COLOR",
-                    Stock = 0,
-                    Price = 30.00,
-                    Discount = 0,
-                    Images = new List<ImageEntity>()
-                    {
-                        new ImageEntity()
-                        {
-                            Url = new Uri("HTTP://IMAGE_URL.COM"),
-                            ProductId = Guid.Parse("D08B30FB-EA25-4F6F-A386-4D247F5537FE"),
-                        }
-                    }
-                }
             }
         };
-        var products = new List<ProductEntity>()
-        {
-            new ProductEntity()
-            {
-                Id = Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AA8"),
-                Name = "PRODUCT_1_NAME",
-                Description = "PRODUCT_1_DESCRIPTION",
-                Category = "PRODUCT_1_CATEGORY",
-                Range = "PRODUCT_1_RANGE",
-                Color = "PRODUCT_1_COLOR",
-                Stock = 0,
-                Price = 30.00,
-                Discount = 0,
-                Images = new List<ImageEntity>()
-                {
-                    new ImageEntity()
-                    {
-                        Url = new Uri("HTTP://IMAGE_URL.COM"),
-                        ProductId = Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AA8"),
-                    }
-                }
-            },
-            new ProductEntity()
-            {
-                Id = Guid.Parse("D08B30FB-EA25-4F6F-A386-4D247F5537FE"),
-                Name = "PRODUCT_2_NAME",
-                Description = "PRODUCT_2_DESCRIPTION",
-                Category = "PRODUCT_2_CATEGORY",
-                Range = "PRODUCT_2_RANGE",
-                Color = "PRODUCT_2_COLOR",
-                Stock = 0,
-                Price = 30.00,
-                Discount = 0,
-                Images = new List<ImageEntity>()
-                {
-                    new ImageEntity()
-                    {
-                        Url = new Uri("HTTP://IMAGE_URL.COM"),
-                        ProductId = Guid.Parse("D08B30FB-EA25-4F6F-A386-4D247F5537FE"),
-                    }
-                }
-            }
-        };
-        var mappedProducts = new List<ProductModel>()
-        {
-            new ProductModel()
-            {
-                Id = Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AA8"),
-                Name = "PRODUCT_1_NAME",
-                Description = "PRODUCT_1_DESCRIPTION",
-                Category = "PRODUCT_1_CATEGORY",
-                Range = "PRODUCT_1_RANGE",
-                Color = "PRODUCT_1_COLOR",
-                Stock = 0,
-                Price = 30.00,
-                Discount = 0,
-                Images = new List<string>()
-                {
-                    "HTTP://IMAGE_URL.COM",
-                }
-            },
-            new ProductModel()
-            {
-                Id = Guid.Parse("D08B30FB-EA25-4F6F-A386-4D247F5537FE"),
-                Name = "PRODUCT_2_NAME",
-                Description = "PRODUCT_2_DESCRIPTION",
-                Category = "PRODUCT_2_CATEGORY",
-                Range = "PRODUCT_2_RANGE",
-                Color = "PRODUCT_2_COLOR",
-                Stock = 0,
-                Price = 30.00,
-                Discount = 0,
-                Images = new List<string>()
-                {
-                    "HTTP://IMAGE_URL.COM",
-                }
-            }
-        };
+        var products = new List<ProductEntity>();
+        var mappedProducts = new List<ProductModel>();
         var productIds = new List<Guid>()
         {
             Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AA8"),
             Guid.Parse("D08B30FB-EA25-4F6F-A386-4D247F5537FE"),
         };
         
-        var mockedMapper = new Mock<IMapper>();
-        mockedMapper.Setup(x => x.Map<List<ProductModel>>(products)).Returns(mappedProducts);
         var mockedStatisticsDataManager = new Mock<IStatisticsDataManager>();
         mockedStatisticsDataManager.Setup(x => x.GetCartProducts()).ReturnsAsync(cartProducts);
         var mockedProductDataManager = new Mock<IProductDataManager>();
         mockedProductDataManager.Setup(x => x.GetProducts(productIds)).ReturnsAsync(products);
 
         var statisticsManager =
-            new StatisticsManager(mockedMapper.Object, mockedStatisticsDataManager.Object, mockedProductDataManager.Object);
+            new StatisticsManager(mockedStatisticsDataManager.Object, mockedProductDataManager.Object);
 
         var result = await statisticsManager.GetMostPopularProducts();
         
@@ -214,93 +79,15 @@ public class StatisticsManagerTests
     [Fact]
     public async void StatisticsManager_GetMostDiscountedProducts_Successful()
     {
-        var products = new List<ProductEntity>()
-        {
-            new ProductEntity()
-            {
-                Id = Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AA8"),
-                Name = "PRODUCT_1_NAME",
-                Description = "PRODUCT_1_DESCRIPTION",
-                Category = "PRODUCT_1_CATEGORY",
-                Range = "PRODUCT_1_RANGE",
-                Color = "PRODUCT_1_COLOR",
-                Stock = 0,
-                Price = 30.00,
-                Discount = 10,
-                Images = new List<ImageEntity>()
-                {
-                    new ImageEntity()
-                    {
-                        Url = new Uri("HTTP://IMAGE_URL.COM"),
-                        ProductId = Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AA8"),
-                    }
-                }
-            },
-            new ProductEntity()
-            {
-                Id = Guid.Parse("D08B30FB-EA25-4F6F-A386-4D247F5537FE"),
-                Name = "PRODUCT_2_NAME",
-                Description = "PRODUCT_2_DESCRIPTION",
-                Category = "PRODUCT_2_CATEGORY",
-                Range = "PRODUCT_2_RANGE",
-                Color = "PRODUCT_2_COLOR",
-                Stock = 0,
-                Price = 30.00,
-                Discount = 10,
-                Images = new List<ImageEntity>()
-                {
-                    new ImageEntity()
-                    {
-                        Url = new Uri("HTTP://IMAGE_URL.COM"),
-                        ProductId = Guid.Parse("D08B30FB-EA25-4F6F-A386-4D247F5537FE"),
-                    }
-                }
-            }
-        };
-        var mappedProducts = new List<ProductModel>()
-        {
-            new ProductModel()
-            {
-                Id = Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AA8"),
-                Name = "PRODUCT_1_NAME",
-                Description = "PRODUCT_1_DESCRIPTION",
-                Category = "PRODUCT_1_CATEGORY",
-                Range = "PRODUCT_1_RANGE",
-                Color = "PRODUCT_1_COLOR",
-                Stock = 0,
-                Price = 30.00,
-                Discount = 10,
-                Images = new List<string>()
-                {
-                    "HTTP://IMAGE_URL.COM",
-                }
-            },
-            new ProductModel()
-            {
-                Id = Guid.Parse("D08B30FB-EA25-4F6F-A386-4D247F5537FE"),
-                Name = "PRODUCT_2_NAME",
-                Description = "PRODUCT_2_DESCRIPTION",
-                Category = "PRODUCT_2_CATEGORY",
-                Range = "PRODUCT_2_RANGE",
-                Color = "PRODUCT_2_COLOR",
-                Stock = 0,
-                Price = 30.00,
-                Discount = 10,
-                Images = new List<string>()
-                {
-                    "HTTP://IMAGE_URL.COM",
-                }
-            }
-        };
+        var products = new List<ProductEntity>();
+        var mappedProducts = new List<ProductModel>();
         
-        var mockedMapper = new Mock<IMapper>();
-        mockedMapper.Setup(x => x.Map<List<ProductModel>>(products)).Returns(mappedProducts);
         var mockedStatisticsDataManager = new Mock<IStatisticsDataManager>();
         var mockedProductDataManager = new Mock<IProductDataManager>();
         mockedProductDataManager.Setup(x => x.GetProducts()).ReturnsAsync(products);
 
         var statisticsManager =
-            new StatisticsManager(mockedMapper.Object, mockedStatisticsDataManager.Object, mockedProductDataManager.Object);
+            new StatisticsManager(mockedStatisticsDataManager.Object, mockedProductDataManager.Object);
 
         var result = await statisticsManager.GetMostDiscountedProducts();
         

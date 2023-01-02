@@ -1,6 +1,7 @@
 using AutoMapper;
 using ecommerce.api.DataManagers.Contracts;
 using ecommerce.api.Managers.Contracts;
+using ecommerce.api.Mappers;
 using ecommerce.api.Models;
 
 namespace ecommerce.api.Managers;
@@ -8,11 +9,9 @@ namespace ecommerce.api.Managers;
 public class CartManager : ICartManager
 {
     private readonly ICartDataManager _cartDataManager;
-    private readonly IMapper _mapper;
 
-    public CartManager(IMapper mapper, ICartDataManager cartDataManager)
+    public CartManager(ICartDataManager cartDataManager)
     {
-        _mapper = mapper;
         _cartDataManager = cartDataManager;
     }
     
@@ -20,7 +19,7 @@ public class CartManager : ICartManager
     {
         var carts = await _cartDataManager.GetCarts();
 
-        return _mapper.Map<List<CartModel>>(carts);;
+        return carts.ToModels();
 
     }
     
@@ -31,7 +30,7 @@ public class CartManager : ICartManager
         if (cart == null)
             return null;
 
-        return _mapper.Map<CartModel>(cart);
+        return cart.ToModel();
 
     }
     
@@ -42,20 +41,20 @@ public class CartManager : ICartManager
         if (cart == null)
             return null;
 
-        return _mapper.Map<CartModel>(cart);
+        return cart.ToModel();
     }
     
     public async Task<CartModel> CreateCart(CartModel cart, UserModel user)
     {
         var createdCart = await _cartDataManager.CreateCart(cart, user);
-        
-        return _mapper.Map<CartModel>(createdCart);
+
+        return createdCart.ToModel();
     }
 
     public async Task<CartModel> UpdateCart(CartModel cart, UserModel user)
     {
         var updatedCart = await _cartDataManager.UpdateCart(cart, user);
 
-        return _mapper.Map<CartModel>(updatedCart);
+        return updatedCart.ToModel();
     }
 }

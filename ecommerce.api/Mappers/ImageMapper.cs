@@ -3,14 +3,45 @@ using ecommerce.api.Entities;
 
 namespace ecommerce.api.Mappers;
 
-public class ImageMapper : Profile
+public static class ImageMapper
 {
-    public ImageMapper()
+    public static ImageEntity ToEntity(this string uri)
     {
-        CreateMap<ImageEntity, String>().ConvertUsing(i => i.Url.ToString());
+        return new ImageEntity()
+        {
+            Url = new Uri(uri),
+        };
+    }
+    
+    public static ICollection<ImageEntity> ToEntities(this ICollection<string> uris)
+    {
+        var images = new List<ImageEntity>();
         
-        CreateMap<String, ImageEntity>().ForMember(entity => entity.Url, 
-            opt => 
-                opt.MapFrom(src => src));
+        foreach (var uri in uris)
+        {
+            images.Add(new ImageEntity()
+            {
+                Url = new Uri(uri),
+            });
+        }
+
+        return images;
+    }
+
+    public static string ToUri(this ImageEntity image)
+    {
+        return image.Url.ToString();
+    }
+    
+    public static List<string> ToUris(this ICollection<ImageEntity> images)
+    {
+        var uris = new List<string>();
+
+        foreach (var image in images)
+        {
+            uris.Add(image.Url.ToString());
+        }
+
+        return uris;
     }
 }

@@ -3,6 +3,7 @@ using ecommerce.api.Data;
 using ecommerce.api.DataManagers.Contracts;
 using ecommerce.api.Entities;
 using ecommerce.api.Infrastructure;
+using ecommerce.api.Mappers;
 using ecommerce.api.Models;
 using ecommerce.api.Services;
 using Microsoft.EntityFrameworkCore;
@@ -12,12 +13,10 @@ namespace ecommerce.api.DataManagers;
 public class OrderDataManager : IOrderDataManager
 {
     private readonly EcommerceDbContext _context;
-    private readonly IMapper _mapper;
     private readonly IProductDataManager _productDataManager;
 
-    public OrderDataManager(IMapper mapper, EcommerceDbContext context, IProductDataManager productDataManager)
+    public OrderDataManager(EcommerceDbContext context, IProductDataManager productDataManager)
     {
-        _mapper = mapper;
         _context = context;
         _productDataManager = productDataManager;
     }
@@ -55,7 +54,7 @@ public class OrderDataManager : IOrderDataManager
 
     public async Task<OrderEntity> CreateOrder(OrderModel order, UserModel user)
     {
-        var mappedOrder = _mapper.Map<OrderEntity>(order);
+        var mappedOrder = order.ToEntity();
 
         var products = await _productDataManager.GetProducts(mappedOrder);
         
@@ -79,7 +78,7 @@ public class OrderDataManager : IOrderDataManager
 
     public async Task<OrderEntity> UpdateOrder(OrderModel order, UserModel user)
     {
-        var mappedOrder = _mapper.Map<OrderEntity>(order);
+        var mappedOrder = order.ToEntity();
 
         var products = await _productDataManager.GetProducts(mappedOrder);
 

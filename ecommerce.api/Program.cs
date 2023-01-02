@@ -109,17 +109,6 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy(RoleType.User, policy =>
         policy.RequireRole(RoleType.User, RoleType.External, RoleType.Employee, RoleType.Developer));
 });
-// Auto Mapper
-var mapperConfig = new MapperConfiguration(mc =>
-{
-    mc.AddProfile(new OrderMapper());
-    mc.AddProfile(new ProductMapper());
-    mc.AddProfile(new CartMapper());
-    mc.AddProfile(new ImageMapper());
-});
-
-IMapper mapper = mapperConfig.CreateMapper();
-builder.Services.AddSingleton(mapper);
 
 // Managers
 builder.Services.AddTransient<IProductManager, ProductManager>();
@@ -128,6 +117,7 @@ builder.Services.AddTransient<IOrderManager, OrderManager>();
 builder.Services.AddTransient<IUploadManager, UploadManager>();
 builder.Services.AddTransient<IStatisticsManager, StatisticsManager>();    
 builder.Services.AddTransient<IClaimsManager, ClaimsManager>();    
+builder.Services.AddTransient<ICategoriesManager, CategoriesManager>();    
 
 // Data Managers
 builder.Services.AddTransient<IProductDataManager, ProductDataManager>();
@@ -135,6 +125,7 @@ builder.Services.AddTransient<ICartDataManager, CartDataManager>();
 builder.Services.AddTransient<IOrderDataManager, OrderDataManager>();
 builder.Services.AddTransient<IImageDataManager, ImageDataManager>(); 
 builder.Services.AddTransient<IStatisticsDataManager, StatisticsDataManager>();    
+builder.Services.AddTransient<ICategoriesDataManager, CategoriesDataManager>();    
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 var app = builder.Build();

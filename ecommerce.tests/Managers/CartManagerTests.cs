@@ -30,30 +30,11 @@ public class CartManagerTests
                 Products = new List<ProductEntity>(),
             },
         };
-        var mappedCarts = new List<CartModel>()
-        {
-            new CartModel()
-            {
-                Id = Guid.Parse("D7447BFA-6CBC-406F-8EE1-B85226C8081F"),
-                UserId = Guid.Parse("1F9064A7-8FE6-4BAB-9EE6-37056FF731D3"),
-                Total = 59.99,
-                Products = new List<ProductModel>(),
-            },
-            new CartModel()
-            {
-                Id = Guid.Parse("D7447BFA-6CBC-406F-8EE1-B85226C8081A"),
-                UserId = Guid.Parse("1F9064A7-8FE6-4BAB-9EE6-37056FF731D2"),
-                Total = 79.99,
-                Products = new List<ProductModel>(),
-            },
-        };
         
-        var mockedMapper = new Mock<IMapper>();
-        mockedMapper.Setup(x => x.Map<List<CartModel>>(carts)).Returns(mappedCarts);
         var mockedCartDataManager = new Mock<ICartDataManager>();
         mockedCartDataManager.Setup(x => x.GetCarts()).ReturnsAsync(carts);
 
-        var cartManager = new CartManager(mockedMapper.Object, mockedCartDataManager.Object);
+        var cartManager = new CartManager(mockedCartDataManager.Object);
 
         var result = await cartManager.GetCarts();
         
@@ -79,12 +60,10 @@ public class CartManagerTests
             Products = new List<ProductModel>(),
         };
         
-        var mockedMapper = new Mock<IMapper>();
-        mockedMapper.Setup(x => x.Map<CartModel>(cart)).Returns(mappedCart);
         var mockedCartDataManager = new Mock<ICartDataManager>();
         mockedCartDataManager.Setup(x => x.GetCart(Guid.Parse("D7447BFA-6CBC-406F-8EE1-B85226C8081F"))).ReturnsAsync(cart);
 
-        var cartManager = new CartManager(mockedMapper.Object, mockedCartDataManager.Object);
+        var cartManager = new CartManager(mockedCartDataManager.Object);
 
         var result = await cartManager.GetCart(Guid.Parse("D7447BFA-6CBC-406F-8EE1-B85226C8081F"));
         
@@ -126,12 +105,10 @@ public class CartManagerTests
             Country = "USER_COUNTRY"
         };
 
-        var mockedMapper = new Mock<IMapper>();
-        mockedMapper.Setup(x => x.Map<CartModel>(cart)).Returns(mappedCart);
         var mockedCartDataManager = new Mock<ICartDataManager>();
         mockedCartDataManager.Setup(x => x.GetUserCart(user)).ReturnsAsync(cart);
 
-        var cartManager = new CartManager(mockedMapper.Object, mockedCartDataManager.Object);
+        var cartManager = new CartManager(mockedCartDataManager.Object);
 
         var result = await cartManager.GetUserCart(user);
         
@@ -180,12 +157,10 @@ public class CartManagerTests
             Country = "USER_COUNTRY"
         };
         
-        var mockedMapper = new Mock<IMapper>();
-        mockedMapper.Setup(x => x.Map<CartModel>(cart)).Returns(mappedCart);
         var mockedCartDataManager = new Mock<ICartDataManager>();
         mockedCartDataManager.Setup(x => x.CreateCart(createdCart, user)).ReturnsAsync(cart);
 
-        var cartManager = new CartManager(mockedMapper.Object, mockedCartDataManager.Object);
+        var cartManager = new CartManager(mockedCartDataManager.Object);
 
         var result = await cartManager.CreateCart(createdCart, user);
         
@@ -211,13 +186,6 @@ public class CartManagerTests
             Total = 59.99,
             Products = new List<ProductEntity>(),
         };
-        var mappedCart = new CartModel()
-        {
-            Id = Guid.Parse("D7447BFA-6CBC-406F-8EE1-B85226C8081F"),
-            UserId = Guid.Parse("1F9064A7-8FE6-4BAB-9EE6-37056FF731D3"),
-            Total = 59.99,
-            Products = new List<ProductModel>(),
-        };
         var user = new UserModel
         {
             Id = Guid.Parse("1F9064A7-8FE6-4BAB-9EE6-37056FF731D3"),
@@ -234,12 +202,10 @@ public class CartManagerTests
             Country = "USER_COUNTRY"
         };
         
-        var mockedMapper = new Mock<IMapper>();
-        mockedMapper.Setup(x => x.Map<CartModel>(cart)).Returns(mappedCart);
         var mockedCartDataManager = new Mock<ICartDataManager>();
         mockedCartDataManager.Setup(x => x.UpdateCart(updatedCart, user)).ReturnsAsync(cart);
 
-        var cartManager = new CartManager(mockedMapper.Object, mockedCartDataManager.Object);
+        var cartManager = new CartManager(mockedCartDataManager.Object);
 
         var result = await cartManager.UpdateCart(updatedCart, user);
         
