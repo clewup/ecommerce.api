@@ -78,40 +78,6 @@ public class ProductController : ControllerBase
         }
     }
 
-    [HttpGet]
-    [Route("categories")]
-    public async Task<IActionResult> GetProductCategories()
-    {
-        try
-        {
-            var categories = await _productManager.GetProductCategories();
-            
-            return Ok(categories);
-        }
-        catch (Exception)
-        {
-            _logger.LogCritical($"ProductController.GetProductCategories: Could not retrieve product categories");
-            throw;
-        }
-    }
-    
-    [HttpGet]
-    [Route("ranges")]
-    public async Task<IActionResult> GetProductRanges()
-    {
-        try
-        {
-            var ranges = await _productManager.GetProductRanges();
-            
-            return Ok(ranges);
-        }
-        catch (Exception)
-        {
-            _logger.LogCritical($"ProductController.GetProductRanges: Could not retrieve product ranges");
-            throw;
-        }
-    }
-    
     [Authorize]
     [HttpPost]
     [Authorize(Policy = RoleType.Employee)]

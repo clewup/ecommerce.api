@@ -14,41 +14,7 @@ public class ProductControllerTests
     [Fact]
     public async void ProductController_GetProducts_Successful()
     {
-        var products = new List<ProductModel>()
-        {
-            new ProductModel()
-            {
-                Id = Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AA4"),
-                Name = "PRODUCT_1_NAME",
-                Description = "PRODUCT_1_DESCRIPTION",
-                Category = "PRODUCT_1_CATEGORY",
-                Range = "PRODUCT_1_RANGE",
-                Color = "PRODUCT_1_COLOR",
-                Stock = 10,
-                Price = 30.00,
-                Discount = 0,
-                Images = new List<string>()
-                {
-                    "HTTP://IMAGE_URL.COM"
-                }
-            },
-            new ProductModel()
-            {
-                Id = Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AB6"),
-                Name = "PRODUCT_2_NAME",
-                Description = "PRODUCT_2_DESCRIPTION",
-                Category = "PRODUCT_2_CATEGORY",
-                Range = "PRODUCT_2_RANGE",
-                Color = "PRODUCT_2_COLOR",
-                Stock = 10,
-                Price = 30.00,
-                Discount = 0, 
-                Images = new List<string>()
-                {
-                    "HTTP://IMAGE_URL.COM"
-                }
-            }
-        };
+        var products = new List<ProductModel>();
         
         var mockedLogger = new Mock<ILogger<ProductController>>();
         var mockedClaimsManager = new Mock<IClaimsManager>();
@@ -65,41 +31,7 @@ public class ProductControllerTests
     [Fact]
     public async void ProductController_GetProductsBySearchCriteria_Successful()
     {
-        var products = new List<ProductModel>()
-        {
-            new ProductModel()
-            {
-                Id = Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AA4"),
-                Name = "PRODUCT_1_NAME",
-                Description = "PRODUCT_1_DESCRIPTION",
-                Category = "PRODUCT_1_CATEGORY",
-                Range = "PRODUCT_1_RANGE",
-                Color = "PRODUCT_1_COLOR",
-                Stock = 10,
-                Price = 30.00,
-                Discount = 0,
-                Images = new List<string>()
-                {
-                    "HTTP://IMAGE_URL.COM"
-                }
-            },
-            new ProductModel()
-            {
-                Id = Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AB6"),
-                Name = "PRODUCT_2_NAME",
-                Description = "PRODUCT_2_DESCRIPTION",
-                Category = "PRODUCT_2_CATEGORY",
-                Range = "PRODUCT_2_RANGE",
-                Color = "PRODUCT_2_COLOR",
-                Stock = 10,
-                Price = 30.00,
-                Discount = 0, 
-                Images = new List<string>()
-                {
-                    "HTTP://IMAGE_URL.COM"
-                }
-            }
-        };
+        var products = new List<ProductModel>();
         
         var searchCriteria = new SearchCriteriaModel()
         {
@@ -141,22 +73,7 @@ public class ProductControllerTests
     [Fact]
     public async void ProductController_GetProduct_Successful()
     {
-        var product = new ProductModel()
-        {
-            Id = Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AA4"),
-            Name = "PRODUCT_1_NAME",
-            Description = "PRODUCT_1_DESCRIPTION",
-            Category = "PRODUCT_1_CATEGORY",
-            Range = "PRODUCT_1_RANGE",
-            Color = "PRODUCT_1_COLOR",
-            Stock = 10,
-            Price = 30.00,
-            Discount = 0,
-            Images = new List<string>()
-            {
-                "HTTP://IMAGE_URL.COM"
-            }
-        };
+        var product = new ProductModel();
         
         var mockedLogger = new Mock<ILogger<ProductController>>();
         var mockedClaimsManager = new Mock<IClaimsManager>();
@@ -185,84 +102,10 @@ public class ProductControllerTests
     }
     
     [Fact]
-    public async void ProductController_GetProductCategories_Successful()
-    {
-        var categories = new List<string>()
-        {
-            "CATEGORY_1",
-            "CATEGORY_2",
-            "CATEGORY_3"
-        };
-        
-        var mockedLogger = new Mock<ILogger<ProductController>>();
-        var mockedClaimsManager = new Mock<IClaimsManager>();
-        var mockedProductManager = new Mock<IProductManager>();
-        mockedProductManager.Setup(x => x.GetProductCategories()).ReturnsAsync(categories);
-
-        var productController = new ProductController(mockedLogger.Object, mockedClaimsManager.Object, mockedProductManager.Object);
-
-        var result = await productController.GetProductCategories();
-        
-        Assert.IsType<OkObjectResult>(result);
-    }
-    
-    [Fact]
-    public async void ProductController_GetProductRanges_Successful()
-    {
-        var ranges = new List<string>()
-        {
-            "RANGE_1",
-            "RANGE_2",
-            "RANGE_3"
-        };
-        
-        var mockedLogger = new Mock<ILogger<ProductController>>();
-        var mockedClaimsManager = new Mock<IClaimsManager>();
-        var mockedProductManager = new Mock<IProductManager>();
-        mockedProductManager.Setup(x => x.GetProductRanges()).ReturnsAsync(ranges);
-
-        var productController = new ProductController(mockedLogger.Object, mockedClaimsManager.Object, mockedProductManager.Object);
-
-        var result = await productController.GetProductRanges();
-        
-        Assert.IsType<OkObjectResult>(result);
-    }
-    
-    [Fact]
     public async void ProductController_CreateProduct_Successful()
     {
-        var product = new ProductModel()
-        {
-            Id = Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AA4"),
-            Name = "PRODUCT_1_NAME",
-            Description = "PRODUCT_1_DESCRIPTION",
-            Category = "PRODUCT_1_CATEGORY",
-            Range = "PRODUCT_1_RANGE",
-            Color = "PRODUCT_1_COLOR",
-            Stock = 10,
-            Price = 30.00,
-            Discount = 0,
-            Images = new List<string>()
-            {
-                "HTTP://IMAGE_URL.COM"
-            }
-        };
-        var createdProduct = new ProductModel()
-        {
-            Id = Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AA4"),
-            Name = "PRODUCT_1_NAME",
-            Description = "PRODUCT_1_DESCRIPTION",
-            Category = "PRODUCT_1_CATEGORY",
-            Range = "PRODUCT_1_RANGE",
-            Color = "PRODUCT_1_COLOR",
-            Stock = 10,
-            Price = 30.00,
-            Discount = 0,
-            Images = new List<string>()
-            {
-                "HTTP://IMAGE_URL.COM"
-            }
-        };
+        var product = new ProductModel();
+        var createdProduct = new ProductModel();
         var user = new UserModel()
         {
             Id = Guid.Parse("1F9064A7-8FE6-4BAB-9EE6-37056FF731D3"),
@@ -293,22 +136,7 @@ public class ProductControllerTests
     [Fact]
     public async void ProductController_CreateProduct_Unsuccessful()
     {
-        var product = new ProductModel()
-        {
-            Id = Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AA4"),
-            Name = "PRODUCT_1_NAME",
-            Description = "PRODUCT_1_DESCRIPTION",
-            Category = "PRODUCT_1_CATEGORY",
-            Range = "PRODUCT_1_RANGE",
-            Color = "PRODUCT_1_COLOR",
-            Stock = 10,
-            Price = 30.00,
-            Discount = 0,
-            Images = new List<string>()
-            {
-                "HTTP://IMAGE_URL.COM"
-            }
-        };
+        var product = new ProductModel();
         
         var mockedLogger = new Mock<ILogger<ProductController>>();
         var mockedClaimsManager = new Mock<IClaimsManager>();
@@ -326,38 +154,8 @@ public class ProductControllerTests
     [Fact]
     public async void ProductController_UpdateProduct_Successful()
     {
-        var product = new ProductModel()
-        {
-            Id = Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AA4"),
-            Name = "PRODUCT_1_NAME",
-            Description = "PRODUCT_1_DESCRIPTION",
-            Category = "PRODUCT_1_CATEGORY",
-            Range = "PRODUCT_1_RANGE",
-            Color = "PRODUCT_1_COLOR",
-            Stock = 10,
-            Price = 30.00,
-            Discount = 0,
-            Images = new List<string>()
-            {
-                "HTTP://IMAGE_URL.COM"
-            }
-        };
-        var updatedProduct = new ProductModel()
-        {
-            Id = Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AA4"),
-            Name = "PRODUCT_1_NAME",
-            Description = "PRODUCT_1_DESCRIPTION",
-            Category = "PRODUCT_1_CATEGORY",
-            Range = "PRODUCT_1_RANGE",
-            Color = "PRODUCT_1_COLOR",
-            Stock = 10,
-            Price = 30.00,
-            Discount = 0,
-            Images = new List<string>()
-            {
-                "HTTP://IMAGE_URL.COM"
-            }
-        };
+        var product = new ProductModel();
+        var updatedProduct = new ProductModel();
         var user = new UserModel()
         {
             Id = Guid.Parse("1F9064A7-8FE6-4BAB-9EE6-37056FF731D3"),
@@ -390,22 +188,7 @@ public class ProductControllerTests
     [Fact]
     public async void ProductController_UpdateProduct_NonExisting_Unsuccessful()
     {
-        var product = new ProductModel()
-        {
-            Id = Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AA4"),
-            Name = "PRODUCT_1_NAME",
-            Description = "PRODUCT_1_DESCRIPTION",
-            Category = "PRODUCT_1_CATEGORY",
-            Range = "PRODUCT_1_RANGE",
-            Color = "PRODUCT_1_COLOR",
-            Stock = 10,
-            Price = 30.00,
-            Discount = 0,
-            Images = new List<string>()
-            {
-                "HTTP://IMAGE_URL.COM"
-            }
-        };
+        var product = new ProductModel();
         
         var mockedLogger = new Mock<ILogger<ProductController>>();
         var mockedClaimsManager = new Mock<IClaimsManager>();
@@ -422,22 +205,7 @@ public class ProductControllerTests
     [Fact]
     public async void ProductController_UpdateProduct_ModelState_Unsuccessful()
     {
-        var product = new ProductModel()
-        {
-            Id = Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AA4"),
-            Name = "PRODUCT_1_NAME",
-            Description = "PRODUCT_1_DESCRIPTION",
-            Category = "PRODUCT_1_CATEGORY",
-            Range = "PRODUCT_1_RANGE",
-            Color = "PRODUCT_1_COLOR",
-            Stock = 10,
-            Price = 30.00,
-            Discount = 0,
-            Images = new List<string>()
-            {
-                "HTTP://IMAGE_URL.COM"
-            }
-        };
+        var product = new ProductModel();
         
         var mockedLogger = new Mock<ILogger<ProductController>>();
         var mockedClaimsManager = new Mock<IClaimsManager>();

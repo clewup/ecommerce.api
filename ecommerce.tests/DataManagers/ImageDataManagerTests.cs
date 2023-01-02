@@ -53,18 +53,7 @@ public class ImageDataManagerTests
     public async void ImageDataManager_UploadImage_Successful()
     {
         var image = "HTTP://IMAGE_4_URL.COM";
-        var product = new ProductEntity()
-        {
-            Id = Guid.Parse("93FA7638-4B16-490C-8CDB-2042EE131AA7"),
-            Name = "PRODUCT_NAME",
-            Description = "PRODUCT_DESCRIPTION",
-            Category = "PRODUCT_CATEGORY",
-            Range = "PRODUCT_RANGE",
-            Color = "PRODUCT_COLOR",
-            Stock = 10,
-            Price = 30.00,
-            Discount = 0,
-        };
+        var product = new ProductEntity();
         var user = new UserModel()
         {
             Id = Guid.Parse("BA839B31-9FA9-41C0-A009-3AD3B1ADFB14"),

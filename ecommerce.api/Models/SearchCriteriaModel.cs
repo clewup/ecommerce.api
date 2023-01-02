@@ -6,6 +6,7 @@ public class SearchCriteriaModel
 {
     public string SearchTerm { get; set; } = "";
     public string Category { get; set; } = "";
+    public string Subcategory { get; set; } = "";
     public string Range { get; set; } = "";
     public string InStock { get; set; } = "";
     public string OnSale { get; set; } = "";

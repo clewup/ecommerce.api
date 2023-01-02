@@ -42,32 +42,14 @@ public class OrderManager : IOrderManager
     
     public async Task<OrderModel> CreateOrder(OrderModel order, UserModel user)
     {
-        var mappedOrder = _mapper.Map<OrderEntity>(order);
-        var orderProducts = await _productDataManager.GetProducts(mappedOrder);
-
-        if (orderProducts.Any(op => op.Stock == 0))
-        {
-            throw new BadHttpRequestException("One or more products are unavailable.", 406);
-        }
-        
         var createdOrder = await _orderDataManager.CreateOrder(order, user);
-        await _productDataManager.UpdateProductStock(createdOrder);
         
         return _mapper.Map<OrderModel>(createdOrder);
     }
 
     public async Task<OrderModel> UpdateOrder(OrderModel order, UserModel user)
     {
-        var mappedOrder = _mapper.Map<OrderEntity>(order);
-        var orderProducts = await _productDataManager.GetProducts(mappedOrder);
-
-        if (orderProducts.Any(op => op.Stock == 0))
-        {
-            throw new BadHttpRequestException("One or more products are unavailable.", 406);
-        }
-        
         var updatedOrder = await _orderDataManager.UpdateOrder(order, user);
-        await _productDataManager.UpdateProductStock(updatedOrder);
         
         return _mapper.Map<OrderModel>(updatedOrder);
     }

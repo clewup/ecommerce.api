@@ -240,9 +240,18 @@ namespace ecommerce.api.Migrations
                     b.Property<double?>("DiscountedPrice")
                         .HasColumnType("double precision");
 
+                    b.Property<int>("Large")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Medium")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<bool>("OneSize")
+                        .HasColumnType("boolean");
 
                     b.Property<double>("Price")
                         .HasColumnType("double precision");
@@ -251,13 +260,14 @@ namespace ecommerce.api.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("Small")
+                        .HasColumnType("integer");
+
                     b.Property<int>("Status")
                         .HasColumnType("integer");
 
-                    b.Property<int>("Stock")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Subcategory")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<double?>("TotalSavings")
@@ -269,6 +279,12 @@ namespace ecommerce.api.Migrations
 
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("XLarge")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("XSmall")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 

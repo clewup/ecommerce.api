@@ -27,7 +27,12 @@ public class ProductDataManagerTests
                 Category = "PRODUCT_1_CATEGORY",
                 Range = "PRODUCT_1_RANGE",
                 Color = "PRODUCT_1_COLOR",
-                Stock = 0,
+                OneSize = false,
+                XSmall = 10,
+                Small = 10,
+                Medium = 10,
+                Large = 10,
+                XLarge = 10,
                 Price = 30.00,
                 Discount = 0,
                 Images = new List<ImageEntity>()
@@ -47,7 +52,12 @@ public class ProductDataManagerTests
                 Category = "PRODUCT_2_CATEGORY",
                 Range = "PRODUCT_2_RANGE",
                 Color = "PRODUCT_2_COLOR",
-                Stock = 10,
+                OneSize = false,
+                XSmall = 10,
+                Small = 10,
+                Medium = 10,
+                Large = 10,
+                XLarge = 10,
                 Price = 60.00,
                 Discount = 10, 
                 Images = new List<ImageEntity>()
@@ -67,7 +77,12 @@ public class ProductDataManagerTests
                 Category = "PRODUCT_2_CATEGORY",
                 Range = "PRODUCT_2_RANGE",
                 Color = "PRODUCT_3_COLOR",
-                Stock = 10,
+                OneSize = false,
+                XSmall = 10,
+                Small = 10,
+                Medium = 10,
+                Large = 10,
+                XLarge = 10,
                 Price = 40.00,
                 Discount = 10, 
                 Images = new List<ImageEntity>()
@@ -293,7 +308,12 @@ public class ProductDataManagerTests
                     Category = "PRODUCT_1_CATEGORY",
                     Range = "PRODUCT_1_RANGE",
                     Color = "PRODUCT_1_COLOR",
-                    Stock = 0,
+                    OneSize = false,
+                    XSmall = 10,
+                    Small = 10,
+                    Medium = 10,
+                    Large = 10,
+                    XLarge = 10,
                     Price = 30.00,
                     Discount = 0,
                     Images = new List<ImageEntity>()
@@ -335,7 +355,12 @@ public class ProductDataManagerTests
                     Category = "PRODUCT_1_CATEGORY",
                     Range = "PRODUCT_1_RANGE",
                     Color = "PRODUCT_1_COLOR",
-                    Stock = 0,
+                    OneSize = false,
+                    XSmall = 10,
+                    Small = 10,
+                    Medium = 10,
+                    Large = 10,
+                    XLarge = 10,
                     Price = 30.00,
                     Discount = 0,
                     Images = new List<ImageEntity>()
@@ -363,40 +388,6 @@ public class ProductDataManagerTests
     }
     
     [Fact]
-    public async void ProductDataManager_GetProductCategories_Successful()
-    {
-        var mockedMapper = new Mock<IMapper>();
-        
-        using (var context = new EcommerceDbContext(options))
-        {
-            var productDataManager = new ProductDataManager(mockedMapper.Object, context);
-
-            var result = await productDataManager.GetProductCategories();
-            
-            Assert.Equal(2, result.Count);
-            Assert.Contains("PRODUCT_1_CATEGORY", result);
-            Assert.Contains("PRODUCT_2_CATEGORY", result);
-        }
-    }
-    
-    [Fact]
-    public async void ProductDataManager_GetProductRanges_Successful()
-    {
-        var mockedMapper = new Mock<IMapper>();
-        
-        using (var context = new EcommerceDbContext(options))
-        {
-            var productDataManager = new ProductDataManager(mockedMapper.Object, context);
-
-            var result = await productDataManager.GetProductRanges();
-            
-            Assert.Equal(3, result.Count);
-            Assert.Contains("PRODUCT_1_RANGE", result);
-            Assert.Contains("PRODUCT_2_RANGE", result);
-        }
-    }
-    
-    [Fact]
     public async void ProductDataManager_GetProduct_Successful()
     {
         var mockedMapper = new Mock<IMapper>();
@@ -412,7 +403,6 @@ public class ProductDataManagerTests
             Assert.Equal("PRODUCT_1_CATEGORY", result?.Category);
             Assert.Equal("PRODUCT_1_RANGE", result?.Range);
             Assert.Equal("PRODUCT_1_COLOR", result?.Color);
-            Assert.Equal(0, result?.Stock);
             Assert.Equal(30, result?.Price);
             Assert.Equal(0, result?.Discount);
         }
@@ -421,42 +411,8 @@ public class ProductDataManagerTests
     [Fact]
     public async void ProductDataManager_CreateProduct_Successful()
     {
-        var product = new ProductModel()
-        {
-            Id = Guid.Parse("5700E7D4-D117-4B90-8B85-9C740FB790F4"),
-            Name = "PRODUCT_4_NAME",
-            Description = "PRODUCT_4_DESCRIPTION",
-            Category = "PRODUCT_4_CATEGORY",
-            Range = "PRODUCT_4_RANGE",
-            Color = "PRODUCT_4_COLOR",
-            Stock = 0,
-            Price = 289.99,
-            Discount = 0,
-            Images = new List<string>()
-            {
-                "HTTP://IMAGE_URL.COM",
-            }
-        };
-        var mappedProduct = new ProductEntity()
-        {
-            Id = Guid.Parse("5700E7D4-D117-4B90-8B85-9C740FB790F4"),
-            Name = "PRODUCT_4_NAME",
-            Description = "PRODUCT_4_DESCRIPTION",
-            Category = "PRODUCT_4_CATEGORY",
-            Range = "PRODUCT_4_RANGE",
-            Color = "PRODUCT_4_COLOR",
-            Stock = 0,
-            Price = 289.99,
-            Discount = 0,
-            Images = new List<ImageEntity>()
-            {
-                new ImageEntity()
-                {
-                    Url = new Uri("HTTP://IMAGE_URL.COM"),
-                    ProductId = Guid.Parse("5700E7D4-D117-4B90-8B85-9C740FB790F4"),
-                }
-            }
-        };
+        var product = new ProductModel();
+        var mappedProduct = new ProductEntity();
         var user = new UserModel
         {
             Id = Guid.Parse("CB75975F-9492-48C6-8BB3-5C86C62AE015"),
@@ -487,7 +443,6 @@ public class ProductDataManagerTests
             Assert.Equal("PRODUCT_4_CATEGORY", result?.Category);
             Assert.Equal("PRODUCT_4_RANGE", result?.Range);
             Assert.Equal("PRODUCT_4_COLOR", result?.Color);
-            Assert.Equal(0, result?.Stock);
             Assert.Equal(289.99, result?.Price);
             Assert.Equal(0, result?.Discount);
         }
@@ -496,22 +451,7 @@ public class ProductDataManagerTests
     [Fact]
     public async void ProductDataManager_UpdateProduct_Successful()
     {
-        var product = new ProductModel()
-        {
-            Id = Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AA6"),
-            Name = "PRODUCT_2_NAME_UPDATED",
-            Description = "PRODUCT_2_DESCRIPTION_UPDATED",
-            Category = "PRODUCT_2_CATEGORY_UPDATED",
-            Range = "PRODUCT_2_RANGE_UPDATED",
-            Color = "PRODUCT_2_COLOR_UPDATED",
-            Stock = 10,
-            Price = 59.99,
-            Discount = 20,
-            Images = new List<string>()
-            {
-                "HTTP://IMAGE_URL.COM",
-            }
-        };
+        var product = new ProductModel();
         var user = new UserModel
         {
             Id = Guid.Parse("CB75975F-9492-48C6-8BB3-5C86C62AE015"),
@@ -541,7 +481,6 @@ public class ProductDataManagerTests
             Assert.Equal("PRODUCT_2_CATEGORY_UPDATED", result?.Category);
             Assert.Equal("PRODUCT_2_RANGE_UPDATED", result?.Range);
             Assert.Equal("PRODUCT_2_COLOR_UPDATED", result?.Color);
-            Assert.Equal(10, result?.Stock);
             Assert.Equal(59.99, result?.Price);
             Assert.Equal(20, result?.Discount);
         }
@@ -561,50 +500,6 @@ public class ProductDataManagerTests
             var result = await productDataManager.GetProduct(Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AA8"));
             
             Assert.Null(result);
-        }
-    }
-    
-    [Fact]
-    public async void ProductDataManager_UpdateProductStock_Successful()
-    {
-        var order = new OrderEntity()
-        {
-            Products = new List<ProductEntity>()
-            {
-                new ProductEntity()
-                {
-                    Id = Guid.Parse("261B5815-904C-4989-8B4B-55D02F1FE194"),
-                    Name = "PRODUCT_3_NAME",
-                    Description = "PRODUCT_3_DESCRIPTION",
-                    Category = "PRODUCT_2_CATEGORY",
-                    Range = "PRODUCT_2_RANGE",
-                    Color = "PRODUCT_3_COLOR",
-                    Stock = 10,
-                    Price = 40.00,
-                    Discount = 10, 
-                    Images = new List<ImageEntity>()
-                    {
-                        new ImageEntity()
-                        {
-                            Url = new Uri("HTTP://IMAGE_URL.COM"),
-                            ProductId = Guid.Parse("261B5815-904C-4989-8B4B-55D02F1FE194"),
-                        }
-                    }
-                }
-            },
-        };
-        
-        var mockedMapper = new Mock<IMapper>();
-        
-        using (var context = new EcommerceDbContext(options))
-        {
-            var productDataManager = new ProductDataManager(mockedMapper.Object, context);
-
-            await productDataManager.UpdateProductStock(order);
-
-            var result = await productDataManager.GetProduct(Guid.Parse("261B5815-904C-4989-8B4B-55D02F1FE194"));
-            
-            Assert.Equal(9, result?.Stock);
         }
     }
 }
