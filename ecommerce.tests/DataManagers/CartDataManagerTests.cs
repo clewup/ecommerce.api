@@ -41,12 +41,11 @@ public class CartDataManagerTests
     [Fact]
     public async void CartDataManager_GetCarts_Successful()
     {
-        var mockedMapper = new Mock<IMapper>();
         var mockedProductDataManager = new Mock<IProductDataManager>();
 
         using (var context = new EcommerceDbContext(options))
         {
-            var cartDataManager = new CartDataManager( mockedMapper.Object, context, mockedProductDataManager.Object);
+            var cartDataManager = new CartDataManager(context, mockedProductDataManager.Object);
 
             var result = await cartDataManager.GetCarts();
             
@@ -57,12 +56,11 @@ public class CartDataManagerTests
     [Fact]
     public async void CartDataManager_GetCart_Successful()
     {
-        var mockedMapper = new Mock<IMapper>();
         var mockedProductDataManager = new Mock<IProductDataManager>();
 
         using (var context = new EcommerceDbContext(options))
         {
-            var cartDataManager = new CartDataManager( mockedMapper.Object, context, mockedProductDataManager.Object);
+            var cartDataManager = new CartDataManager(context, mockedProductDataManager.Object);
 
             var result = await cartDataManager.GetCart(Guid.Parse("6BA2368C-5551-4503-A32F-6E2C7FBE3CB0"));
 
@@ -90,12 +88,11 @@ public class CartDataManagerTests
             Country = "USER_COUNTRY",
         };
         
-        var mockedMapper = new Mock<IMapper>();
         var mockedProductDataManager = new Mock<IProductDataManager>();
 
         using (var context = new EcommerceDbContext(options))
         {
-            var cartDataManager = new CartDataManager( mockedMapper.Object, context, mockedProductDataManager.Object);
+            var cartDataManager = new CartDataManager(context, mockedProductDataManager.Object);
 
             var result = await cartDataManager.GetUserCart(user);
             
@@ -138,14 +135,12 @@ public class CartDataManagerTests
             Country = "USER_COUNTRY",
         };
         
-        var mockedMapper = new Mock<IMapper>();
-        mockedMapper.Setup(x => x.Map<CartEntity>(cart)).Returns(mappedCart);
         var mockedProductDataManager = new Mock<IProductDataManager>();
         mockedProductDataManager.Setup(x => x.GetProducts(mappedCart)).ReturnsAsync(products);
 
         using (var context = new EcommerceDbContext(options))
         {
-            var cartDataManager = new CartDataManager( mockedMapper.Object, context, mockedProductDataManager.Object);
+            var cartDataManager = new CartDataManager(context, mockedProductDataManager.Object);
 
             var result = await cartDataManager.CreateCart(cart, user);
             
@@ -189,14 +184,12 @@ public class CartDataManagerTests
             Country = "USER_COUNTRY",
         };
         
-        var mockedMapper = new Mock<IMapper>();
-        mockedMapper.Setup(x => x.Map<CartEntity>(cart)).Returns(mappedCart);
         var mockedProductDataManager = new Mock<IProductDataManager>();
         mockedProductDataManager.Setup(x => x.GetProducts(mappedCart)).ReturnsAsync(products);
 
         using (var context = new EcommerceDbContext(options))
         {
-            var cartDataManager = new CartDataManager( mockedMapper.Object, context, mockedProductDataManager.Object);
+            var cartDataManager = new CartDataManager(context, mockedProductDataManager.Object);
 
             var result = await cartDataManager.UpdateCart(cart, user);
             

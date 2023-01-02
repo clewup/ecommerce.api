@@ -62,15 +62,13 @@ public class StatisticsManagerTests
             Guid.Parse("D08B30FB-EA25-4F6F-A386-4D247F5537FE"),
         };
         
-        var mockedMapper = new Mock<IMapper>();
-        mockedMapper.Setup(x => x.Map<List<ProductModel>>(products)).Returns(mappedProducts);
         var mockedStatisticsDataManager = new Mock<IStatisticsDataManager>();
         mockedStatisticsDataManager.Setup(x => x.GetCartProducts()).ReturnsAsync(cartProducts);
         var mockedProductDataManager = new Mock<IProductDataManager>();
         mockedProductDataManager.Setup(x => x.GetProducts(productIds)).ReturnsAsync(products);
 
         var statisticsManager =
-            new StatisticsManager(mockedMapper.Object, mockedStatisticsDataManager.Object, mockedProductDataManager.Object);
+            new StatisticsManager(mockedStatisticsDataManager.Object, mockedProductDataManager.Object);
 
         var result = await statisticsManager.GetMostPopularProducts();
         
@@ -84,14 +82,12 @@ public class StatisticsManagerTests
         var products = new List<ProductEntity>();
         var mappedProducts = new List<ProductModel>();
         
-        var mockedMapper = new Mock<IMapper>();
-        mockedMapper.Setup(x => x.Map<List<ProductModel>>(products)).Returns(mappedProducts);
         var mockedStatisticsDataManager = new Mock<IStatisticsDataManager>();
         var mockedProductDataManager = new Mock<IProductDataManager>();
         mockedProductDataManager.Setup(x => x.GetProducts()).ReturnsAsync(products);
 
         var statisticsManager =
-            new StatisticsManager(mockedMapper.Object, mockedStatisticsDataManager.Object, mockedProductDataManager.Object);
+            new StatisticsManager(mockedStatisticsDataManager.Object, mockedProductDataManager.Object);
 
         var result = await statisticsManager.GetMostDiscountedProducts();
         

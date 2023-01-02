@@ -1,6 +1,7 @@
 using AutoMapper;
 using ecommerce.api.DataManagers.Contracts;
 using ecommerce.api.Managers.Contracts;
+using ecommerce.api.Mappers;
 using ecommerce.api.Models;
 
 namespace ecommerce.api.Managers;
@@ -9,11 +10,9 @@ public class ProductManager : IProductManager
 {
     private readonly IProductDataManager _productDataManager;
     private readonly IImageDataManager _imageDataManager;
-    private readonly IMapper _mapper;
 
-    public ProductManager(IMapper mapper, IProductDataManager productDataManager, IImageDataManager imageDataManager)
+    public ProductManager(IProductDataManager productDataManager, IImageDataManager imageDataManager)
     {
-        _mapper = mapper;
         _productDataManager = productDataManager;
         _imageDataManager = imageDataManager;
     }   
@@ -22,21 +21,21 @@ public class ProductManager : IProductManager
     {
         var products = await _productDataManager.GetProducts();
 
-        return _mapper.Map<List<ProductModel>>(products);;
+        return products.ToModels();
     }
     
     public async Task<List<ProductModel>> GetProductsBySearchCriteria(SearchCriteriaModel searchCriteria)
     {
         var products = await _productDataManager.GetProductsBySearchCriteria(searchCriteria);
 
-        return _mapper.Map<List<ProductModel>>(products);;
+        return products.ToModels();
     }
     
     public async Task<ProductModel?> GetProduct(Guid id)
     {
         var product = await _productDataManager.GetProduct(id);
 
-        return _mapper.Map<ProductModel>(product);
+        return product.ToModel();
     }
 
     public async Task<ProductModel> CreateProduct(ProductModel product, UserModel user)
@@ -48,14 +47,14 @@ public class ProductManager : IProductManager
             await _imageDataManager.UploadImage(image, createdProduct, user);
         }
 
-        return _mapper.Map<ProductModel>(createdProduct);
+        return createdProduct.ToModel();
     }
 
     public async Task<ProductModel> UpdateProduct(ProductModel product, UserModel user)
     {
         var updatedProduct = await _productDataManager.UpdateProduct(product, user);
-        
-        return _mapper.Map<ProductModel>(updatedProduct);
+
+        return updatedProduct.ToModel();
     }
 
     public async Task DeleteProduct(Guid id)

@@ -101,11 +101,9 @@ public class ProductDataManagerTests
     [Fact]
     public async void ProductDataManager_GetProducts_Successful()
     {
-        var mockedMapper = new Mock<IMapper>();
-        
         using (var context = new EcommerceDbContext(options))
         {
-            var productDataManager = new ProductDataManager(mockedMapper.Object, context);
+            var productDataManager = new ProductDataManager(context);
 
             var result = await productDataManager.GetProducts();
             
@@ -124,11 +122,9 @@ public class ProductDataManagerTests
             SearchTerm = searchTerm,
         };
         
-        var mockedMapper = new Mock<IMapper>();
-        
         using (var context = new EcommerceDbContext(options))
         {
-            var productDataManager = new ProductDataManager(mockedMapper.Object, context);
+            var productDataManager = new ProductDataManager(context);
 
             var result = await productDataManager.GetProductsBySearchCriteria(searchCriteria);
             
@@ -146,11 +142,10 @@ public class ProductDataManagerTests
             Category = category,
         };
         
-        var mockedMapper = new Mock<IMapper>();
         
         using (var context = new EcommerceDbContext(options))
         {
-            var productDataManager = new ProductDataManager(mockedMapper.Object, context);
+            var productDataManager = new ProductDataManager(context);
 
             var result = await productDataManager.GetProductsBySearchCriteria(searchCriteria);
             
@@ -168,11 +163,9 @@ public class ProductDataManagerTests
             Range = range,
         };
         
-        var mockedMapper = new Mock<IMapper>();
-        
         using (var context = new EcommerceDbContext(options))
         {
-            var productDataManager = new ProductDataManager(mockedMapper.Object, context);
+            var productDataManager = new ProductDataManager(context);
 
             var result = await productDataManager.GetProductsBySearchCriteria(searchCriteria);
             
@@ -190,11 +183,9 @@ public class ProductDataManagerTests
             InStock = inStock,
         };
         
-        var mockedMapper = new Mock<IMapper>();
-        
         using (var context = new EcommerceDbContext(options))
         {
-            var productDataManager = new ProductDataManager(mockedMapper.Object, context);
+            var productDataManager = new ProductDataManager(context);
 
             var result = await productDataManager.GetProductsBySearchCriteria(searchCriteria);
             
@@ -212,11 +203,9 @@ public class ProductDataManagerTests
             OnSale = onSale,
         };
         
-        var mockedMapper = new Mock<IMapper>();
-        
         using (var context = new EcommerceDbContext(options))
         {
-            var productDataManager = new ProductDataManager(mockedMapper.Object, context);
+            var productDataManager = new ProductDataManager(context);
 
             var result = await productDataManager.GetProductsBySearchCriteria(searchCriteria);
             
@@ -238,11 +227,9 @@ public class ProductDataManagerTests
             MaxPrice = maxPrice
         };
         
-        var mockedMapper = new Mock<IMapper>();
-        
         using (var context = new EcommerceDbContext(options))
         {
-            var productDataManager = new ProductDataManager(mockedMapper.Object, context);
+            var productDataManager = new ProductDataManager(context);
 
             var result = await productDataManager.GetProductsBySearchCriteria(searchCriteria);
             
@@ -260,11 +247,9 @@ public class ProductDataManagerTests
             SortVariation = sortVariation
         };
         
-        var mockedMapper = new Mock<IMapper>();
-        
         using (var context = new EcommerceDbContext(options))
         {
-            var productDataManager = new ProductDataManager(mockedMapper.Object, context);
+            var productDataManager = new ProductDataManager(context);
 
             var result = await productDataManager.GetProductsBySearchCriteria(searchCriteria);
             
@@ -281,11 +266,9 @@ public class ProductDataManagerTests
             new Guid("93FB7638-4B16-490C-8CDB-2042EE131AA6")
         };
         
-        var mockedMapper = new Mock<IMapper>();
-        
         using (var context = new EcommerceDbContext(options))
         {
-            var productDataManager = new ProductDataManager(mockedMapper.Object, context);
+            var productDataManager = new ProductDataManager(context);
 
             var result = await productDataManager.GetProducts(guidList);
             
@@ -328,11 +311,9 @@ public class ProductDataManagerTests
             }
         };
         
-        var mockedMapper = new Mock<IMapper>();
-        
         using (var context = new EcommerceDbContext(options))
         {
-            var productDataManager = new ProductDataManager(mockedMapper.Object, context);
+            var productDataManager = new ProductDataManager(context);
 
             var result = await productDataManager.GetProducts(cart);
             
@@ -375,11 +356,9 @@ public class ProductDataManagerTests
             },
         };
         
-        var mockedMapper = new Mock<IMapper>();
-        
         using (var context = new EcommerceDbContext(options))
         {
-            var productDataManager = new ProductDataManager(mockedMapper.Object, context);
+            var productDataManager = new ProductDataManager(context);
 
             var result = await productDataManager.GetProducts(order);
             
@@ -390,11 +369,9 @@ public class ProductDataManagerTests
     [Fact]
     public async void ProductDataManager_GetProduct_Successful()
     {
-        var mockedMapper = new Mock<IMapper>();
-        
         using (var context = new EcommerceDbContext(options))
         {
-            var productDataManager = new ProductDataManager(mockedMapper.Object, context);
+            var productDataManager = new ProductDataManager(context);
 
             var result = await productDataManager.GetProduct(Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AA8"));
             
@@ -429,12 +406,9 @@ public class ProductDataManagerTests
             Country = "USER_COUNTRY"
         };
         
-        var mockedMapper = new Mock<IMapper>();
-        mockedMapper.Setup(x => x.Map<ProductEntity>(product)).Returns(mappedProduct);
-        
         using (var context = new EcommerceDbContext(options))
         {
-            var productDataManager = new ProductDataManager(mockedMapper.Object, context);
+            var productDataManager = new ProductDataManager(context);
 
             var result = await productDataManager.CreateProduct(product, user);
             
@@ -468,11 +442,9 @@ public class ProductDataManagerTests
             Country = "USER_COUNTRY"
         };
         
-        var mockedMapper = new Mock<IMapper>();
-        
         using (var context = new EcommerceDbContext(options))
         {
-            var productDataManager = new ProductDataManager(mockedMapper.Object, context);
+            var productDataManager = new ProductDataManager(context);
 
             var result = await productDataManager.UpdateProduct(product, user);
             
@@ -489,11 +461,9 @@ public class ProductDataManagerTests
     [Fact]
     public async void ProductDataManager_DeleteProduct_Successful()
     {
-        var mockedMapper = new Mock<IMapper>();
-        
         using (var context = new EcommerceDbContext(options))
         {
-            var productDataManager = new ProductDataManager(mockedMapper.Object, context);
+            var productDataManager = new ProductDataManager(context);
 
             await productDataManager.DeleteProduct(Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AA8"));
 

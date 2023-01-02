@@ -1,6 +1,7 @@
 using AutoMapper;
 using ecommerce.api.DataManagers.Contracts;
 using ecommerce.api.Managers.Contracts;
+using ecommerce.api.Mappers;
 using ecommerce.api.Models;
 
 namespace ecommerce.api.Managers;
@@ -9,11 +10,9 @@ public class StatisticsManager : IStatisticsManager
 {
     private readonly IStatisticsDataManager _statisticsDataManager;
     private readonly IProductDataManager _productDataManager;
-    private readonly IMapper _mapper;
 
-    public StatisticsManager(IMapper mapper, IStatisticsDataManager statisticsDataManager, IProductDataManager productDataManager)
+    public StatisticsManager(IStatisticsDataManager statisticsDataManager, IProductDataManager productDataManager)
     {
-        _mapper = mapper;
         _statisticsDataManager = statisticsDataManager;
         _productDataManager = productDataManager;
     }
@@ -30,7 +29,7 @@ public class StatisticsManager : IStatisticsManager
 
         var popularProducts = await _productDataManager.GetProducts(popularProductIds);
 
-        return _mapper.Map<List<ProductModel>>(popularProducts);
+        return popularProducts.ToModels();
     }
     
     public async Task<List<ProductModel>> GetMostDiscountedProducts(int amount = 10)
@@ -41,6 +40,6 @@ public class StatisticsManager : IStatisticsManager
             .OrderByDescending(p => p.Discount)
             .Take(amount).ToList();
 
-        return _mapper.Map<List<ProductModel>>(discountedProducts);;
+        return discountedProducts.ToModels();
     }
 }

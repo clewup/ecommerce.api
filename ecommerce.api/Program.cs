@@ -109,17 +109,6 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy(RoleType.User, policy =>
         policy.RequireRole(RoleType.User, RoleType.External, RoleType.Employee, RoleType.Developer));
 });
-// Auto Mapper
-var mapperConfig = new MapperConfiguration(mc =>
-{
-    mc.AddProfile(new OrderMapper());
-    mc.AddProfile(new ProductMapper());
-    mc.AddProfile(new CartMapper());
-    mc.AddProfile(new ImageMapper());
-});
-
-IMapper mapper = mapperConfig.CreateMapper();
-builder.Services.AddSingleton(mapper);
 
 // Managers
 builder.Services.AddTransient<IProductManager, ProductManager>();

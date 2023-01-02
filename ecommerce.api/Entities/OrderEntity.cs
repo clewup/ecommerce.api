@@ -15,7 +15,7 @@ public class OrderEntity : BaseEntity
     public string Country { get; set; } = "";
     public double Total { get; set; }
     public double? DiscountedTotal { get; set; }
-    public double TotalSavings { get; set; }
+    public double? TotalSavings { get; set; }
     
     public ICollection<ProductEntity> Products { get; set; }
     public List<OrderProductEntity> OrderProducts { get; set; }

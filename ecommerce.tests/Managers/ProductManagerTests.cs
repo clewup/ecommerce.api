@@ -14,15 +14,12 @@ public class ProductManagerTests
     public async void ProductManager_GetProducts_Successful()
     {
         var products = new List<ProductEntity>();
-        var mappedProducts = new List<ProductModel>();
         
-        var mockedMapper = new Mock<IMapper>();
-        mockedMapper.Setup(x => x.Map<List<ProductModel>>(products)).Returns(mappedProducts);
         var mockedProductDataManager = new Mock<IProductDataManager>();
         mockedProductDataManager.Setup(x => x.GetProducts()).ReturnsAsync(products);
         var mockedImageDataManager = new Mock<IImageDataManager>();
 
-        var productManager = new ProductManager(mockedMapper.Object, mockedProductDataManager.Object,
+        var productManager = new ProductManager(mockedProductDataManager.Object,
             mockedImageDataManager.Object);
 
         var result = await productManager.GetProducts();
@@ -38,15 +35,12 @@ public class ProductManagerTests
             SearchTerm = "PRODUCT",
         };
         var products = new List<ProductEntity>();
-        var mappedProducts = new List<ProductModel>();
         
-        var mockedMapper = new Mock<IMapper>();
-        mockedMapper.Setup(x => x.Map<List<ProductModel>>(products)).Returns(mappedProducts);
         var mockedProductDataManager = new Mock<IProductDataManager>();
         mockedProductDataManager.Setup(x => x.GetProductsBySearchCriteria(searchCriteria)).ReturnsAsync(products);
         var mockedImageDataManager = new Mock<IImageDataManager>();
 
-        var productManager = new ProductManager(mockedMapper.Object, mockedProductDataManager.Object,
+        var productManager = new ProductManager(mockedProductDataManager.Object,
             mockedImageDataManager.Object);
 
         var result = await productManager.GetProductsBySearchCriteria(searchCriteria);
@@ -60,13 +54,11 @@ public class ProductManagerTests
         var product = new ProductEntity();
         var mappedProduct = new ProductModel();
         
-        var mockedMapper = new Mock<IMapper>();
-        mockedMapper.Setup(x => x.Map<ProductModel>(product)).Returns(mappedProduct);
         var mockedProductDataManager = new Mock<IProductDataManager>();
         mockedProductDataManager.Setup(x => x.GetProduct(Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AA4"))).ReturnsAsync(product);
         var mockedImageDataManager = new Mock<IImageDataManager>();
 
-        var productManager = new ProductManager(mockedMapper.Object, mockedProductDataManager.Object,
+        var productManager = new ProductManager(mockedProductDataManager.Object,
             mockedImageDataManager.Object);
 
         var result = await productManager.GetProduct(Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AA4"));
@@ -102,13 +94,11 @@ public class ProductManagerTests
             Country = "USER_COUNTRY"
         };
         
-        var mockedMapper = new Mock<IMapper>();
-        mockedMapper.Setup(x => x.Map<ProductModel>(product)).Returns(mappedProduct);
         var mockedProductDataManager = new Mock<IProductDataManager>();
         mockedProductDataManager.Setup(x => x.CreateProduct(createdProduct, user)).ReturnsAsync(product);
         var mockedImageDataManager = new Mock<IImageDataManager>();
 
-        var productManager = new ProductManager(mockedMapper.Object, mockedProductDataManager.Object,
+        var productManager = new ProductManager(mockedProductDataManager.Object,
             mockedImageDataManager.Object);
 
         var result = await productManager.CreateProduct(createdProduct, user);
@@ -144,13 +134,11 @@ public class ProductManagerTests
             Country = "USER_COUNTRY"
         };
         
-        var mockedMapper = new Mock<IMapper>();
-        mockedMapper.Setup(x => x.Map<ProductModel>(product)).Returns(mappedProduct);
         var mockedProductDataManager = new Mock<IProductDataManager>();
         mockedProductDataManager.Setup(x => x.CreateProduct(updatedProduct, user)).ReturnsAsync(product);
         var mockedImageDataManager = new Mock<IImageDataManager>();
 
-        var productManager = new ProductManager(mockedMapper.Object, mockedProductDataManager.Object,
+        var productManager = new ProductManager(mockedProductDataManager.Object,
             mockedImageDataManager.Object);
 
         var result = await productManager.CreateProduct(updatedProduct, user);

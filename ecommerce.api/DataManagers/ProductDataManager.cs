@@ -3,6 +3,7 @@ using ecommerce.api.Data;
 using ecommerce.api.DataManagers.Contracts;
 using ecommerce.api.Entities;
 using ecommerce.api.Infrastructure;
+using ecommerce.api.Mappers;
 using ecommerce.api.Models;
 using ecommerce.api.Services;
 using Microsoft.EntityFrameworkCore;
@@ -12,11 +13,9 @@ namespace ecommerce.api.DataManagers;
 public class ProductDataManager : IProductDataManager
 {
     private readonly EcommerceDbContext _context;
-    private readonly IMapper _mapper;
 
-    public ProductDataManager(IMapper mapper, EcommerceDbContext context)
+    public ProductDataManager(EcommerceDbContext context)
     {
-        _mapper = mapper;
         _context = context;
     }   
     
@@ -171,17 +170,8 @@ public class ProductDataManager : IProductDataManager
 
     public async Task<ProductEntity> CreateProduct(ProductModel product, UserModel user)
     {
-        var mappedProduct = _mapper.Map<ProductEntity>(product);
-        
-        if (product.OneSize == false)
-        {
-            mappedProduct.XSmall = product.Sizes.First(x => x.Size == SizeType.XSmall).Count;
-            mappedProduct.Small = product.Sizes.First(x => x.Size == SizeType.Small).Count;
-            mappedProduct.Medium = product.Sizes.First(x => x.Size == SizeType.Medium).Count;
-            mappedProduct.Large = product.Sizes.First(x => x.Size == SizeType.Large).Count;
-            mappedProduct.XLarge = product.Sizes.First(x => x.Size == SizeType.XLarge).Count;
-        }
-        
+        var mappedProduct = product.ToEntity();
+
         mappedProduct.Price = mappedProduct.CalculatePrice();
 
         if (product.Discount > 0)
@@ -218,11 +208,11 @@ public class ProductDataManager : IProductDataManager
 
         if (product.OneSize == false)
         {
-            existingProduct.XSmall = product.Sizes.First(x => x.Size == SizeType.XSmall).Count;
-            existingProduct.Small = product.Sizes.First(x => x.Size == SizeType.Small).Count;
-            existingProduct.Medium = product.Sizes.First(x => x.Size == SizeType.Medium).Count;
-            existingProduct.Large = product.Sizes.First(x => x.Size == SizeType.Large).Count;
-            existingProduct.XLarge = product.Sizes.First(x => x.Size == SizeType.XLarge).Count;
+            existingProduct.XSmall = product.Sizes.First(x => x.Size == SizeType.XSmall).Stock;
+            existingProduct.Small = product.Sizes.First(x => x.Size == SizeType.Small).Stock;
+            existingProduct.Medium = product.Sizes.First(x => x.Size == SizeType.Medium).Stock;
+            existingProduct.Large = product.Sizes.First(x => x.Size == SizeType.Large).Stock;
+            existingProduct.XLarge = product.Sizes.First(x => x.Size == SizeType.XLarge).Stock;
         }
         
         existingProduct.Price = product.CalculatePrice();

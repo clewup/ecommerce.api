@@ -16,14 +16,14 @@ public class CategoriesDataManager : ICategoriesDataManager
 
     public async Task<List<string>> GetCategories()
     {
-        var categories = await _context.Products.Select(x => x.Category).Distinct().ToListAsync();
+        var categories = await _context.Products.Select(x => x.Category).Distinct().OrderBy(x => x).ToListAsync();
 
         return categories;
     }
     
     public async Task<List<string>> GetSubcategories()
     {
-        var subcategories = await _context.Products.Select(x => x.Subcategory).Distinct().ToListAsync();
+        var subcategories = await _context.Products.Select(x => x.Subcategory).Distinct().OrderBy(x => x).ToListAsync();
 
         return subcategories;
     }
@@ -35,7 +35,7 @@ public class CategoriesDataManager : ICategoriesDataManager
 
         foreach (var category in categories)
         {
-            var categorySubcategories = await _context.Products.Where(x => x.Category == category).Select(x => x.Subcategory).Distinct().ToListAsync();
+            var categorySubcategories = await _context.Products.Where(x => x.Category == category).Select(x => x.Subcategory).Distinct().OrderBy(x => x).ToListAsync();
             
             subcategories.Add(new LinkedSubcategoriesModel()
             {
@@ -49,14 +49,14 @@ public class CategoriesDataManager : ICategoriesDataManager
 
     public async Task<List<string>> GetSubcategoriesByCategory(string category)
     {
-        var subcategories = await _context.Products.Where(x => x.Category == category).Select(x => x.Subcategory).Distinct().ToListAsync();
+        var subcategories = await _context.Products.Where(x => x.Category == category).Select(x => x.Subcategory).Distinct().OrderBy(x => x).ToListAsync();
 
         return subcategories;
     }
     
     public async Task<List<string>> GetRanges()
     {
-        var ranges = await _context.Products.Select(x => x.Range).Distinct().ToListAsync();
+        var ranges = await _context.Products.Select(x => x.Range).Distinct().OrderBy(x => x).ToListAsync();
 
         return ranges;
     }
