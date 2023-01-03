@@ -179,6 +179,15 @@ public class ProductDataManager : IProductDataManager
             mappedProduct.DiscountedPrice = mappedProduct.CalculateDiscountedPrice();
             mappedProduct.TotalSavings = mappedProduct.CalculateTotalSavings();
         }
+
+        if (product.OneSize == true)
+        {
+            mappedProduct.XSmall = 0;
+            mappedProduct.Small = 0;
+            mappedProduct.Medium = 0;
+            mappedProduct.Large = 0;
+            mappedProduct.XLarge = 0;
+        }
         
         mappedProduct.AddedDate = DateTime.UtcNow;
         mappedProduct.AddedBy = user.Email;

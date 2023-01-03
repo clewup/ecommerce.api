@@ -44,7 +44,7 @@ namespace ecommerce.api.Migrations
                     b.Property<double>("Total")
                         .HasColumnType("double precision");
 
-                    b.Property<double>("TotalSavings")
+                    b.Property<double?>("TotalSavings")
                         .HasColumnType("double precision");
 
                     b.Property<string>("UpdatedBy")
@@ -176,7 +176,7 @@ namespace ecommerce.api.Migrations
                     b.Property<double>("Total")
                         .HasColumnType("double precision");
 
-                    b.Property<double>("TotalSavings")
+                    b.Property<double?>("TotalSavings")
                         .HasColumnType("double precision");
 
                     b.Property<string>("UpdatedBy")
