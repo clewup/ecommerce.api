@@ -28,6 +28,7 @@ public class OrderDataManager : IOrderDataManager
         var orders = await _context.Orders
             .Include(o => o.Products)
             .ThenInclude(p => p.Images)
+            .OrderByDescending(o => o.AddedDate)
             .ToListAsync();
         
         return orders;
@@ -39,6 +40,7 @@ public class OrderDataManager : IOrderDataManager
             .Include(o => o.Products)
             .ThenInclude(p => p.Images)
             .Where(o => o.UserId == user.Id)
+            .OrderByDescending(o => o.AddedDate)
             .ToListAsync();
         
         return orders;
