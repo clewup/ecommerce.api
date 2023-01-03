@@ -101,4 +101,16 @@ public class CartDataManager : ICartDataManager
 
         return existingCart;
     }
+
+    public async Task MakeCartInactive(Guid userId)
+    {
+        var existingCart = await _context.Carts
+            .Include(c => c.Products)
+            .ThenInclude(p => p.Images)
+            .FirstOrDefaultAsync(c => c.UserId == userId);
+
+        existingCart.Status = StatusType.Inactive;
+
+        await _context.SaveChangesAsync();
+    }
 }

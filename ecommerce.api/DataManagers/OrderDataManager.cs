@@ -14,11 +14,13 @@ public class OrderDataManager : IOrderDataManager
 {
     private readonly EcommerceDbContext _context;
     private readonly IProductDataManager _productDataManager;
+    private readonly ICartDataManager _cartDataManager;
 
-    public OrderDataManager(EcommerceDbContext context, IProductDataManager productDataManager)
+    public OrderDataManager(EcommerceDbContext context, IProductDataManager productDataManager, ICartDataManager cartDataManager)
     {
         _context = context;
         _productDataManager = productDataManager;
+        _cartDataManager = cartDataManager;
     }
     
     public async Task<List<OrderEntity>> GetOrders()
@@ -72,6 +74,8 @@ public class OrderDataManager : IOrderDataManager
         await _context.Orders.AddAsync(mappedOrder);
         
         await _context.SaveChangesAsync();
+
+        await _cartDataManager.MakeCartInactive(user.Id);
         
         return mappedOrder;
     }

@@ -62,10 +62,11 @@ public class OrderDataManagerTests
     public async void OrderDataManager_GetOrders_Successful()
     {
         var mockedProductDataManager = new Mock<IProductDataManager>();
+        var mockedCartDataManager = new Mock<ICartDataManager>();
         
         using (var context = new EcommerceDbContext(options))
         {
-            var orderDataManager = new OrderDataManager(context, mockedProductDataManager.Object);
+            var orderDataManager = new OrderDataManager(context, mockedProductDataManager.Object, mockedCartDataManager.Object);
 
             var result = await orderDataManager.GetOrders();
 
@@ -77,6 +78,7 @@ public class OrderDataManagerTests
     public async void OrderDataManager_GetUserOrders_Successful()
     {
         var mockedProductDataManager = new Mock<IProductDataManager>();
+        var mockedCartDataManager = new Mock<ICartDataManager>();
 
         using (var context = new EcommerceDbContext(options))
         {
@@ -96,7 +98,7 @@ public class OrderDataManagerTests
                 Country = "USER_COUNTRY"
             };
             
-            var orderDataManager = new OrderDataManager(context, mockedProductDataManager.Object);
+            var orderDataManager = new OrderDataManager(context, mockedProductDataManager.Object, mockedCartDataManager.Object);
 
             var result = await orderDataManager.GetUserOrders(user);
 
@@ -108,10 +110,11 @@ public class OrderDataManagerTests
     public async void OrderDataManager_GetOrder_Successful()
     {
         var mockedProductDataManager = new Mock<IProductDataManager>();
+        var mockedCartDataManager = new Mock<ICartDataManager>();
 
         using (var context = new EcommerceDbContext(options))
         {
-            var orderDataManager = new OrderDataManager(context, mockedProductDataManager.Object);
+            var orderDataManager = new OrderDataManager(context, mockedProductDataManager.Object, mockedCartDataManager.Object);
 
             var result = await orderDataManager.GetOrder(Guid.Parse("04144215-C767-4497-910C-C10F5C5BE567"));
 
@@ -187,10 +190,11 @@ public class OrderDataManagerTests
         
         var mockedProductDataManager = new Mock<IProductDataManager>();
         mockedProductDataManager.Setup(x => x.GetProducts(mappedOrder)).ReturnsAsync(products);
+        var mockedCartDataManager = new Mock<ICartDataManager>();
         
         using (var context = new EcommerceDbContext(options))
         {
-            var orderDataManager = new OrderDataManager(context, mockedProductDataManager.Object);
+            var orderDataManager = new OrderDataManager(context, mockedProductDataManager.Object, mockedCartDataManager.Object);
 
             var result = await orderDataManager.CreateOrder(order, user);
             
@@ -246,10 +250,11 @@ public class OrderDataManagerTests
         };
         
         var mockedProductDataManager = new Mock<IProductDataManager>();
+        var mockedCartDataManager = new Mock<ICartDataManager>();
 
         using (var context = new EcommerceDbContext(options))
         {
-            var orderDataManager = new OrderDataManager(context, mockedProductDataManager.Object);
+            var orderDataManager = new OrderDataManager(context, mockedProductDataManager.Object, mockedCartDataManager.Object);
 
             var result = orderDataManager.UpdateOrder(order, user);
             
