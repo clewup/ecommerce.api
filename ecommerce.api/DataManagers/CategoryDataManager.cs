@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ecommerce.api.DataManagers;
 
-public class CategoriesDataManager : ICategoriesDataManager
+public class CategoryDataManager : ICategoryDataManager
 {
     private readonly EcommerceDbContext _context;
 
-    public CategoriesDataManager(EcommerceDbContext context)
+    public CategoryDataManager(EcommerceDbContext context)
     {
         _context = context;
     }

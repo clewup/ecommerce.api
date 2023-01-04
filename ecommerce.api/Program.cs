@@ -117,7 +117,7 @@ builder.Services.AddTransient<IOrderManager, OrderManager>();
 builder.Services.AddTransient<IUploadManager, UploadManager>();
 builder.Services.AddTransient<IStatisticsManager, StatisticsManager>();    
 builder.Services.AddTransient<IClaimsManager, ClaimsManager>();    
-builder.Services.AddTransient<ICategoriesManager, CategoriesManager>();    
+builder.Services.AddTransient<ICategoryManager, CategoryManager>();    
 builder.Services.AddTransient<IShippingManager, ShippingManager>();    
 
 // Data Managers
@@ -126,7 +126,7 @@ builder.Services.AddTransient<ICartDataManager, CartDataManager>();
 builder.Services.AddTransient<IOrderDataManager, OrderDataManager>();
 builder.Services.AddTransient<IImageDataManager, ImageDataManager>(); 
 builder.Services.AddTransient<IStatisticsDataManager, StatisticsDataManager>();    
-builder.Services.AddTransient<ICategoriesDataManager, CategoriesDataManager>();    
+builder.Services.AddTransient<ICategoryDataManager, CategoryDataManager>();    
 builder.Services.AddTransient<IShippingDataManager, ShippingDataManager>();    
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();

@@ -39,26 +39,6 @@ public static class CartMapper
         return carts;
     }
     
-    public static ICollection<CartEntity> ToEntities(this ICollection<CartModel> models)
-    {
-        var carts = new List<CartEntity>();
-
-        foreach (var model in models)
-        {
-            carts.Add(new CartEntity()
-            {
-                Id = model.Id,
-                UserId = model.UserId,
-                Total = model.Total,
-                DiscountedTotal = model.DiscountedTotal,
-                TotalSavings = model.TotalSavings,
-                Products = model.Products.ToEntities(),
-            });
-        }
-
-        return carts;
-    }
-
     public static CartModel ToModel(this CartEntity entity)
     {
         return new CartModel
@@ -73,26 +53,6 @@ public static class CartMapper
     }
     
     public static List<CartModel> ToModels(this List<CartEntity> entities)
-    {
-        var carts = new List<CartModel>();
-
-        foreach (var entity in entities)
-        {
-            carts.Add(new CartModel()
-            {
-                Id = entity.Id,
-                UserId = entity.UserId,
-                Products = entity.Products.ToModels(),
-                Total = entity.Total,
-                DiscountedTotal = entity.DiscountedTotal,
-                TotalSavings = entity.TotalSavings
-            });
-        }
-
-        return carts;
-    }
-    
-    public static ICollection<CartModel> ToModels(this ICollection<CartEntity> entities)
     {
         var carts = new List<CartModel>();
 

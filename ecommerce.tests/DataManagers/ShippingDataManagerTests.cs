@@ -120,8 +120,7 @@ public class ShippingDataManagerTests
     [Fact]
     public async void ShippingDataManager_ExtendArrivalDate_Successful()
     {
-        var orderId = Guid.Parse("D2745C33-3049-4625-847E-27ED94307764");
-        var trackingNumber = Guid.Parse("B2A176F2-4AFD-4C77-AF2E-8385D7549FD7");
+        var trackingNumber = Guid.Parse("4ED07A4E-EB57-4515-AD22-D3E460A682E0");
         var user = new UserModel();
         var days = 1;
         
@@ -131,12 +130,11 @@ public class ShippingDataManagerTests
         {
             var shippingDataManager = new ShippingDataManager(context, mockedOrderDataManager.Object);
 
-            var result = await shippingDataManager.ExtendArrivalDate(orderId, user, days);
+            var result = await shippingDataManager.ExtendArrivalDate(trackingNumber, user, days);
             var entityResult = await shippingDataManager.TrackOrder(trackingNumber);
             
             Assert.True(result);
             Assert.Equal(DateTime.UtcNow.AddDays(4).Date, entityResult?.ArrivalDate.Date);
-            
         }
     }
     

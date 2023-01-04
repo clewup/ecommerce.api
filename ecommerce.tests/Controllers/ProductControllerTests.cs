@@ -4,6 +4,7 @@ using ecommerce.api.Managers.Contracts;
 using ecommerce.api.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Logging;
 using Moq;
 
@@ -106,12 +107,7 @@ public class ProductControllerTests
     {
         var product = new ProductModel();
         var createdProduct = new ProductModel();
-        var user = new UserModel()
-        {
-            Id = Guid.Parse("1F9064A7-8FE6-4BAB-9EE6-37056FF731D3"),
-            Email = "USER_EMAIL",
-            Role = RoleType.User,
-        };
+        var user = new UserModel();
         
         var request = new Mock<HttpRequest>();
         var httpContext = Mock.Of<HttpContext>(x => x.Request == request.Object);
@@ -154,14 +150,12 @@ public class ProductControllerTests
     [Fact]
     public async void ProductController_UpdateProduct_Successful()
     {
-        var product = new ProductModel();
-        var updatedProduct = new ProductModel();
-        var user = new UserModel()
+        var product = new ProductModel()
         {
-            Id = Guid.Parse("1F9064A7-8FE6-4BAB-9EE6-37056FF731D3"),
-            Email = "USER_EMAIL",
-            Role = RoleType.User,
+            Id = Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AA4"),
         };
+        var updatedProduct = new ProductModel();
+        var user = new UserModel();
         
         var request = new Mock<HttpRequest>();
         var httpContext = Mock.Of<HttpContext>(x => x.Request == request.Object);

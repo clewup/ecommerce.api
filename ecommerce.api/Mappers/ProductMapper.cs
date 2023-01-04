@@ -31,7 +31,7 @@ public static class ProductMapper
         };
     }
     
-    public static List<ProductEntity> ToEntities(this ICollection<ProductModel> models)
+    public static List<ProductEntity> ToEntities(this List<ProductModel> models)
     {
         var products = new List<ProductEntity>();
 
@@ -113,7 +113,7 @@ public static class ProductMapper
         };
     }
     
-    public static List<ProductModel> ToModels(this ICollection<ProductEntity> entities)
+    public static List<ProductModel> ToModels(this List<ProductEntity> entities)
     {
         var products = new List<ProductModel>();
 

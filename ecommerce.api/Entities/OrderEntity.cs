@@ -17,8 +17,9 @@ public class OrderEntity : BaseEntity
     public double? DiscountedTotal { get; set; }
     public double? TotalSavings { get; set; }
     
-    public ICollection<ProductEntity> Products { get; set; }
+    public List<ProductEntity> Products { get; set; }
     public List<OrderProductEntity> OrderProducts { get; set; }
+    
     public Guid? TrackingNumber { get; set; }
     public PackageEntity Package { get; set; }
 }

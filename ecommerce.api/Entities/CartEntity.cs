@@ -10,6 +10,6 @@ public class CartEntity : BaseEntity
     public double? DiscountedTotal { get; set; }
     public double? TotalSavings { get; set; }
     
-    public ICollection<ProductEntity> Products { get; set; }
+    public List<ProductEntity> Products { get; set; }
     public List<CartProductEntity> CartProducts { get; set; }
 }

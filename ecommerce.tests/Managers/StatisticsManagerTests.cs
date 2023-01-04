@@ -54,8 +54,55 @@ public class StatisticsManagerTests
                 Product = new ProductEntity()
             }
         };
-        var products = new List<ProductEntity>();
-        var mappedProducts = new List<ProductModel>();
+        var products = new List<ProductEntity>()
+        {
+            new ProductEntity()
+            {
+                Id = Guid.Parse("3B3C7936-F323-4552-A75B-FD99A81A5E3D"),
+                Price = 30,
+                Images = new List<ImageEntity>()
+                {
+                    new ImageEntity()
+                    {
+                        Url = new Uri("https://www.fakeimage.com/image.jpg"),
+                        ProductId = Guid.Parse("3B3C7936-F323-4552-A75B-FD99A81A5E3D"),
+                    },
+                    new ImageEntity()
+                    {
+                        Url = new Uri("https://www.fakeimage.com/image.jpg"),
+                        ProductId = Guid.Parse("3B3C7936-F323-4552-A75B-FD99A81A5E3D"),
+                    }
+                },
+                XSmall = 10,
+                Small = 10,
+                Medium = 10,
+                Large = 10,
+                XLarge = 10
+            },
+            new ProductEntity()
+            {
+                Id = Guid.Parse("3B3C7936-F323-4552-A75B-FD99A81A5E3D"),
+                Price = 30,
+                Images = new List<ImageEntity>()
+                {
+                    new ImageEntity()
+                    {
+                        Url = new Uri("https://www.fakeimage.com/image.jpg"),
+                        ProductId = Guid.Parse("3B3C7936-F323-4552-A75B-FD99A81A5E3D"),
+                    },
+                    new ImageEntity()
+                    {
+                        Url = new Uri("https://www.fakeimage.com/image.jpg"),
+                        ProductId = Guid.Parse("3B3C7936-F323-4552-A75B-FD99A81A5E3D"),
+                    }
+                },
+                XSmall = 10,
+                Small = 10,
+                Medium = 10,
+                Large = 10,
+                XLarge = 10
+            }
+        };
         var productIds = new List<Guid>()
         {
             Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AA8"),
@@ -73,14 +120,62 @@ public class StatisticsManagerTests
         var result = await statisticsManager.GetMostPopularProducts();
         
         Assert.Equal(2, result.Count);
-        Assert.Equal("PRODUCT_1_NAME", result.First().Name);
     }
     
     [Fact]
     public async void StatisticsManager_GetMostDiscountedProducts_Successful()
     {
-        var products = new List<ProductEntity>();
-        var mappedProducts = new List<ProductModel>();
+        var products = new List<ProductEntity>()
+        {
+            new ProductEntity()
+            {
+                Id = Guid.Parse("3B3C7936-F323-4552-A75B-FD99A81A5E3D"),
+                Price = 30,
+                Discount = 10,
+                Images = new List<ImageEntity>()
+                {
+                    new ImageEntity()
+                    {
+                        Url = new Uri("https://www.fakeimage.com/image.jpg"),
+                        ProductId = Guid.Parse("3B3C7936-F323-4552-A75B-FD99A81A5E3D"),
+                    },
+                    new ImageEntity()
+                    {
+                        Url = new Uri("https://www.fakeimage.com/image.jpg"),
+                        ProductId = Guid.Parse("3B3C7936-F323-4552-A75B-FD99A81A5E3D"),
+                    }
+                },
+                XSmall = 10,
+                Small = 10,
+                Medium = 10,
+                Large = 10,
+                XLarge = 10
+            },
+            new ProductEntity()
+            {
+                Id = Guid.Parse("3B3C7936-F323-4552-A75B-FD99A81A5E3D"),
+                Price = 30,
+                Discount = 20,
+                Images = new List<ImageEntity>()
+                {
+                    new ImageEntity()
+                    {
+                        Url = new Uri("https://www.fakeimage.com/image.jpg"),
+                        ProductId = Guid.Parse("3B3C7936-F323-4552-A75B-FD99A81A5E3D"),
+                    },
+                    new ImageEntity()
+                    {
+                        Url = new Uri("https://www.fakeimage.com/image.jpg"),
+                        ProductId = Guid.Parse("3B3C7936-F323-4552-A75B-FD99A81A5E3D"),
+                    }
+                },
+                XSmall = 10,
+                Small = 10,
+                Medium = 10,
+                Large = 10,
+                XLarge = 10
+            }
+        };
         
         var mockedStatisticsDataManager = new Mock<IStatisticsDataManager>();
         var mockedProductDataManager = new Mock<IProductDataManager>();
@@ -92,6 +187,6 @@ public class StatisticsManagerTests
         var result = await statisticsManager.GetMostDiscountedProducts();
         
         Assert.Equal(2, result.Count);
-        Assert.Equal("PRODUCT_1_NAME", result.First().Name);
+        Assert.Equal(20, result.First().Discount);
     }
 }

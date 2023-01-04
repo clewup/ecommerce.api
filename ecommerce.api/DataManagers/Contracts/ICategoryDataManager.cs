@@ -1,8 +1,8 @@
 using ecommerce.api.Models;
 
-namespace ecommerce.api.Managers.Contracts;
+namespace ecommerce.api.DataManagers.Contracts;
 
-public interface ICategoriesManager
+public interface ICategoryDataManager
 {
     Task<List<string>> GetCategories();
     Task<List<string>> GetSubcategories();

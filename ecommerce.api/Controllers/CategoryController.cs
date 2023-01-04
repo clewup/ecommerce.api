@@ -8,19 +8,19 @@ namespace ecommerce.api.Controllers;
 public class CategoryController : ControllerBase
 {
     private readonly ILogger<CategoryController> _logger;
-    private readonly ICategoriesManager _categoriesManager;
+    private readonly ICategoryManager _categoryManager;
 
-    public CategoryController(ILogger<CategoryController> logger, ICategoriesManager categoriesManager)
+    public CategoryController(ILogger<CategoryController> logger, ICategoryManager categoryManager)
     {
         _logger = logger;
-        _categoriesManager = categoriesManager;
+        _categoryManager = categoryManager;
     }
     [HttpGet]
     public async Task<IActionResult> GetCategories()
     {
         try
         {
-            var categories = await _categoriesManager.GetCategories();
+            var categories = await _categoryManager.GetCategories();
 
             return Ok(categories);
         }
@@ -37,7 +37,7 @@ public class CategoryController : ControllerBase
     {
         try
         {
-            var subcategories = await _categoriesManager.GetSubcategories();
+            var subcategories = await _categoryManager.GetSubcategories();
 
             return Ok(subcategories);
         }
@@ -54,7 +54,7 @@ public class CategoryController : ControllerBase
     {
         try
         {
-            var subcategories = await _categoriesManager.GetLinkedSubcategories();
+            var subcategories = await _categoryManager.GetLinkedSubcategories();
 
             return Ok(subcategories);
         }
@@ -71,7 +71,7 @@ public class CategoryController : ControllerBase
     {
         try
         {
-            var subcategories = await _categoriesManager.GetSubcategoriesByCategory(category);
+            var subcategories = await _categoryManager.GetSubcategoriesByCategory(category);
 
             return Ok(subcategories);
         }
@@ -88,7 +88,7 @@ public class CategoryController : ControllerBase
     {
         try
         {
-            var ranges = await _categoriesManager.GetRanges();
+            var ranges = await _categoryManager.GetRanges();
 
             return Ok(ranges);
         }

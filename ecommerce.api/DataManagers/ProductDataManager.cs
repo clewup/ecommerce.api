@@ -200,9 +200,7 @@ public class ProductDataManager : IProductDataManager
 
     public async Task<ProductEntity> UpdateProduct(ProductModel product, UserModel user)
     {
-        var existingProduct = await _context.Products
-            .Include(p => p.Images)
-            .FirstOrDefaultAsync(p => p.Id == product.Id);
+        var existingProduct = await GetProduct(product.Id);
 
         var images = await _context.Images.Where(i => i.ProductId == product.Id).ToListAsync();
 

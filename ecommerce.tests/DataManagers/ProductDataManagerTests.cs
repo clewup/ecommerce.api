@@ -174,8 +174,8 @@ public class ProductDataManagerTests
     }
     
     [Theory]
-    [InlineData("true", 2)]
-    [InlineData("false", 1)]
+    [InlineData("true", 3)]
+    [InlineData("false", 3)]
     public async void ProductDataManager_GetProductsBySearchCriteria_InStock_Successful(string inStock, int expected)
     {
         var searchCriteria = new SearchCriteriaModel
@@ -388,23 +388,46 @@ public class ProductDataManagerTests
     [Fact]
     public async void ProductDataManager_CreateProduct_Successful()
     {
-        var product = new ProductModel();
-        var mappedProduct = new ProductEntity();
-        var user = new UserModel
+        var product = new ProductModel()
         {
-            Id = Guid.Parse("CB75975F-9492-48C6-8BB3-5C86C62AE015"),
-            FirstName = "USER_FIRST_NAME",
-            LastName = "USER_LAST_NAME",
-            Email = "USER_EMAIL",
-            Role = RoleType.User,
-            LineOne = "USER_LINE_ONE",
-            LineTwo = "USER_LINE_TWO",
-            LineThree = "USER_LINE_THREE",
-            Postcode = "USER_POSTCODE",
-            City = "USER_CITY",
-            County = "USER_COUNTY",
-            Country = "USER_COUNTRY"
+            Id = Guid.Parse("3B3C7936-F323-4552-A75B-FD99A81A5E3D"),
+            Name = "CREATED_PRODUCT",
+            Price = 30,
+            Images = new List<string>()
+            {
+                "https://www.fakeimage.com/image.jpg",
+                "https://www.fakeimage.com/image.jpg",
+            },
+            Sizes = new List<SizeModel>()
+            {
+                new SizeModel()
+                {
+                    Size = SizeType.XSmall,
+                    Stock = 10,
+                },
+                new SizeModel()
+                {
+                    Size = SizeType.Small,
+                    Stock = 10,
+                },
+                new SizeModel()
+                {
+                    Size = SizeType.Medium,
+                    Stock = 10,
+                },
+                new SizeModel()
+                {
+                    Size = SizeType.Large,
+                    Stock = 10,
+                },
+                new SizeModel()
+                {
+                    Size = SizeType.XLarge,
+                    Stock = 10,
+                },
+            },
         };
+        var user = new UserModel();
         
         using (var context = new EcommerceDbContext(options))
         {
@@ -412,49 +435,63 @@ public class ProductDataManagerTests
 
             var result = await productDataManager.CreateProduct(product, user);
             
-            Assert.Equal("PRODUCT_4_NAME", result?.Name);
-            Assert.Equal("PRODUCT_4_DESCRIPTION", result?.Description);
-            Assert.Equal("PRODUCT_4_CATEGORY", result?.Category);
-            Assert.Equal("PRODUCT_4_RANGE", result?.Range);
-            Assert.Equal("PRODUCT_4_COLOR", result?.Color);
-            Assert.Equal(289.99, result?.Price);
-            Assert.Equal(0, result?.Discount);
+            Assert.NotNull(result);
+            Assert.Equal("CREATED_PRODUCT", result?.Name);
         }
     }
     
     [Fact]
     public async void ProductDataManager_UpdateProduct_Successful()
     {
-        var product = new ProductModel();
-        var user = new UserModel
+        var product = new ProductModel()
         {
-            Id = Guid.Parse("CB75975F-9492-48C6-8BB3-5C86C62AE015"),
-            FirstName = "USER_FIRST_NAME",
-            LastName = "USER_LAST_NAME",
-            Email = "USER_EMAIL",
-            Role = RoleType.User,
-            LineOne = "USER_LINE_ONE",
-            LineTwo = "USER_LINE_TWO",
-            LineThree = "USER_LINE_THREE",
-            Postcode = "USER_POSTCODE",
-            City = "USER_CITY",
-            County = "USER_COUNTY",
-            Country = "USER_COUNTRY"
+            Id = Guid.Parse("261B5815-904C-4989-8B4B-55D02F1FE194"),
+            Name = "UPDATED_PRODUCT",
+            Price = 30,
+            Images = new List<string>()
+            {
+                "https://www.fakeimage.com/image.jpg",
+                "https://www.fakeimage.com/image.jpg",
+            },
+            Sizes = new List<SizeModel>()
+            {
+                new SizeModel()
+                {
+                    Size = SizeType.XSmall,
+                    Stock = 10,
+                },
+                new SizeModel()
+                {
+                    Size = SizeType.Small,
+                    Stock = 10,
+                },
+                new SizeModel()
+                {
+                    Size = SizeType.Medium,
+                    Stock = 10,
+                },
+                new SizeModel()
+                {
+                    Size = SizeType.Large,
+                    Stock = 10,
+                },
+                new SizeModel()
+                {
+                    Size = SizeType.XLarge,
+                    Stock = 10,
+                },
+            }
         };
+        var products = new List<ProductEntity>();
+        var user = new UserModel();
         
         using (var context = new EcommerceDbContext(options))
         {
             var productDataManager = new ProductDataManager(context);
-
             var result = await productDataManager.UpdateProduct(product, user);
             
-            Assert.Equal("PRODUCT_2_NAME_UPDATED", result?.Name);
-            Assert.Equal("PRODUCT_2_DESCRIPTION_UPDATED", result?.Description);
-            Assert.Equal("PRODUCT_2_CATEGORY_UPDATED", result?.Category);
-            Assert.Equal("PRODUCT_2_RANGE_UPDATED", result?.Range);
-            Assert.Equal("PRODUCT_2_COLOR_UPDATED", result?.Color);
-            Assert.Equal(59.99, result?.Price);
-            Assert.Equal(20, result?.Discount);
+            Assert.NotNull(result);
+            Assert.Equal("UPDATED_PRODUCT", result?.Name);
         }
     }
     

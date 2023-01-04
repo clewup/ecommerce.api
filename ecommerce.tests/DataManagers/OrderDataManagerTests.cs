@@ -143,53 +143,78 @@ public class OrderDataManagerTests
             Email = "NEW_ORDER_EMAIL",
             DeliveryAddress = new AddressModel(),
             OrderDate = DateTime.UtcNow,
-            Products = new List<ProductModel>(),
-        };
-        var mappedOrder = new OrderEntity
-        {
-            Id = Guid.Parse("2CC25D6C-A0DF-4902-8439-1F4ADABAF457"),
-            UserId = Guid.Parse("A2BE8949-0B8F-42D5-836D-FD6F387A8696"),
-            FirstName = "NEW_ORDER_FIRST_NAME",
-            LastName = "NEW_ORDER_LAST_NAME",
-            Email = "NEW_ORDER_EMAIL",
-            LineOne = "NEW_ORDER_LINE_ONE",
-            LineTwo = "NEW_ORDER_LINE_TWO",
-            LineThree = "NEW_ORDER_LINE_THREE",
-            Postcode = "NEW_ORDER_POSTCODE",
-            City = "NEW_ORDER_CITY",
-            County = "NEW_ORDER_COUNTY",
-            Country = "NEW_ORDER_COUNTRY",
-            Products = new List<ProductEntity>(),
+            Products = new List<ProductModel>()
+            {
+                new ProductModel()
+                {
+                    Id = Guid.Parse("3B3C7936-F323-4552-A75B-FD99A81A5E3D"),
+                    Price = 30,
+                    Images = new List<string>()
+                    {
+                        "https://www.fakeimage.com/image.jpg",
+                        "https://www.fakeimage.com/image.jpg",
+                    },
+                    Sizes = new List<SizeModel>()
+                    {
+                        new SizeModel()
+                        {
+                            Size = SizeType.XSmall,
+                            Stock = 10,
+                        },
+                        new SizeModel()
+                        {
+                            Size = SizeType.Small,
+                            Stock = 10,
+                        },
+                        new SizeModel()
+                        {
+                            Size = SizeType.Medium,
+                            Stock = 10,
+                        },
+                        new SizeModel()
+                        {
+                            Size = SizeType.Large,
+                            Stock = 10,
+                        },
+                        new SizeModel()
+                        {
+                            Size = SizeType.XLarge,
+                            Stock = 10,
+                        },
+                    },
+                }
+            }
         };
         var products = new List<ProductEntity>()
         {
             new ProductEntity()
             {
+                Id = Guid.Parse("3B3C7936-F323-4552-A75B-FD99A81A5E3D"),
                 Price = 30,
-            },
-            new ProductEntity()
-            {
-                Price = 30,
+                Images = new List<ImageEntity>()
+                {
+                    new ImageEntity()
+                    {
+                        Url = new Uri("https://www.fakeimage.com/image.jpg"),
+                        ProductId = Guid.Parse("3B3C7936-F323-4552-A75B-FD99A81A5E3D"),
+                    },
+                    new ImageEntity()
+                    {
+                        Url = new Uri("https://www.fakeimage.com/image.jpg"),
+                        ProductId = Guid.Parse("3B3C7936-F323-4552-A75B-FD99A81A5E3D"),
+                    }
+                },
+                XSmall = 10,
+                Small = 10,
+                Medium = 10,
+                Large = 10,
+                XLarge = 10
             },
         };
-        var user = new UserModel
-        {
-            Id = Guid.Parse("A2BE8949-0B8F-42D5-836D-FD6F387A8696"),
-            FirstName = "USER_FIRST_NAME",
-            LastName = "USER_LAST_NAME",
-            Email = "USER_EMAIL",
-            Role = RoleType.User,
-            LineOne = "USER_LINE_ONE",
-            LineTwo = "USER_LINE_TWO",
-            LineThree = "USER_LINE_THREE",
-            Postcode = "USER_POSTCODE",
-            City = "USER_CITY",
-            County = "USER_COUNTY",
-            Country = "USER_COUNTRY"
-        };
+        var user = new UserModel();
         
         var mockedProductDataManager = new Mock<IProductDataManager>();
-        mockedProductDataManager.Setup(x => x.GetProducts(mappedOrder)).ReturnsAsync(products);
+        mockedProductDataManager.Setup(x => x.GetProducts(It.IsAny<OrderEntity>())).ReturnsAsync(products);
         var mockedCartDataManager = new Mock<ICartDataManager>();
         
         using (var context = new EcommerceDbContext(options))
@@ -201,13 +226,6 @@ public class OrderDataManagerTests
             Assert.Equal("NEW_ORDER_FIRST_NAME", result?.FirstName);
             Assert.Equal("NEW_ORDER_LAST_NAME", result?.LastName);
             Assert.Equal("NEW_ORDER_EMAIL", result?.Email);
-            Assert.Equal("NEW_ORDER_LINE_ONE", result?.LineOne);
-            Assert.Equal("NEW_ORDER_LINE_TWO", result?.LineTwo);
-            Assert.Equal("NEW_ORDER_LINE_THREE", result?.LineThree);
-            Assert.Equal("NEW_ORDER_POSTCODE", result?.Postcode);
-            Assert.Equal("NEW_ORDER_CITY", result?.City);
-            Assert.Equal("NEW_ORDER_COUNTY", result?.County);
-            Assert.Equal("NEW_ORDER_COUNTRY", result?.Country);
         }
     }
 

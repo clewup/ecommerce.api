@@ -13,7 +13,7 @@ public static class ImageMapper
         };
     }
     
-    public static ICollection<ImageEntity> ToEntities(this ICollection<string> uris)
+    public static List<ImageEntity> ToEntities(this List<string> uris)
     {
         var images = new List<ImageEntity>();
         
@@ -33,7 +33,7 @@ public static class ImageMapper
         return image.Url.ToString();
     }
     
-    public static List<string> ToUris(this ICollection<ImageEntity> images)
+    public static List<string> ToUris(this List<ImageEntity> images)
     {
         var uris = new List<string>();
 
