@@ -31,4 +31,5 @@ public class OrderModel
     public double? TotalSavings { get; set; }
     
     public DateTime OrderDate { get; set; }
+    public Guid? TrackingNumber { get; set; }
 }

@@ -11,6 +11,7 @@ public class EcommerceDbContext : DbContext
     public virtual DbSet<CartEntity> Carts { get; set; }
     public virtual DbSet<ProductEntity> Products { get; set; }
     public virtual DbSet<ImageEntity> Images { get; set; }
+    public virtual DbSet<PackageEntity> Packages { get; set; }
     
     public virtual DbSet<OrderProductEntity> OrderProducts { get; set; }
     public virtual DbSet<CartProductEntity> CartProducts { get; set; }
@@ -58,5 +59,10 @@ public class EcommerceDbContext : DbContext
             .WithMany(p => p.Images)
             .HasForeignKey(i => i.ProductId)
             .IsRequired();
+
+        modelBuilder.Entity<PackageEntity>()
+            .HasOne(p => p.Order)
+            .WithOne(o => o.Package)
+            .HasForeignKey<OrderEntity>(o => o.TrackingNumber);
     }
 }

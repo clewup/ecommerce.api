@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ecommerce.api.Data;
@@ -11,9 +12,11 @@ using ecommerce.api.Data;
 namespace ecommerce.api.Migrations
 {
     [DbContext(typeof(EcommerceDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230103202513_TotalSavingsNullable")]
+    partial class TotalSavingsNullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -179,9 +182,6 @@ namespace ecommerce.api.Migrations
                     b.Property<double?>("TotalSavings")
                         .HasColumnType("double precision");
 
-                    b.Property<Guid?>("TrackingNumber")
-                        .HasColumnType("uuid");
-
                     b.Property<string>("UpdatedBy")
                         .IsRequired()
                         .HasColumnType("text");
@@ -193,9 +193,6 @@ namespace ecommerce.api.Migrations
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("TrackingNumber")
-                        .IsUnique();
 
                     b.ToTable("Orders");
                 });
@@ -213,46 +210,6 @@ namespace ecommerce.api.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("OrderProducts", (string)null);
-                });
-
-            modelBuilder.Entity("ecommerce.api.Entities.PackageEntity", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("AddedBy")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("AddedDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime>("ArrivalDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid>("OrderId")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("ShippedDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("integer");
-
-                    b.Property<Guid>("TrackingNumber")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("UpdatedBy")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Packages");
                 });
 
             modelBuilder.Entity("ecommerce.api.Entities.ProductEntity", b =>
@@ -367,15 +324,6 @@ namespace ecommerce.api.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("ecommerce.api.Entities.OrderEntity", b =>
-                {
-                    b.HasOne("ecommerce.api.Entities.PackageEntity", "Package")
-                        .WithOne("Order")
-                        .HasForeignKey("ecommerce.api.Entities.OrderEntity", "TrackingNumber");
-
-                    b.Navigation("Package");
-                });
-
             modelBuilder.Entity("ecommerce.api.Entities.OrderProductEntity", b =>
                 {
                     b.HasOne("ecommerce.api.Entities.OrderEntity", "Order")
@@ -403,12 +351,6 @@ namespace ecommerce.api.Migrations
             modelBuilder.Entity("ecommerce.api.Entities.OrderEntity", b =>
                 {
                     b.Navigation("OrderProducts");
-                });
-
-            modelBuilder.Entity("ecommerce.api.Entities.PackageEntity", b =>
-                {
-                    b.Navigation("Order")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("ecommerce.api.Entities.ProductEntity", b =>
