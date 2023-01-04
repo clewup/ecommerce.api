@@ -51,9 +51,9 @@ public class ShippingDataManager : IShippingDataManager
         return true;
     }
 
-    public async Task<bool> ExtendArrivalDate(Guid orderId, UserModel user, int days)
+    public async Task<bool> ExtendArrivalDate(Guid trackingNumber, UserModel user, int days)
     {
-        var existingPackage = await _context.Packages.FirstOrDefaultAsync(x => x.OrderId == orderId);
+        var existingPackage = await _context.Packages.FirstOrDefaultAsync(x => x.TrackingNumber == trackingNumber);
 
         if (existingPackage == null)
             return false;

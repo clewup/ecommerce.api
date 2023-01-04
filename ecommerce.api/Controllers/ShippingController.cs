@@ -63,13 +63,13 @@ public class ShippingController : ControllerBase
     
     [HttpPost]
     [Route("{orderId}/extend/{days}")]
-    public async Task<IActionResult> ExtendArrivalDate(Guid orderId, int days)
+    public async Task<IActionResult> ExtendArrivalDate(Guid trackingNumber, int days)
     {
         try
         {
             var user = _claimsManager.GetUser(Request);
 
-            var isExtended = await _shippingManager.ExtendArrivalDate(orderId, user, days);
+            var isExtended = await _shippingManager.ExtendArrivalDate(trackingNumber, user, days);
 
             if (!isExtended)
                 return BadRequest("Arrival date could not be extended.");

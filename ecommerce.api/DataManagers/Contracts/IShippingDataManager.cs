@@ -7,5 +7,5 @@ public interface IShippingDataManager
 {
     Task<PackageEntity?> TrackOrder(Guid trackingNumber);
     Task<bool> ShipOrder(OrderModel order, UserModel user, Guid trackingNumber);
-    Task<bool> ExtendArrivalDate(Guid orderId, UserModel user, int days);
+    Task<bool> ExtendArrivalDate(Guid trackingNumber, UserModel user, int days);
 }

@@ -14,9 +14,9 @@ public class ShippingManager : IShippingManager
         _shippingDataManager = shippingDataManager;
     }
 
-    public async Task<PackageModel?> TrackOrder(Guid orderId)
+    public async Task<PackageModel?> TrackOrder(Guid trackingNumber)
     {
-        var package = await _shippingDataManager.TrackOrder(orderId);
+        var package = await _shippingDataManager.TrackOrder(trackingNumber);
 
         return package?.ToModel();
     }
@@ -30,9 +30,9 @@ public class ShippingManager : IShippingManager
         return isShipped;
     }
 
-    public async Task<bool> ExtendArrivalDate(Guid orderId, UserModel user, int days)
+    public async Task<bool> ExtendArrivalDate(Guid trackingNumber, UserModel user, int days)
     {
-        var isExtended = await _shippingDataManager.ExtendArrivalDate(orderId, user, days);
+        var isExtended = await _shippingDataManager.ExtendArrivalDate(trackingNumber, user, days);
 
         return isExtended;
     }

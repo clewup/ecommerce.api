@@ -1,5 +1,12 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 	<s:String x:Key="/Default/Environment/Highlighting/HighlightingSourceSnapshotLocation/@EntryValue">/Users/clew/Library/Caches/JetBrains/Rider2022.2/resharper-host/temp/Rider/vAny/CoverageData/_ecommerce.api.-1388651302/Snapshot/snapshot.utdcvr</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=0a23b03b_002Da00d_002D43c0_002D8050_002D56746de4f3de/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="ShippingDataManager_ShipOrder_Successful" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.DataManagers.ShippingDataManagerTests&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Managers.ShippingManagerTests.ShippingManager_TrackOrder_Successful&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Managers.ShippingManagerTests.ShippingManager_ShipOrder_Successful&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=0dcc1408_002Db4f6_002D451f_002D998b_002D19e158315dd1/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="CartDataManager_GetCarts_Successful" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;TestAncestor&gt;
     &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.DataManagers.CartDataManagerTests.CartDataManager_GetCarts_Successful&lt;/TestId&gt;
@@ -71,8 +78,23 @@
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=55cdefcb_002D4382_002D40ca_002Db782_002D74bb7ca5eb2d/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="OrderController_GetOrders_Successful" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;TestAncestor&gt;
     &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Controllers.OrderControllerTests.OrderController_GetOrders_Successful&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.DataManagers.ShippingDataManagerTests.ShippingDataManager_TrackOrder_Successful&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.DataManagers.ShippingDataManagerTests.ShippingDataManager_TrackOrder_Unsuccessful&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.DataManagers.ShippingDataManagerTests.ShippingDataManager_ShipOrder_Successful&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=7920b4b1_002Db4d0_002D421c_002Dbdfb_002D3e7ee02c5052/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="ProductController_GetProducts_Successful" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=7920b4b1_002Db4d0_002D421c_002Dbdfb_002D3e7ee02c5052/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="ProductController_GetProducts_Successful" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;Solution /&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=9b4f2f8f_002D5247_002D42c2_002Da0ec_002D44586a393491/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="ShippingManager_ShipOrder_Successful" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Managers.ShippingManagerTests.ShippingManager_ShipOrder_Successful&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Managers.ShippingManagerTests.ShippingManager_ExtendArrivalDate_Successful&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Controllers.ShippingControllerTests.ShippingController_TrackOrder_Successful&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Controllers.ShippingControllerTests.ShippingController_TrackOrder_Unsuccessful&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Controllers.ShippingControllerTests.ShippingController_ShipOrder_Successful&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Controllers.ShippingControllerTests.ShippingController_ShipOrder_Unsuccessful&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Controllers.ShippingControllerTests.ShippingController_ExtendArrivalDate_Successful&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Controllers.ShippingControllerTests.ShippingController_ExtendArrivalDate_Unsuccessful&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
