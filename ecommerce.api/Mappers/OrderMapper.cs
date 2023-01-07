@@ -26,6 +26,7 @@ public static class OrderMapper
          DiscountedTotal = model.DiscountedTotal,
          TotalSavings = model.TotalSavings,
          Products = model.Products.ToEntities(),
+         TrackingNumber = model.TrackingNumber,
       };
    }
    
@@ -53,6 +54,7 @@ public static class OrderMapper
             DiscountedTotal = model.DiscountedTotal,
             TotalSavings = model.TotalSavings,
             Products = model.Products.ToEntities(),
+            TrackingNumber = model.TrackingNumber,
          });
       }
 
@@ -83,6 +85,7 @@ public static class OrderMapper
          DiscountedTotal = entity.DiscountedTotal,
          TotalSavings = entity.TotalSavings,
          Products = entity.Products.ToModels(),
+         TrackingNumber = entity.TrackingNumber,
       };
    }
    
@@ -114,6 +117,7 @@ public static class OrderMapper
             DiscountedTotal = entity.DiscountedTotal,
             TotalSavings = entity.TotalSavings,
             Products = entity.Products.ToModels(),
+            TrackingNumber = entity.TrackingNumber,
          });
       }
 
