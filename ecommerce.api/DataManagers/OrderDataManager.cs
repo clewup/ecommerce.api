@@ -119,24 +119,4 @@ public class OrderDataManager : IOrderDataManager
 
         return existingOrder;
     }
-
-    public async Task<bool> ShipOrder(OrderModel order, UserModel user, Guid trackingNumber)
-    {
-        var existingOrder = await _context.Orders
-            .Include(c => c.Products)
-            .ThenInclude(p => p.Images)
-            .FirstOrDefaultAsync(o => o.Id == order.Id && o.UserId == order.UserId);
-
-        if (!string.IsNullOrEmpty(existingOrder.TrackingNumber.ToString()))
-            return false;
-        
-        existingOrder.TrackingNumber = trackingNumber;
-        
-        existingOrder.UpdatedDate = DateTime.UtcNow;
-        existingOrder.UpdatedBy = user.Email;
-        
-        await _context.SaveChangesAsync();
-
-        return true;
-    }
 }

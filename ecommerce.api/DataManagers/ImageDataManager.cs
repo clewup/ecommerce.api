@@ -30,6 +30,7 @@ public class ImageDataManager : IImageDataManager
         {
             Url = new Uri(imageUrl),
             Product = product,
+            
             AddedDate = DateTime.UtcNow,
             AddedBy = user.Email,
         };

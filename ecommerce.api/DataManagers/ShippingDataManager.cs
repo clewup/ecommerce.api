@@ -27,10 +27,8 @@ public class ShippingDataManager : IShippingDataManager
     public async Task<bool> ShipOrder(OrderModel order, UserModel user, Guid trackingNumber)
     {
         var existingOrder = await _orderDataManager.GetOrder(order.Id);
-        
-        var isShipped = await _orderDataManager.ShipOrder(order, user, trackingNumber);
 
-        if (!isShipped)
+        if (existingOrder == null)
             return false;
         
         var package = new PackageEntity
@@ -38,16 +36,15 @@ public class ShippingDataManager : IShippingDataManager
             TrackingNumber = trackingNumber,
             ShippedDate = DateTime.UtcNow,
             ArrivalDate = DateTime.UtcNow.AddDays(4),
-            OrderId = existingOrder.Id,
             Order = existingOrder,
                 
-            AddedBy = user.Email,
             AddedDate = DateTime.UtcNow,
+            AddedBy = user.Email,
         };
 
         await _context.Packages.AddAsync(package);
         await _context.SaveChangesAsync();
-
+        
         return true;
     }
 
