@@ -12,6 +12,7 @@ public class EcommerceDbContext : DbContext
     public virtual DbSet<ProductEntity> Products { get; set; }
     public virtual DbSet<ImageEntity> Images { get; set; }
     public virtual DbSet<PackageEntity> Packages { get; set; }
+    public virtual DbSet<ConfigEntity> Config { get; set; }
     
     public virtual DbSet<OrderProductEntity> OrderProducts { get; set; }
     public virtual DbSet<CartProductEntity> CartProducts { get; set; }

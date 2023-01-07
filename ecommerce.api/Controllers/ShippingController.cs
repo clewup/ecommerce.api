@@ -61,8 +61,8 @@ public class ShippingController : ControllerBase
         }
     }
     
-    [HttpPost]
-    [Route("{orderId}/extend/{days}")]
+    [HttpPut]
+    [Route("{trackingNumber}/extend/{days}")]
     public async Task<IActionResult> ExtendArrivalDate(Guid trackingNumber, int days)
     {
         try
