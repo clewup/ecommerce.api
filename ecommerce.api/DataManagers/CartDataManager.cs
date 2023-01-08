@@ -104,6 +104,8 @@ public class CartDataManager : ICartDataManager
         var existingCart = await _context.Carts
             .Include(c => c.Products)
             .ThenInclude(p => p.Images)
+            .Include(c => c.Products)
+            .ThenInclude(p => p.Discount)
             .FirstOrDefaultAsync(c => c.UserId == userId);
 
         if (existingCart != null)

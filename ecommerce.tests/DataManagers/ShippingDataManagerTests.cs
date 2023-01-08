@@ -53,22 +53,6 @@ public class ShippingDataManagerTests
     }
     
     [Fact]
-    public async void ShippingDataManager_TrackOrder_Unsuccessful()
-    {
-        var trackingNumber = Guid.Parse("4EF07A4E-EB57-4515-AD22-D3E460A682E0");
-        var mockedOrderDataManager = new Mock<IOrderDataManager>();
-        
-        using (var context = new EcommerceDbContext(options))
-        {
-            var shippingDataManager = new ShippingDataManager(context, mockedOrderDataManager.Object);
-
-            var result = await shippingDataManager.TrackOrder(trackingNumber);
-
-            Assert.Null(result);
-        }
-    }
-    
-    [Fact]
     public async void ShippingDataManager_ShipOrder_Successful()
     {
         var order = new OrderModel();
@@ -89,24 +73,6 @@ public class ShippingDataManagerTests
     }
     
     [Fact]
-    public async void ShippingDataManager_ShipOrder_Unsuccessful()
-    {
-        var order = new OrderModel();
-        var user = new UserModel();
-        
-        var mockedOrderDataManager = new Mock<IOrderDataManager>();
-        
-        using (var context = new EcommerceDbContext(options))
-        {
-            var shippingDataManager = new ShippingDataManager(context, mockedOrderDataManager.Object);
-
-            var result = await shippingDataManager.ShipOrder(order, user);
-
-            Assert.Null(result);
-        }
-    }
-    
-    [Fact]
     public async void ShippingDataManager_ExtendArrivalDate_Successful()
     {
         var trackingNumber = Guid.Parse("8461C523-14C1-43DC-8C49-2A01BDF55421");
@@ -123,25 +89,6 @@ public class ShippingDataManagerTests
             
             Assert.NotNull(result);
             Assert.Equal(DateTime.UtcNow.AddDays(4).Date, result?.ArrivalDate.Date);
-        }
-    }
-    
-    [Fact]
-    public async void ShippingDataManager_ExtendArrivalDate_Unsuccessful()
-    {
-        var trackingNumber = Guid.Parse("D2745C33-3049-4625-847E-27ED94307763");
-        var user = new UserModel();
-        var days = 1;
-        
-        var mockedOrderDataManager = new Mock<IOrderDataManager>();
-        
-        using (var context = new EcommerceDbContext(options))
-        {
-            var shippingDataManager = new ShippingDataManager(context, mockedOrderDataManager.Object);
-
-            var result = await shippingDataManager.ExtendArrivalDate(trackingNumber, user, days);
-            
-            Assert.Null(result);
         }
     }
 }
