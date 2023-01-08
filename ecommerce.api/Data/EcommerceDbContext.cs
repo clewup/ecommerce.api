@@ -63,6 +63,7 @@ public class EcommerceDbContext : DbContext
 
         modelBuilder.Entity<PackageEntity>()
             .HasOne(p => p.Order)
-            .WithOne(o => o.Package);
+            .WithOne(o => o.Package)
+            .HasForeignKey<OrderEntity>(o => o.TrackingNumber);
     }
 }
