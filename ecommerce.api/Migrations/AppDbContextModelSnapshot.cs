@@ -35,16 +35,10 @@ namespace ecommerce.api.Migrations
                     b.Property<DateTime>("AddedDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<double?>("DiscountedTotal")
-                        .HasColumnType("double precision");
-
                     b.Property<int>("Status")
                         .HasColumnType("integer");
 
                     b.Property<double>("Total")
-                        .HasColumnType("double precision");
-
-                    b.Property<double?>("TotalSavings")
                         .HasColumnType("double precision");
 
                     b.Property<string>("UpdatedBy")
@@ -113,6 +107,41 @@ namespace ecommerce.api.Migrations
                     b.ToTable("Config");
                 });
 
+            modelBuilder.Entity("ecommerce.api.Entities.DiscountEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("AddedBy")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("AddedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<double>("Percentage")
+                        .HasColumnType("double precision");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("UpdatedBy")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Discounts");
+                });
+
             modelBuilder.Entity("ecommerce.api.Entities.ImageEntity", b =>
                 {
                     b.Property<Guid>("Id")
@@ -175,9 +204,6 @@ namespace ecommerce.api.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<double?>("DiscountedTotal")
-                        .HasColumnType("double precision");
-
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("text");
@@ -210,9 +236,6 @@ namespace ecommerce.api.Migrations
                         .HasColumnType("integer");
 
                     b.Property<double>("Total")
-                        .HasColumnType("double precision");
-
-                    b.Property<double?>("TotalSavings")
                         .HasColumnType("double precision");
 
                     b.Property<Guid?>("TrackingNumber")
@@ -309,11 +332,8 @@ namespace ecommerce.api.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<double>("Discount")
-                        .HasColumnType("double precision");
-
-                    b.Property<double?>("DiscountedPrice")
-                        .HasColumnType("double precision");
+                    b.Property<Guid?>("DiscountId")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -340,8 +360,52 @@ namespace ecommerce.api.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<double?>("TotalSavings")
-                        .HasColumnType("double precision");
+                    b.Property<string>("UpdatedBy")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DiscountId");
+
+                    b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("ecommerce.api.Entities.PromotionEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("AddedBy")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("AddedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("DiscountId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("EndDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("StartDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
 
                     b.Property<string>("UpdatedBy")
                         .IsRequired()
@@ -352,7 +416,9 @@ namespace ecommerce.api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Products");
+                    b.HasIndex("DiscountId");
+
+                    b.ToTable("Promotions");
                 });
 
             modelBuilder.Entity("ecommerce.api.Entities.CartProductEntity", b =>
@@ -413,9 +479,36 @@ namespace ecommerce.api.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("ecommerce.api.Entities.ProductEntity", b =>
+                {
+                    b.HasOne("ecommerce.api.Entities.DiscountEntity", "Discount")
+                        .WithMany("Products")
+                        .HasForeignKey("DiscountId");
+
+                    b.Navigation("Discount");
+                });
+
+            modelBuilder.Entity("ecommerce.api.Entities.PromotionEntity", b =>
+                {
+                    b.HasOne("ecommerce.api.Entities.DiscountEntity", "Discount")
+                        .WithMany("Promotions")
+                        .HasForeignKey("DiscountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Discount");
+                });
+
             modelBuilder.Entity("ecommerce.api.Entities.CartEntity", b =>
                 {
                     b.Navigation("CartProducts");
+                });
+
+            modelBuilder.Entity("ecommerce.api.Entities.DiscountEntity", b =>
+                {
+                    b.Navigation("Products");
+
+                    b.Navigation("Promotions");
                 });
 
             modelBuilder.Entity("ecommerce.api.Entities.OrderEntity", b =>

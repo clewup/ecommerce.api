@@ -173,7 +173,6 @@ public class ProductManagerTests
         
         Assert.Equal("PRODUCT NAME", result?.Name);
         Assert.Equal(30, result?.Price);
-        Assert.Equal(0, result?.Discount);
     }
     
     [Fact]
@@ -227,7 +226,6 @@ public class ProductManagerTests
         
         Assert.Equal("CREATED PRODUCT", result?.Name);
         Assert.Equal(30, result?.Price);
-        Assert.Equal(0, result?.Discount);
     }
     
     [Fact]
@@ -282,7 +280,6 @@ public class ProductManagerTests
         
         Assert.Equal("UPDATED PRODUCT", result?.Name);
         Assert.Equal(30, result?.Price);
-        Assert.Equal(0, result?.Discount);
     }
 
     [Fact]

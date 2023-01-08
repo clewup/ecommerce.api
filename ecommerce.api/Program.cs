@@ -128,6 +128,8 @@ builder.Services.AddTransient<IImageDataManager, ImageDataManager>();
 builder.Services.AddTransient<IStatisticsDataManager, StatisticsDataManager>();    
 builder.Services.AddTransient<ICategoryDataManager, CategoryDataManager>();    
 builder.Services.AddTransient<IShippingDataManager, ShippingDataManager>();    
+builder.Services.AddTransient<IDiscountDataManager, DiscountDataManager>();
+builder.Services.AddTransient<IPromotionDataManager, PromotionDataManager>();
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 var app = builder.Build();

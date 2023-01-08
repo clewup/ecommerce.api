@@ -10,8 +10,8 @@ public interface IProductDataManager
     Task<List<ProductEntity>> GetProducts(List<Guid> productIds);
     Task<List<ProductEntity>> GetProducts(CartEntity cart);
     Task<List<ProductEntity>> GetProducts(OrderEntity order);
-    Task<ProductEntity?> GetProduct(Guid id);
+    Task<ProductEntity> GetProduct(Guid productId);
     Task<ProductEntity> CreateProduct(ProductModel product, UserModel user, string sku);
     Task<ProductEntity> UpdateProduct(ProductModel product, UserModel user, string sku);
-    Task DeleteProduct(Guid id);
+    Task DeleteProduct(Guid productId);
 }

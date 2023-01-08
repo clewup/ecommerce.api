@@ -18,9 +18,7 @@ public static class ProductMapper
             Subcategory = model.Subcategory,
             Range = model.Range,
             Price = model.Price,
-            Discount = model.Discount,
-            DiscountedPrice = model.DiscountedPrice,
-            TotalSavings = model.TotalSavings,
+            Discount = model.Discount?.ToEntity(),
             Stock = model.Stock,
         };
     }
@@ -41,9 +39,7 @@ public static class ProductMapper
                 Subcategory = model.Subcategory,
                 Range = model.Range,
                 Price = model.Price,
-                Discount = model.Discount,
-                DiscountedPrice = model.DiscountedPrice,
-                TotalSavings = model.TotalSavings,
+                Discount = model.Discount?.ToEntity(),
                 Stock = model.Stock,
             }); 
         }
@@ -68,9 +64,7 @@ public static class ProductMapper
             Size = skuElems[2],
             Stock = entity.Stock,
             Price = entity.Price,
-            Discount = entity.Discount,
-            DiscountedPrice = entity.DiscountedPrice,
-            TotalSavings = entity.TotalSavings,
+            Discount = entity.Discount?.ToModel(),
         };
     }
     
@@ -95,9 +89,7 @@ public static class ProductMapper
                 Size = skuElems[2],
                 Stock = entity.Stock,
                 Price = entity.Price,
-                Discount = entity.Discount,
-                DiscountedPrice = entity.DiscountedPrice,
-                TotalSavings = entity.TotalSavings,
+                Discount = entity.Discount?.ToModel(),
             }); 
         }
 

@@ -23,8 +23,6 @@ public static class OrderMapper
          County = model.DeliveryAddress.County,
          Country = model.DeliveryAddress.Country,
          Total = model.Total,
-         DiscountedTotal = model.DiscountedTotal,
-         TotalSavings = model.TotalSavings,
          Products = model.Products.ToEntities(),
          TrackingNumber = model.TrackingNumber,
       };
@@ -51,8 +49,6 @@ public static class OrderMapper
             County = model.DeliveryAddress.County,
             Country = model.DeliveryAddress.Country,
             Total = model.Total,
-            DiscountedTotal = model.DiscountedTotal,
-            TotalSavings = model.TotalSavings,
             Products = model.Products.ToEntities(),
             TrackingNumber = model.TrackingNumber,
          });
@@ -82,8 +78,6 @@ public static class OrderMapper
          },
          OrderDate = entity.AddedDate,
          Total = entity.Total,
-         DiscountedTotal = entity.DiscountedTotal,
-         TotalSavings = entity.TotalSavings,
          Products = entity.Products.ToModels(),
          TrackingNumber = entity.TrackingNumber,
       };
@@ -114,8 +108,6 @@ public static class OrderMapper
             },
             OrderDate = entity.AddedDate,
             Total = entity.Total,
-            DiscountedTotal = entity.DiscountedTotal,
-            TotalSavings = entity.TotalSavings,
             Products = entity.Products.ToModels(),
             TrackingNumber = entity.TrackingNumber,
          });

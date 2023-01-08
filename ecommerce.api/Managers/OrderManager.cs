@@ -32,9 +32,9 @@ public class OrderManager : IOrderManager
         return orders.ToModels();
     }
     
-    public async Task<OrderModel?> GetOrder(Guid id)
+    public async Task<OrderModel> GetOrder(Guid orderId)
     {
-        var order = await _orderDataManager.GetOrder(id);
+        var order = await _orderDataManager.GetOrder(orderId);
 
         return order.ToModel();
     }

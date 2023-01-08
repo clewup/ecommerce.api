@@ -59,12 +59,12 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet]
-    [Route("{id}")]
-    public async Task<IActionResult> GetProduct(Guid id)
+    [Route("{productId}")]
+    public async Task<IActionResult> GetProduct(Guid productId)
     {
         try
         {
-            var product = await _productManager.GetProduct(id);
+            var product = await _productManager.GetProduct(productId);
 
             if (product == null)
                 return NoContent();
@@ -73,7 +73,7 @@ public class ProductController : ControllerBase
         }
         catch (Exception)
         {
-            _logger.LogCritical("ProductController.GetProduct: Could not retrieve product id {Id}", id);
+            _logger.LogCritical("ProductController.GetProduct: Could not retrieve product id {Id}", productId);
             throw;
         }
     }
@@ -131,24 +131,24 @@ public class ProductController : ControllerBase
     
     [Authorize]
     [HttpDelete]
-    [Route("{id}")]
+    [Route("{productId}")]
     [Authorize(Policy = RoleType.Employee)]
-    public async Task<IActionResult> DeleteProduct(Guid id)
+    public async Task<IActionResult> DeleteProduct(Guid productId)
     {
         try
         {
-            var existingProduct = await _productManager.GetProduct(id);
+            var existingProduct = await _productManager.GetProduct(productId);
 
             if (existingProduct == null)
                 return NoContent();
             
-            await _productManager.DeleteProduct(id);
+            await _productManager.DeleteProduct(productId);
             
             return NoContent();
         }
         catch (Exception)
         {
-            _logger.LogCritical("ProductController.DeleteProduct: Could not delete product {Id}", id);
+            _logger.LogCritical("ProductController.DeleteProduct: Could not delete product {Id}", productId);
             throw;
         }
     }

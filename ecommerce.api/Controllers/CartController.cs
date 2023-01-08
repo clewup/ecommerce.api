@@ -23,13 +23,13 @@ public class CartController : ControllerBase
     }
     
     [HttpGet]
-    [Route("id/{id}")]
+    [Route("id/{cartId}")]
     [Authorize(Policy = RoleType.Employee)]
-    public async Task<IActionResult> GetCart(Guid id)
+    public async Task<IActionResult> GetCart(Guid cartId)
     {
         try
         {
-            var cart = await _cartManager.GetCart(id);
+            var cart = await _cartManager.GetCart(cartId);
             
             if (cart == null)
                 return NoContent();
@@ -38,7 +38,7 @@ public class CartController : ControllerBase
         }
         catch (Exception)
         {
-            _logger.LogCritical("CartController.GetCart: Could not retrieve cart {Id}", id);
+            _logger.LogCritical("CartController.GetCart: Could not retrieve cart {Id}", cartId);
             throw;
         }
     }

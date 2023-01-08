@@ -13,16 +13,19 @@ namespace ecommerce.api.DataManagers;
 public class ProductDataManager : IProductDataManager
 {
     private readonly EcommerceDbContext _context;
+    private readonly IDiscountDataManager _discountDataManager;
 
-    public ProductDataManager(EcommerceDbContext context)
+    public ProductDataManager(EcommerceDbContext context, IDiscountDataManager discountDataManager)
     {
         _context = context;
+        _discountDataManager = discountDataManager;
     }   
     
     public async Task<List<ProductEntity>> GetProducts()
     {
         var products = await _context.Products
             .Include(p => p.Images)
+            .Include(p => p.Discount)
             .ToListAsync();
 
         return products;
@@ -63,6 +66,7 @@ public class ProductDataManager : IProductDataManager
         
         var products = await _context.Products
             .Include(p => p.Images)
+            .Include(p => p.Discount)
             .ToListAsync();
 
         if (searchTerm != null)
@@ -94,7 +98,7 @@ public class ProductDataManager : IProductDataManager
         if (onSale != null)
         {
             if (bool.Parse(onSale) == true)
-                products = products.Where(p => p.Discount > 0).ToList();
+                products = products.Where(p => p.Discount != null && p.Discount.Percentage > 0).ToList();
         }
 
         if (minPrice != null && maxPrice != null)
@@ -125,6 +129,7 @@ public class ProductDataManager : IProductDataManager
     {
         var products = await _context.Products
                 .Include(p => p.Images)
+                .Include(p => p.Discount)
                 .Where(p => productIds
                 .Contains(p.Id)).ToListAsync();
 
@@ -135,6 +140,7 @@ public class ProductDataManager : IProductDataManager
     {
         var products = await _context.Products
             .Include(p => p.Images)
+            .Include(p => p.Discount)
             .Where(p => cart.Products
                 .Contains(p)).ToListAsync();
 
@@ -145,19 +151,24 @@ public class ProductDataManager : IProductDataManager
     {
         var products = await _context.Products
             .Include(p => p.Images)
+            .Include(p => p.Discount)
             .Where(p => order.Products
                 .Contains(p)).ToListAsync();
 
         return products;
     }
     
-    public async Task<ProductEntity?> GetProduct(Guid id)
+    public async Task<ProductEntity> GetProduct(Guid productId)
     {
         var product = await _context.Products
             .Include(p => p.Images)
-            .Where(p => p.Id == id)
+            .Include(p => p.Discount)
+            .Where(p => p.Id == productId)
             .FirstOrDefaultAsync();
 
+        if (product == null)
+            throw new Exception();
+        
         return product;
     }
 
@@ -166,20 +177,19 @@ public class ProductDataManager : IProductDataManager
         var mappedProduct = product.ToEntity();
 
         mappedProduct.Price = mappedProduct.CalculatePrice();
-        if (product.Discount > 0)
+        if (product.Discount != null)
         {
-            mappedProduct.DiscountedPrice = mappedProduct.CalculateDiscountedPrice();
-            mappedProduct.TotalSavings = mappedProduct.CalculateTotalSavings();
+            var discount = await _discountDataManager.GetDiscount(product.Discount.Id);
+            mappedProduct.Discount = discount;
         }
         mappedProduct.Sku = sku;
-
         mappedProduct.AddedDate = DateTime.UtcNow;
         mappedProduct.AddedBy = user.Email;
         
         await _context.Products.AddAsync(mappedProduct);
         await _context.SaveChangesAsync();
         
-        return mappedProduct;
+        return await GetProduct(product.Id);
     }
 
     public async Task<ProductEntity> UpdateProduct(ProductModel product, UserModel user, string sku)
@@ -187,6 +197,9 @@ public class ProductDataManager : IProductDataManager
         var existingProduct = await GetProduct(product.Id);
         var images = await _context.Images.Where(i => i.ProductId == product.Id).ToListAsync();
 
+        if (existingProduct == null)
+            throw new Exception();
+        
         existingProduct.Name = product.Name;
         existingProduct.Description = product.Description;
         existingProduct.Sku = sku;
@@ -194,28 +207,26 @@ public class ProductDataManager : IProductDataManager
         existingProduct.Category = product.Category;
         existingProduct.Range = product.Range;
         existingProduct.Price = product.CalculatePrice();
-        existingProduct.Discount = product.Discount;
-        if (product.Discount > 0)
+        if (product.Discount != null)
         {
-            existingProduct.DiscountedPrice = product.CalculateDiscountedPrice();
-            existingProduct.TotalSavings = product.CalculateTotalSavings();
+            var discount = await _discountDataManager.GetDiscount(product.Discount.Id);
+            existingProduct.Discount = discount;
         }
-        
         existingProduct.UpdatedDate = DateTime.UtcNow;
         existingProduct.UpdatedBy = user.Email;
         
         await _context.SaveChangesAsync();
 
-        return existingProduct;
+        return await GetProduct(product.Id);
     }
 
-    public async Task DeleteProduct(Guid id)
+    public async Task DeleteProduct(Guid productId)
     {
-        var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
+        var existingProduct = await _context.Products.FirstOrDefaultAsync(p => p.Id == productId);
 
-        if (product != null)
+        if (existingProduct != null)
         {
-            _context.Products.Remove(product);
+            _context.Products.Remove(existingProduct);
             await _context.SaveChangesAsync();
         }
     }

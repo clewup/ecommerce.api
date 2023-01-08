@@ -6,8 +6,8 @@ public interface IProductManager
 {
     Task<List<ProductModel>> GetProducts();
     Task<List<ProductModel>> GetProductsBySearchCriteria(SearchCriteriaModel searchCriteria);
-    Task<ProductModel?> GetProduct(Guid id);
+    Task<ProductModel> GetProduct(Guid productId);
     Task<ProductModel> CreateProduct(ProductModel product, UserModel user);
     Task<ProductModel> UpdateProduct(ProductModel product, UserModel user);
-    Task DeleteProduct(Guid id);
+    Task DeleteProduct(Guid productId);
 }

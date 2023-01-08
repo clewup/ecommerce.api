@@ -23,24 +23,17 @@ public class CartManager : ICartManager
 
     }
     
-    public async Task<CartModel?> GetCart(Guid id)
+    public async Task<CartModel> GetCart(Guid cartId)
     {
-        var cart = await _cartDataManager.GetCart(id);
+        var cart = await _cartDataManager.GetCart(cartId);
         
-        if (cart == null)
-            return null;
-
         return cart.ToModel();
-
     }
     
-    public async Task<CartModel?> GetUserCart(UserModel user)
+    public async Task<CartModel> GetUserCart(UserModel user)
     {
         var cart = await _cartDataManager.GetUserCart(user);
         
-        if (cart == null)
-            return null;
-
         return cart.ToModel();
     }
     

@@ -13,8 +13,6 @@ public static class CartMapper
             Id = model.Id,
             UserId = model.UserId,
             Total = model.Total,
-            DiscountedTotal = model.DiscountedTotal,
-            TotalSavings = model.TotalSavings,
             Products = model.Products.ToEntities(),
         };
     }
@@ -30,8 +28,6 @@ public static class CartMapper
                 Id = model.Id,
                 UserId = model.UserId,
                 Total = model.Total,
-                DiscountedTotal = model.DiscountedTotal,
-                TotalSavings = model.TotalSavings,
                 Products = model.Products.ToEntities(),
             });
         }
@@ -47,8 +43,6 @@ public static class CartMapper
             UserId = entity.UserId,
             Products = entity.Products.ToModels(),
             Total = entity.Total,
-            DiscountedTotal = entity.DiscountedTotal,
-            TotalSavings = entity.TotalSavings
         };
     }
     
@@ -64,8 +58,6 @@ public static class CartMapper
                 UserId = entity.UserId,
                 Products = entity.Products.ToModels(),
                 Total = entity.Total,
-                DiscountedTotal = entity.DiscountedTotal,
-                TotalSavings = entity.TotalSavings
             });
         }
 

@@ -28,6 +28,8 @@ public class OrderDataManager : IOrderDataManager
         var orders = await _context.Orders
             .Include(o => o.Products)
             .ThenInclude(p => p.Images)
+            .Include(o => o.Products)
+            .ThenInclude(p => p.Discount)
             .OrderByDescending(o => o.AddedDate)
             .ToListAsync();
         
@@ -39,6 +41,8 @@ public class OrderDataManager : IOrderDataManager
         var orders = await _context.Orders
             .Include(o => o.Products)
             .ThenInclude(p => p.Images)
+            .Include(o => o.Products)
+            .ThenInclude(p => p.Discount)
             .Where(o => o.UserId == user.Id)
             .OrderByDescending(o => o.AddedDate)
             .ToListAsync();
@@ -46,12 +50,17 @@ public class OrderDataManager : IOrderDataManager
         return orders;
     }
 
-    public async Task<OrderEntity?> GetOrder(Guid id)
+    public async Task<OrderEntity> GetOrder(Guid orderId)
     {
         var order = await _context.Orders
             .Include(o => o.Products)
             .ThenInclude(p => p.Images)
-            .FirstOrDefaultAsync(o => o.Id == id);
+            .Include(o => o.Products)
+            .ThenInclude(p => p.Discount)
+            .FirstOrDefaultAsync(o => o.Id == orderId);
+
+        if (order == null)
+            throw new Exception();
         
         return order;
     }
@@ -59,39 +68,29 @@ public class OrderDataManager : IOrderDataManager
     public async Task<OrderEntity> CreateOrder(OrderModel order, UserModel user)
     {
         var mappedOrder = order.ToEntity();
-
         var products = await _productDataManager.GetProducts(mappedOrder);
         
         mappedOrder.Products = products;
         mappedOrder.AddedDate = DateTime.UtcNow;
         mappedOrder.AddedBy = user.Email;
         mappedOrder.Total = products.CalculateTotal();
-
-        if (products.Any(x => x.Discount > 0))
+        if (products.Any(x => x.Discount != null && x.Discount.Percentage > 0))
         {
-            mappedOrder.DiscountedTotal = products.CalculateDiscountedTotal();
-            mappedOrder.TotalSavings = products.CalculateTotalSavings();
+            mappedOrder.Total = products.CalculateDiscountedTotal();
         }
         
         await _context.Orders.AddAsync(mappedOrder);
-        
         await _context.SaveChangesAsync();
-
         await _cartDataManager.MakeCartInactive(user.Id);
         
-        return mappedOrder;
+        return await GetOrder(order.Id);
     }
 
     public async Task<OrderEntity> UpdateOrder(OrderModel order, UserModel user)
     {
         var mappedOrder = order.ToEntity();
-
         var products = await _productDataManager.GetProducts(mappedOrder);
-
-        var existingOrder = await _context.Orders
-                .Include(c => c.Products)
-                .ThenInclude(p => p.Images)
-                .FirstOrDefaultAsync(o => o.Id == order.Id && o.UserId == order.UserId);
+        var existingOrder = await GetOrder(order.Id);
         
         existingOrder.FirstName = order.FirstName;
         existingOrder.LastName = order.LastName;
@@ -105,18 +104,15 @@ public class OrderDataManager : IOrderDataManager
         existingOrder.Country = order.DeliveryAddress.Country;
         existingOrder.Products = products;
         existingOrder.Total = products.CalculateTotal();
-
-        if (products.Any(x => x.Discount > 0))
+        if (products.Any(x => x.Discount != null && x.Discount.Percentage > 0))
         {
-            existingOrder.DiscountedTotal = products.CalculateDiscountedTotal();
-            existingOrder.TotalSavings = products.CalculateTotalSavings();
+            existingOrder.Total = products.CalculateDiscountedTotal();
         }
-        
         existingOrder.UpdatedDate = DateTime.UtcNow;
         existingOrder.UpdatedBy = user.Email;
 
         await _context.SaveChangesAsync();
 
-        return existingOrder;
+        return await GetOrder(order.Id);
     }
 }

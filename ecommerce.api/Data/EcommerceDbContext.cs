@@ -13,6 +13,8 @@ public class EcommerceDbContext : DbContext
     public virtual DbSet<ImageEntity> Images { get; set; }
     public virtual DbSet<PackageEntity> Packages { get; set; }
     public virtual DbSet<ConfigEntity> Config { get; set; }
+    public virtual DbSet<DiscountEntity> Discounts { get; set; }
+    public virtual DbSet<PromotionEntity> Promotions { get; set; }
     
     public virtual DbSet<OrderProductEntity> OrderProducts { get; set; }
     public virtual DbSet<CartProductEntity> CartProducts { get; set; }
@@ -64,6 +66,19 @@ public class EcommerceDbContext : DbContext
         modelBuilder.Entity<PackageEntity>()
             .HasOne(p => p.Order)
             .WithOne(o => o.Package)
-            .HasForeignKey<OrderEntity>(o => o.TrackingNumber);
+            .HasForeignKey<OrderEntity>(o => o.TrackingNumber)
+            .IsRequired(false);
+
+        modelBuilder.Entity<PromotionEntity>()
+            .HasOne(p => p.Discount)
+            .WithMany(d => d.Promotions)
+            .HasForeignKey(p => p.DiscountId)
+            .IsRequired();
+
+        modelBuilder.Entity<DiscountEntity>()
+            .HasMany(d => d.Products)
+            .WithOne(p => p.Discount)
+            .HasForeignKey(p => p.DiscountId)
+            .IsRequired(false);
     }
 }

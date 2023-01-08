@@ -32,9 +32,9 @@ public class ProductManager : IProductManager
         return products.ToModels();
     }
     
-    public async Task<ProductModel?> GetProduct(Guid id)
+    public async Task<ProductModel> GetProduct(Guid productId)
     {
-        var product = await _productDataManager.GetProduct(id);
+        var product = await _productDataManager.GetProduct(productId);
 
         return product.ToModel();
     }
@@ -42,13 +42,7 @@ public class ProductManager : IProductManager
     public async Task<ProductModel> CreateProduct(ProductModel product, UserModel user)
     {
         var sku = GenerateSku(product);
-        
         var createdProduct = await _productDataManager.CreateProduct(product, user, sku);
-
-        foreach (var image in product.Images)
-        {
-            await _imageDataManager.UploadImage(image, createdProduct, user);
-        }
 
         return createdProduct.ToModel();
     }
@@ -56,15 +50,14 @@ public class ProductManager : IProductManager
     public async Task<ProductModel> UpdateProduct(ProductModel product, UserModel user)
     {
         var sku = GenerateSku(product);
-        
         var updatedProduct = await _productDataManager.UpdateProduct(product, user, sku);
-
+        
         return updatedProduct.ToModel();
     }
 
-    public async Task DeleteProduct(Guid id)
+    public async Task DeleteProduct(Guid productId)
     {
-        await _productDataManager.DeleteProduct(id);
+        await _productDataManager.DeleteProduct(productId);
     }
 
     public string GenerateSku(ProductModel product)

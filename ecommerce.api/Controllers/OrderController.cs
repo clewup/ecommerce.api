@@ -59,13 +59,13 @@ public class OrderController : ControllerBase
     }
     
     [HttpGet]
-    [Route("{id}")]
+    [Route("{orderId}")]
     [Authorize(Policy = RoleType.Employee)]
-    public async Task<IActionResult> GetOrder(Guid id)
+    public async Task<IActionResult> GetOrder(Guid orderId)
     {
         try
         {
-            var order = await _orderManager.GetOrder(id);
+            var order = await _orderManager.GetOrder(orderId);
 
             if (order == null)
                 return NoContent();
@@ -74,7 +74,7 @@ public class OrderController : ControllerBase
         }
         catch (Exception)
         {
-            _logger.LogCritical("OrderController.GetOrder: Could not retrieve order {Id}", id);
+            _logger.LogCritical("OrderController.GetOrder: Could not retrieve order {Id}", orderId);
             throw;
         }
     }

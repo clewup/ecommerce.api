@@ -36,9 +36,10 @@ public class StatisticsManager : IStatisticsManager
     {
         var products = await _productDataManager.GetProducts();
 
-        var discountedProducts = products.Where(p => p.Discount > 0)
-            .OrderByDescending(p => p.Discount)
-            .Take(amount).ToList();
+        var discountedProducts = products.Where(p => p.Discount != null && p.Discount.Percentage > 0)
+            .OrderByDescending(p => p.Discount?.Percentage)
+            .Take(amount)
+            .ToList();
 
         return discountedProducts.ToModels();
     }

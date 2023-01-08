@@ -1,6 +1,7 @@
 using AutoMapper;
 using ecommerce.api.Data;
 using ecommerce.api.DataManagers;
+using ecommerce.api.DataManagers.Contracts;
 using ecommerce.api.Entities;
 using ecommerce.api.Infrastructure;
 using ecommerce.api.Models;
@@ -29,7 +30,7 @@ public class ProductDataManagerTests
                 Sku = "PRODUCT_1_RANGE-P1N-SMALL-BLACK",
                 Price = 30.00,
                 Stock = 0,
-                Discount = 0,
+                Discount = new DiscountEntity(),
                 Images = new List<ImageEntity>()
                 {
                     new ImageEntity()
@@ -49,7 +50,12 @@ public class ProductDataManagerTests
                 Sku = "PRODUCT_2_RANGE-P2N-SMALL-BLACK",
                 Price = 60.00,
                 Stock = 10,
-                Discount = 10, 
+                Discount = new DiscountEntity()
+                {
+                    Id = Guid.Parse("C5441FFD-677E-47B6-9367-635677732547"),
+                    Name = "DISCOUNT 1",
+                    Percentage = 10,
+                },  
                 Images = new List<ImageEntity>()
                 {
                     new ImageEntity()
@@ -69,7 +75,12 @@ public class ProductDataManagerTests
                 Sku = "PRODUCT_2_RANGE-P3N-SMALL-BLACK",
                 Price = 40.00,
                 Stock = 10,
-                Discount = 10, 
+                Discount = new DiscountEntity()
+                {
+                    Id = Guid.Parse("1E2B87DB-3C1E-4AE3-9B2C-89697AE18543"),
+                    Name = "DISCOUNT 2",
+                    Percentage = 20,
+                }, 
                 Images = new List<ImageEntity>()
                 {
                     new ImageEntity()
@@ -86,9 +97,11 @@ public class ProductDataManagerTests
     [Fact]
     public async void ProductDataManager_GetProducts_Successful()
     {
+        var mockedDiscountDataManager = new Mock<IDiscountDataManager>();
+        
         using (var context = new EcommerceDbContext(options))
         {
-            var productDataManager = new ProductDataManager(context);
+            var productDataManager = new ProductDataManager(context, mockedDiscountDataManager.Object);
 
             var result = await productDataManager.GetProducts();
             
@@ -106,10 +119,11 @@ public class ProductDataManagerTests
         {
             SearchTerm = searchTerm,
         };
+        var mockedDiscountDataManager = new Mock<IDiscountDataManager>();
         
         using (var context = new EcommerceDbContext(options))
         {
-            var productDataManager = new ProductDataManager(context);
+            var productDataManager = new ProductDataManager(context, mockedDiscountDataManager.Object);
 
             var result = await productDataManager.GetProductsBySearchCriteria(searchCriteria);
             
@@ -126,11 +140,11 @@ public class ProductDataManagerTests
         {
             Category = category,
         };
-        
+        var mockedDiscountDataManager = new Mock<IDiscountDataManager>();
         
         using (var context = new EcommerceDbContext(options))
         {
-            var productDataManager = new ProductDataManager(context);
+            var productDataManager = new ProductDataManager(context, mockedDiscountDataManager.Object);
 
             var result = await productDataManager.GetProductsBySearchCriteria(searchCriteria);
             
@@ -147,10 +161,11 @@ public class ProductDataManagerTests
         {
             Range = range,
         };
-        
+        var mockedDiscountDataManager = new Mock<IDiscountDataManager>();
+
         using (var context = new EcommerceDbContext(options))
         {
-            var productDataManager = new ProductDataManager(context);
+            var productDataManager = new ProductDataManager(context, mockedDiscountDataManager.Object);
 
             var result = await productDataManager.GetProductsBySearchCriteria(searchCriteria);
             
@@ -167,10 +182,11 @@ public class ProductDataManagerTests
         {
             InStock = inStock,
         };
-        
+        var mockedDiscountDataManager = new Mock<IDiscountDataManager>();
+
         using (var context = new EcommerceDbContext(options))
         {
-            var productDataManager = new ProductDataManager(context);
+            var productDataManager = new ProductDataManager(context, mockedDiscountDataManager.Object);
 
             var result = await productDataManager.GetProductsBySearchCriteria(searchCriteria);
             
@@ -187,10 +203,11 @@ public class ProductDataManagerTests
         {
             OnSale = onSale,
         };
-        
+        var mockedDiscountDataManager = new Mock<IDiscountDataManager>();
+
         using (var context = new EcommerceDbContext(options))
         {
-            var productDataManager = new ProductDataManager(context);
+            var productDataManager = new ProductDataManager(context, mockedDiscountDataManager.Object);
 
             var result = await productDataManager.GetProductsBySearchCriteria(searchCriteria);
             
@@ -211,10 +228,11 @@ public class ProductDataManagerTests
             MinPrice = minPrice,
             MaxPrice = maxPrice
         };
-        
+        var mockedDiscountDataManager = new Mock<IDiscountDataManager>();
+
         using (var context = new EcommerceDbContext(options))
         {
-            var productDataManager = new ProductDataManager(context);
+            var productDataManager = new ProductDataManager(context, mockedDiscountDataManager.Object);
 
             var result = await productDataManager.GetProductsBySearchCriteria(searchCriteria);
             
@@ -231,10 +249,11 @@ public class ProductDataManagerTests
             SortBy = sortBy,
             SortVariation = sortVariation
         };
-        
+        var mockedDiscountDataManager = new Mock<IDiscountDataManager>();
+
         using (var context = new EcommerceDbContext(options))
         {
-            var productDataManager = new ProductDataManager(context);
+            var productDataManager = new ProductDataManager(context, mockedDiscountDataManager.Object);
 
             var result = await productDataManager.GetProductsBySearchCriteria(searchCriteria);
             
@@ -250,10 +269,11 @@ public class ProductDataManagerTests
             new Guid("93FB7638-4B16-490C-8CDB-2042EE131AA8"),
             new Guid("93FB7638-4B16-490C-8CDB-2042EE131AA6")
         };
-        
+        var mockedDiscountDataManager = new Mock<IDiscountDataManager>();
+
         using (var context = new EcommerceDbContext(options))
         {
-            var productDataManager = new ProductDataManager(context);
+            var productDataManager = new ProductDataManager(context, mockedDiscountDataManager.Object);
 
             var result = await productDataManager.GetProducts(guidList);
             
@@ -277,7 +297,7 @@ public class ProductDataManagerTests
                     Range = "PRODUCT_1_RANGE",
                     Sku = "PRODUCT_1_RANGE-P1N-SMALL-BLACK",
                     Price = 30.00,
-                    Discount = 0,
+                    Discount = new DiscountEntity(),
                     Images = new List<ImageEntity>()
                     {
                         new ImageEntity()
@@ -289,10 +309,11 @@ public class ProductDataManagerTests
                 }
             }
         };
-        
+        var mockedDiscountDataManager = new Mock<IDiscountDataManager>();
+
         using (var context = new EcommerceDbContext(options))
         {
-            var productDataManager = new ProductDataManager(context);
+            var productDataManager = new ProductDataManager(context, mockedDiscountDataManager.Object);
 
             var result = await productDataManager.GetProducts(cart);
             
@@ -316,7 +337,7 @@ public class ProductDataManagerTests
                     Range = "PRODUCT_1_RANGE",
                     Sku = "PRODUCT_1_RANGE-P1N-SMALL-BLACK",
                     Price = 30.00,
-                    Discount = 0,
+                    Discount = new DiscountEntity(),
                     Images = new List<ImageEntity>()
                     {
                         new ImageEntity()
@@ -328,10 +349,11 @@ public class ProductDataManagerTests
                 }
             },
         };
-        
+        var mockedDiscountDataManager = new Mock<IDiscountDataManager>();
+
         using (var context = new EcommerceDbContext(options))
         {
-            var productDataManager = new ProductDataManager(context);
+            var productDataManager = new ProductDataManager(context, mockedDiscountDataManager.Object);
 
             var result = await productDataManager.GetProducts(order);
             
@@ -342,9 +364,11 @@ public class ProductDataManagerTests
     [Fact]
     public async void ProductDataManager_GetProduct_Successful()
     {
+        var mockedDiscountDataManager = new Mock<IDiscountDataManager>();
+
         using (var context = new EcommerceDbContext(options))
         {
-            var productDataManager = new ProductDataManager(context);
+            var productDataManager = new ProductDataManager(context, mockedDiscountDataManager.Object);
 
             var result = await productDataManager.GetProduct(Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AA8"));
             
@@ -353,7 +377,6 @@ public class ProductDataManagerTests
             Assert.Equal("PRODUCT_1_CATEGORY", result?.Category);
             Assert.Equal("PRODUCT_1_RANGE", result?.Range);
             Assert.Equal(30, result?.Price);
-            Assert.Equal(0, result?.Discount);
         }
     }
     
@@ -372,14 +395,22 @@ public class ProductDataManagerTests
             },
             Range = "RANGE",
             Color = "BLACK",
-            Size = "SMALL"
+            Size = "SMALL",
+            Discount = new DiscountModel()
+            {
+                Id = Guid.Parse("1E2B87DB-3C1E-4AE3-9B2C-89697AE18543"),
+                Name = "DISCOUNT 1",
+                Percentage = 20,
+            }, 
+            
         };
         var user = new UserModel();
         var sku = "RANGE-CP-SMALL-BLACK";
-        
+        var mockedDiscountDataManager = new Mock<IDiscountDataManager>();
+
         using (var context = new EcommerceDbContext(options))
         {
-            var productDataManager = new ProductDataManager(context);
+            var productDataManager = new ProductDataManager(context, mockedDiscountDataManager.Object);
 
             var result = await productDataManager.CreateProduct(product, user, sku);
             
@@ -403,14 +434,21 @@ public class ProductDataManagerTests
             },
             Range = "RANGE",
             Color = "BLACK",
-            Size = "SMALL"
+            Size = "SMALL",
+            Discount = new DiscountModel()
+            {
+                Id = Guid.Parse("1E2B87DB-3C1E-4AE3-9B2C-89697AE18543"),
+                Name = "DISCOUNT 1",
+                Percentage = 20,
+            }, 
         };
         var user = new UserModel();
         var sku = "RANGE-CP-SMALL-BLACK";
-        
+        var mockedDiscountDataManager = new Mock<IDiscountDataManager>();
+
         using (var context = new EcommerceDbContext(options))
         {
-            var productDataManager = new ProductDataManager(context);
+            var productDataManager = new ProductDataManager(context, mockedDiscountDataManager.Object);
             var result = await productDataManager.UpdateProduct(product, user, sku);
             
             Assert.NotNull(result);
@@ -421,9 +459,11 @@ public class ProductDataManagerTests
     [Fact]
     public async void ProductDataManager_DeleteProduct_Successful()
     {
+        var mockedDiscountDataManager = new Mock<IDiscountDataManager>();
+
         using (var context = new EcommerceDbContext(options))
         {
-            var productDataManager = new ProductDataManager(context);
+            var productDataManager = new ProductDataManager(context, mockedDiscountDataManager.Object);
 
             await productDataManager.DeleteProduct(Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AA8"));
 

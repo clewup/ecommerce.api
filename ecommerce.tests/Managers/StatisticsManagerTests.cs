@@ -127,7 +127,12 @@ public class StatisticsManagerTests
             {
                 Id = Guid.Parse("3B3C7936-F323-4552-A75B-FD99A81A5E3D"),
                 Price = 30,
-                Discount = 10,
+                Discount = new DiscountEntity()
+                {
+                    Id = Guid.Parse("1E2B87DB-3C1E-4AE3-9B2C-89697AE18543"),
+                    Name = "DISCOUNT 2",
+                    Percentage = 20,
+                },
                 Images = new List<ImageEntity>()
                 {
                     new ImageEntity()
@@ -149,7 +154,12 @@ public class StatisticsManagerTests
             {
                 Id = Guid.Parse("3B3C7936-F323-4552-A75B-FD99A81A5E3D"),
                 Price = 30,
-                Discount = 20,
+                Discount = new DiscountEntity()
+                {
+                    Id = Guid.Parse("1E2B87DB-3C1E-4AE3-9B2C-89697AE18543"),
+                    Name = "DISCOUNT 2",
+                    Percentage = 20,
+                },
                 Images = new List<ImageEntity>()
                 {
                     new ImageEntity()
@@ -179,6 +189,6 @@ public class StatisticsManagerTests
         var result = await statisticsManager.GetMostDiscountedProducts();
         
         Assert.Equal(2, result.Count);
-        Assert.Equal(20, result.First().Discount);
+        Assert.Equal(20, result.First().Discount?.Percentage);
     }
 }

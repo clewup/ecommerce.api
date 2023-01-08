@@ -31,22 +31,30 @@ public class CartDataManager : ICartDataManager
         return carts;
     }
 
-    public async Task<CartEntity?> GetCart(Guid id)
+    public async Task<CartEntity> GetCart(Guid cartId)
     {
         var cart = await _context.Carts
             .Include(c => c.Products)
             .ThenInclude(p => p.Images)
-            .FirstOrDefaultAsync(c => c.Id == id);
+            .FirstOrDefaultAsync(c => c.Id == cartId);
+        
+        if (cart == null)
+            throw new Exception();
         
         return cart;
     }
     
-    public async Task<CartEntity?> GetUserCart(UserModel user)
+    public async Task<CartEntity> GetUserCart(UserModel user)
     {
         var cart = await _context.Carts
             .Include(c => c.Products)
             .ThenInclude(p => p.Images)
+            .Include(c => c.Products)
+            .ThenInclude(p => p.Discount)
             .FirstOrDefaultAsync(c => c.UserId == user.Id && c.Status == StatusType.Active);
+
+        if (cart == null)
+            throw new Exception();
         
         return cart;
     }
@@ -54,52 +62,41 @@ public class CartDataManager : ICartDataManager
     public async Task<CartEntity> CreateCart(CartModel cart, UserModel user)
     {
         var mappedCart = cart.ToEntity();
-
         var products = await _productDataManager.GetProducts(mappedCart);
 
         mappedCart.UserId = user.Id;
         mappedCart.Products = products;
         mappedCart.Total = products.CalculateTotal();
-
-        if (products.Any(x => x.Discount > 0))
+        if (products.Any(x => x.Discount != null && x.Discount.Percentage > 0))
         {
-            mappedCart.DiscountedTotal = products.CalculateDiscountedTotal();
-            mappedCart.TotalSavings = products.CalculateTotalSavings();
+            mappedCart.Total = products.CalculateDiscountedTotal();
         }
-        
         mappedCart.AddedDate = DateTime.UtcNow;
         mappedCart.AddedBy = user.Email;
         
         await _context.Carts.AddAsync(mappedCart);
         await _context.SaveChangesAsync();
 
-        return mappedCart;
+        return await GetCart(cart.Id);
     }
 
     public async Task<CartEntity> UpdateCart(CartModel cart, UserModel user)
     {
-        var existingCart = await _context.Carts
-                .Include(c => c.Products)
-                .ThenInclude(p => p.Images)
-                .FirstOrDefaultAsync(c => c.Id == cart.Id);
-
+        var existingCart = await GetCart(cart.Id);
         var products = await _productDataManager.GetProducts(cart.ToEntity());
 
         existingCart.Products = products;
         existingCart.Total = products.CalculateTotal();
-
-        if (products.Any(x => x.Discount > 0))
+        if (products.Any(x => x.Discount != null && x.Discount.Percentage > 0))
         {
-            existingCart.DiscountedTotal = products.CalculateDiscountedTotal();
-            existingCart.TotalSavings = products.CalculateTotalSavings();
+            existingCart.Total = products.CalculateDiscountedTotal();
         }
-        
         existingCart.UpdatedDate = DateTime.UtcNow;
         existingCart.UpdatedBy = user.Email;
 
         await _context.SaveChangesAsync();
 
-        return existingCart;
+        return await GetCart(cart.Id);
     }
 
     public async Task MakeCartInactive(Guid userId)
@@ -109,8 +106,10 @@ public class CartDataManager : ICartDataManager
             .ThenInclude(p => p.Images)
             .FirstOrDefaultAsync(c => c.UserId == userId);
 
-        existingCart.Status = StatusType.Inactive;
-
-        await _context.SaveChangesAsync();
+        if (existingCart != null)
+        {
+            existingCart.Status = StatusType.Inactive;
+            await _context.SaveChangesAsync();
+        }
     }
 }

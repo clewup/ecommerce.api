@@ -17,19 +17,19 @@ public class ShippingDataManager : IShippingDataManager
         _orderDataManager = orderDataManager;
     }
 
-    public async Task<PackageEntity?> TrackOrder(Guid trackingNumber)
+    public async Task<PackageEntity> TrackOrder(Guid trackingNumber)
     {
         var package = await _context.Packages.FirstOrDefaultAsync(p => p.Id == trackingNumber);
 
+        if (package == null)
+            throw new Exception();
+        
         return package;
     }
 
-    public async Task<PackageEntity?> ShipOrder(OrderModel order, UserModel user)
+    public async Task<PackageEntity> ShipOrder(OrderModel order, UserModel user)
     {
         var existingOrder = await _orderDataManager.GetOrder(order.Id);
-
-        if (existingOrder == null)
-            return null;
         
         var package = new PackageEntity
         {
@@ -47,13 +47,9 @@ public class ShippingDataManager : IShippingDataManager
         return package;
     }
 
-    public async Task<PackageEntity?> ExtendArrivalDate(Guid trackingNumber, UserModel user, int days)
+    public async Task<PackageEntity> ExtendArrivalDate(Guid trackingNumber, UserModel user, int days)
     {
-        var existingPackage = await _context.Packages.FirstOrDefaultAsync(x => x.Id == trackingNumber);
-
-        if (existingPackage == null)
-            return null;
-        
+        var existingPackage = await TrackOrder(trackingNumber);
         var extendedDate = existingPackage.ArrivalDate.AddDays(days);
 
         existingPackage.ArrivalDate = extendedDate;
