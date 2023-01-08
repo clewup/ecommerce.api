@@ -9,7 +9,7 @@ public static class PackageMapper
     {
         return new PackageEntity
         {
-            TrackingNumber = model.TrackingNumber,
+            Id = model.TrackingNumber,
             ShippedDate = model.ShippedDate,
             ArrivalDate = model.ArrivalDate,
             OrderId = model.Order.Id,
@@ -21,7 +21,7 @@ public static class PackageMapper
     {
         return new PackageModel
         {
-            TrackingNumber = entity.TrackingNumber,
+            TrackingNumber = entity.Id,
             ShippedDate = entity.ShippedDate,
             ArrivalDate = entity.ArrivalDate,
             Order = entity.Order.ToModel()

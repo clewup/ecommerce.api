@@ -21,7 +21,6 @@ public class ShippingDataManagerTests
             context.Packages.AddAsync(new PackageEntity
             {
                 Id = Guid.Parse("E4622CDA-41B1-4F2E-9BAA-A058297AE803"),
-                TrackingNumber = Guid.Parse("B2A176F2-4AFD-4C77-AF2E-8385D7549FD7"),
                 ShippedDate = DateTime.UtcNow.AddDays(-1),
                 ArrivalDate = DateTime.UtcNow.AddDays(3),
                 OrderId = Guid.Parse("D2745C33-3049-4625-847E-27ED94307764"),
@@ -29,7 +28,6 @@ public class ShippingDataManagerTests
             context.Packages.AddAsync(new PackageEntity
             {
                 Id = Guid.Parse("8461C523-14C1-43DC-8C49-2A01BDF55421"),
-                TrackingNumber = Guid.Parse("4ED07A4E-EB57-4515-AD22-D3E460A682E0"),
                 ShippedDate = DateTime.UtcNow.AddDays(-1),
                 ArrivalDate = DateTime.UtcNow.AddDays(3),
                 OrderId = Guid.Parse("8DE3808F-22BD-4815-8F55-22595C473A29"),
@@ -41,7 +39,7 @@ public class ShippingDataManagerTests
     [Fact]
     public async void ShippingDataManager_TrackOrder_Successful()
     {
-        var trackingNumber = Guid.Parse("4ED07A4E-EB57-4515-AD22-D3E460A682E0");
+        var trackingNumber = Guid.Parse("E4622CDA-41B1-4F2E-9BAA-A058297AE803");
         var mockedOrderDataManager = new Mock<IOrderDataManager>();
         
         using (var context = new EcommerceDbContext(options))
@@ -76,23 +74,17 @@ public class ShippingDataManagerTests
         var order = new OrderModel();
         var existingOrder = new OrderEntity();
         var user = new UserModel();
-        var trackingNumber = Guid.Parse("13EC336F-DD0A-46DE-9163-1FBF8412E142");
         
         var mockedOrderDataManager = new Mock<IOrderDataManager>();
         mockedOrderDataManager.Setup(x => x.GetOrder(order.Id)).ReturnsAsync(existingOrder);
-        mockedOrderDataManager.Setup(x => x.ShipOrder(order, user, trackingNumber)).ReturnsAsync(true);
         
         using (var context = new EcommerceDbContext(options))
         {
             var shippingDataManager = new ShippingDataManager(context, mockedOrderDataManager.Object);
 
-            var result = await shippingDataManager.ShipOrder(order, user, trackingNumber);
-            var entityResult = await shippingDataManager.TrackOrder(trackingNumber);
+            var result = await shippingDataManager.ShipOrder(order, user);
 
             Assert.True(result);
-            Assert.NotNull(entityResult);
-            Assert.Equal(DateTime.UtcNow.Date, entityResult?.ShippedDate.Date);
-            Assert.Equal(DateTime.UtcNow.AddDays(4).Date, entityResult?.ArrivalDate.Date);
         }
     }
     
@@ -100,18 +92,15 @@ public class ShippingDataManagerTests
     public async void ShippingDataManager_ShipOrder_Unsuccessful()
     {
         var order = new OrderModel();
-        var existingOrder = new OrderEntity();
         var user = new UserModel();
-        var trackingNumber = Guid.Parse("13EC336F-DD0A-46DE-9163-1FBF8412E142");
         
         var mockedOrderDataManager = new Mock<IOrderDataManager>();
-        mockedOrderDataManager.Setup(x => x.ShipOrder(order, user, trackingNumber)).ReturnsAsync(false);
         
         using (var context = new EcommerceDbContext(options))
         {
             var shippingDataManager = new ShippingDataManager(context, mockedOrderDataManager.Object);
 
-            var result = await shippingDataManager.ShipOrder(order, user, trackingNumber);
+            var result = await shippingDataManager.ShipOrder(order, user);
 
             Assert.False(result);
         }
@@ -120,7 +109,7 @@ public class ShippingDataManagerTests
     [Fact]
     public async void ShippingDataManager_ExtendArrivalDate_Successful()
     {
-        var trackingNumber = Guid.Parse("4ED07A4E-EB57-4515-AD22-D3E460A682E0");
+        var trackingNumber = Guid.Parse("8461C523-14C1-43DC-8C49-2A01BDF55421");
         var user = new UserModel();
         var days = 1;
         
@@ -141,7 +130,7 @@ public class ShippingDataManagerTests
     [Fact]
     public async void ShippingDataManager_ExtendArrivalDate_Unsuccessful()
     {
-        var orderId = Guid.Parse("D2745C33-3049-4625-847E-27ED94307763");
+        var trackingNumber = Guid.Parse("D2745C33-3049-4625-847E-27ED94307763");
         var user = new UserModel();
         var days = 1;
         
@@ -151,7 +140,7 @@ public class ShippingDataManagerTests
         {
             var shippingDataManager = new ShippingDataManager(context, mockedOrderDataManager.Object);
 
-            var result = await shippingDataManager.ExtendArrivalDate(orderId, user, days);
+            var result = await shippingDataManager.ExtendArrivalDate(trackingNumber, user, days);
             
             Assert.False(result);
         }

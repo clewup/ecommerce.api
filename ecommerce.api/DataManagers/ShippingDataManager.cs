@@ -19,12 +19,12 @@ public class ShippingDataManager : IShippingDataManager
 
     public async Task<PackageEntity?> TrackOrder(Guid trackingNumber)
     {
-        var package = await _context.Packages.FirstOrDefaultAsync(p => p.TrackingNumber == trackingNumber);
+        var package = await _context.Packages.FirstOrDefaultAsync(p => p.Id == trackingNumber);
 
         return package;
     }
 
-    public async Task<bool> ShipOrder(OrderModel order, UserModel user, Guid trackingNumber)
+    public async Task<bool> ShipOrder(OrderModel order, UserModel user)
     {
         var existingOrder = await _orderDataManager.GetOrder(order.Id);
 
@@ -33,7 +33,6 @@ public class ShippingDataManager : IShippingDataManager
         
         var package = new PackageEntity
         {
-            TrackingNumber = trackingNumber,
             ShippedDate = DateTime.UtcNow,
             ArrivalDate = DateTime.UtcNow.AddDays(4),
             Order = existingOrder,
@@ -50,7 +49,7 @@ public class ShippingDataManager : IShippingDataManager
 
     public async Task<bool> ExtendArrivalDate(Guid trackingNumber, UserModel user, int days)
     {
-        var existingPackage = await _context.Packages.FirstOrDefaultAsync(x => x.TrackingNumber == trackingNumber);
+        var existingPackage = await _context.Packages.FirstOrDefaultAsync(x => x.Id == trackingNumber);
 
         if (existingPackage == null)
             return false;

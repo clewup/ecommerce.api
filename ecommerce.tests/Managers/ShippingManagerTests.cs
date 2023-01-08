@@ -14,7 +14,7 @@ public class ShippingManagerTests
         var trackingNumber = Guid.Parse("E9C00F5A-EE5E-4FD0-B59B-0FFA65053EEA");
         var package = new PackageEntity()
         {
-            TrackingNumber = trackingNumber,
+            Id = trackingNumber,
             Order = new OrderEntity()
             {
                 Products = new List<ProductEntity>(),
@@ -38,7 +38,7 @@ public class ShippingManagerTests
         var user = new UserModel();
         
         var mockedShippingDataManager = new Mock<IShippingDataManager>();
-        mockedShippingDataManager.Setup(x => x.ShipOrder(order, user, It.IsAny<Guid>())).ReturnsAsync(true);
+        mockedShippingDataManager.Setup(x => x.ShipOrder(order, user)).ReturnsAsync(true);
         
         var shippingManager = new ShippingManager(mockedShippingDataManager.Object);
 

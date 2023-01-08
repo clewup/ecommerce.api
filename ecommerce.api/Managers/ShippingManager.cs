@@ -23,9 +23,7 @@ public class ShippingManager : IShippingManager
 
     public async Task<bool> ShipOrder(OrderModel order, UserModel user)
     {
-        var trackingNumber = Guid.NewGuid();
-
-        var isShipped = await _shippingDataManager.ShipOrder(order, user, trackingNumber);
+        var isShipped = await _shippingDataManager.ShipOrder(order, user);
 
         return isShipped;
     }
