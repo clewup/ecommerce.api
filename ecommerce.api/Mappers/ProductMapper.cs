@@ -13,21 +13,15 @@ public static class ProductMapper
             Id = model.Id,
             Name = model.Name,
             Description = model.Description,
-            Color = model.Color,
             Images = model.Images.ToEntities(),
             Category = model.Category,
             Subcategory = model.Subcategory,
             Range = model.Range,
-            OneSize = model.OneSize,
-            XSmall = model.Sizes.First(x => x.Size == SizeType.XSmall).Stock,
-            Small = model.Sizes.First(x => x.Size == SizeType.Small).Stock,
-            Medium = model.Sizes.First(x => x.Size == SizeType.Medium).Stock,
-            Large = model.Sizes.First(x => x.Size == SizeType.Large).Stock,
-            XLarge = model.Sizes.First(x => x.Size == SizeType.XLarge).Stock,
             Price = model.Price,
             Discount = model.Discount,
             DiscountedPrice = model.DiscountedPrice,
             TotalSavings = model.TotalSavings,
+            Stock = model.Stock,
         };
     }
     
@@ -42,21 +36,15 @@ public static class ProductMapper
                 Id = model.Id,
                 Name = model.Name,
                 Description = model.Description,
-                Color = model.Color,
                 Images = model.Images.ToEntities(),
                 Category = model.Category,
                 Subcategory = model.Subcategory,
                 Range = model.Range,
-                OneSize = model.OneSize,
-                XSmall = model.Sizes.First(x => x.Size == SizeType.XSmall).Stock,
-                Small = model.Sizes.First(x => x.Size == SizeType.Small).Stock,
-                Medium = model.Sizes.First(x => x.Size == SizeType.Medium).Stock,
-                Large = model.Sizes.First(x => x.Size == SizeType.Large).Stock,
-                XLarge = model.Sizes.First(x => x.Size == SizeType.XLarge).Stock,
                 Price = model.Price,
                 Discount = model.Discount,
                 DiscountedPrice = model.DiscountedPrice,
                 TotalSavings = model.TotalSavings,
+                Stock = model.Stock,
             }); 
         }
 
@@ -65,47 +53,20 @@ public static class ProductMapper
     
     public static ProductModel ToModel(this ProductEntity entity)
     {
-        var sizes = new List<SizeModel>
-        {
-            new SizeModel()
-            {
-                Size = SizeType.XSmall,
-                Stock = entity.XSmall,
-            },
-            new SizeModel()
-            {
-                Size = SizeType.Small,
-                Stock = entity.Small,
-            },
-            new SizeModel()
-            {
-                Size = SizeType.Medium,
-                Stock = entity.Medium,
-            },
-            new SizeModel()
-            {
-                Size = SizeType.Large,
-                Stock = entity.Large,
-            },
-            new SizeModel()
-            {
-                Size = SizeType.XLarge,
-                Stock = entity.XLarge,
-            }
-        };
-
-        return new ProductModel()
+        var skuElems = entity.Sku.Split('-');
+        
+        return new ProductModel
         {
             Id = entity.Id,
             Name = entity.Name,
             Description = entity.Description,
-            Color = entity.Color,
+            Color = skuElems[3],
             Images = entity.Images.ToUris(),
             Category = entity.Category,
             Subcategory = entity.Subcategory,
             Range = entity.Range,
-            OneSize = entity.OneSize,
-            Sizes = sizes,
+            Size = skuElems[2],
+            Stock = entity.Stock,
             Price = entity.Price,
             Discount = entity.Discount,
             DiscountedPrice = entity.DiscountedPrice,
@@ -119,46 +80,20 @@ public static class ProductMapper
 
         foreach (var entity in entities)
         {
-            var sizes = new List<SizeModel>();
-        
-            sizes.Add(new SizeModel()
-            {
-                Size = SizeType.XSmall,
-                Stock = entity.XSmall,
-            });
-            sizes.Add(new SizeModel()
-            {
-                Size = SizeType.Small,
-                Stock = entity.Small,
-            });
-            sizes.Add(new SizeModel()
-            {
-                Size = SizeType.Medium,
-                Stock = entity.Medium,
-            });
-            sizes.Add(new SizeModel()
-            {
-                Size = SizeType.Large,
-                Stock = entity.Large,
-            });
-            sizes.Add(new SizeModel()
-            {
-                Size = SizeType.XLarge,
-                Stock = entity.XLarge,
-            });
-
+            var skuElems = entity.Sku.Split('-');
+            
             products.Add(new ProductModel()
             {
                 Id = entity.Id,
                 Name = entity.Name,
                 Description = entity.Description,
-                Color = entity.Color,
+                Color = skuElems[3],
                 Images = entity.Images.ToUris(),
                 Category = entity.Category,
                 Subcategory = entity.Subcategory,
                 Range = entity.Range,
-                OneSize = entity.OneSize,
-                Sizes = sizes,
+                Size = skuElems[2],
+                Stock = entity.Stock,
                 Price = entity.Price,
                 Discount = entity.Discount,
                 DiscountedPrice = entity.DiscountedPrice,

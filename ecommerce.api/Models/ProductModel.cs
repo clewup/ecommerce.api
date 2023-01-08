@@ -28,11 +28,12 @@ public class ProductModel
     public string Range { get; set; } = "";
     
     [Required]
-    public bool OneSize { get; set; }
-
-    [Required]
-    public List<SizeModel> Sizes { get; set; }
+    public string Size { get; set; }
     
+    [Required]
+    [Range(0, 2000)]
+    public int Stock { get; set; }
+
     [Required]
     [Range(5, 2000)]
     public double Price { get; set; }

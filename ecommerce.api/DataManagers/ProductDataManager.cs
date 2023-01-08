@@ -87,14 +87,7 @@ public class ProductDataManager : IProductDataManager
         {
             if (bool.Parse(inStock) == true)
             {
-                products = products.Where(p =>
-                    p.OneSize == true ||
-                    p.XSmall > 0 ||
-                    p.Small > 0 ||
-                    p.Medium > 0 ||
-                    p.Large > 0 ||
-                    p.XLarge > 0
-                ).ToList();
+                products = products.Where(p => p.Stock > 0).ToList();
             }
         }
         
@@ -168,27 +161,18 @@ public class ProductDataManager : IProductDataManager
         return product;
     }
 
-    public async Task<ProductEntity> CreateProduct(ProductModel product, UserModel user)
+    public async Task<ProductEntity> CreateProduct(ProductModel product, UserModel user, string sku)
     {
         var mappedProduct = product.ToEntity();
 
         mappedProduct.Price = mappedProduct.CalculatePrice();
-
         if (product.Discount > 0)
         {
             mappedProduct.DiscountedPrice = mappedProduct.CalculateDiscountedPrice();
             mappedProduct.TotalSavings = mappedProduct.CalculateTotalSavings();
         }
+        mappedProduct.Sku = sku;
 
-        if (product.OneSize == true)
-        {
-            mappedProduct.XSmall = 0;
-            mappedProduct.Small = 0;
-            mappedProduct.Medium = 0;
-            mappedProduct.Large = 0;
-            mappedProduct.XLarge = 0;
-        }
-        
         mappedProduct.AddedDate = DateTime.UtcNow;
         mappedProduct.AddedBy = user.Email;
         
@@ -198,33 +182,19 @@ public class ProductDataManager : IProductDataManager
         return mappedProduct;
     }
 
-    public async Task<ProductEntity> UpdateProduct(ProductModel product, UserModel user)
+    public async Task<ProductEntity> UpdateProduct(ProductModel product, UserModel user, string sku)
     {
         var existingProduct = await GetProduct(product.Id);
-
         var images = await _context.Images.Where(i => i.ProductId == product.Id).ToListAsync();
 
         existingProduct.Name = product.Name;
-        existingProduct.Color = product.Color;
         existingProduct.Description = product.Description;
+        existingProduct.Sku = sku;
         existingProduct.Images = images;
-
         existingProduct.Category = product.Category;
         existingProduct.Range = product.Range;
-        existingProduct.OneSize = product.OneSize;
-
-        if (product.OneSize == false)
-        {
-            existingProduct.XSmall = product.Sizes.First(x => x.Size == SizeType.XSmall).Stock;
-            existingProduct.Small = product.Sizes.First(x => x.Size == SizeType.Small).Stock;
-            existingProduct.Medium = product.Sizes.First(x => x.Size == SizeType.Medium).Stock;
-            existingProduct.Large = product.Sizes.First(x => x.Size == SizeType.Large).Stock;
-            existingProduct.XLarge = product.Sizes.First(x => x.Size == SizeType.XLarge).Stock;
-        }
-        
         existingProduct.Price = product.CalculatePrice();
         existingProduct.Discount = product.Discount;
-
         if (product.Discount > 0)
         {
             existingProduct.DiscountedPrice = product.CalculateDiscountedPrice();

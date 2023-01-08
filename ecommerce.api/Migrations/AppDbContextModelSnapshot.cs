@@ -230,6 +230,9 @@ namespace ecommerce.api.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("TrackingNumber")
+                        .IsUnique();
+
                     b.ToTable("Orders");
                 });
 
@@ -282,9 +285,6 @@ namespace ecommerce.api.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OrderId")
-                        .IsUnique();
-
                     b.ToTable("Packages");
                 });
 
@@ -305,10 +305,6 @@ namespace ecommerce.api.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Color")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text");
@@ -319,18 +315,9 @@ namespace ecommerce.api.Migrations
                     b.Property<double?>("DiscountedPrice")
                         .HasColumnType("double precision");
 
-                    b.Property<int>("Large")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Medium")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<bool>("OneSize")
-                        .HasColumnType("boolean");
 
                     b.Property<double>("Price")
                         .HasColumnType("double precision");
@@ -339,10 +326,14 @@ namespace ecommerce.api.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("Small")
-                        .HasColumnType("integer");
+                    b.Property<string>("Sku")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Stock")
                         .HasColumnType("integer");
 
                     b.Property<string>("Subcategory")
@@ -358,12 +349,6 @@ namespace ecommerce.api.Migrations
 
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("XLarge")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("XSmall")
-                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -400,6 +385,15 @@ namespace ecommerce.api.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("ecommerce.api.Entities.OrderEntity", b =>
+                {
+                    b.HasOne("ecommerce.api.Entities.PackageEntity", "Package")
+                        .WithOne("Order")
+                        .HasForeignKey("ecommerce.api.Entities.OrderEntity", "TrackingNumber");
+
+                    b.Navigation("Package");
+                });
+
             modelBuilder.Entity("ecommerce.api.Entities.OrderProductEntity", b =>
                 {
                     b.HasOne("ecommerce.api.Entities.OrderEntity", "Order")
@@ -419,17 +413,6 @@ namespace ecommerce.api.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("ecommerce.api.Entities.PackageEntity", b =>
-                {
-                    b.HasOne("ecommerce.api.Entities.OrderEntity", "Order")
-                        .WithOne("Package")
-                        .HasForeignKey("ecommerce.api.Entities.PackageEntity", "OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Order");
-                });
-
             modelBuilder.Entity("ecommerce.api.Entities.CartEntity", b =>
                 {
                     b.Navigation("CartProducts");
@@ -438,8 +421,11 @@ namespace ecommerce.api.Migrations
             modelBuilder.Entity("ecommerce.api.Entities.OrderEntity", b =>
                 {
                     b.Navigation("OrderProducts");
+                });
 
-                    b.Navigation("Package")
+            modelBuilder.Entity("ecommerce.api.Entities.PackageEntity", b =>
+                {
+                    b.Navigation("Order")
                         .IsRequired();
                 });
 

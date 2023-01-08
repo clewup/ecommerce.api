@@ -22,18 +22,13 @@ public class ProductDataManagerTests
             context.Products.Add(new ProductEntity()
             {
                 Id = Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AA8"),
-                Name = "PRODUCT_1_NAME",
+                Name = "PRODUCT 1 NAME",
                 Description = "PRODUCT_1_DESCRIPTION",
                 Category = "PRODUCT_1_CATEGORY",
                 Range = "PRODUCT_1_RANGE",
-                Color = "PRODUCT_1_COLOR",
-                OneSize = false,
-                XSmall = 10,
-                Small = 10,
-                Medium = 10,
-                Large = 10,
-                XLarge = 10,
+                Sku = "PRODUCT_1_RANGE-P1N-SMALL-BLACK",
                 Price = 30.00,
+                Stock = 0,
                 Discount = 0,
                 Images = new List<ImageEntity>()
                 {
@@ -47,18 +42,13 @@ public class ProductDataManagerTests
             context.Add(new ProductEntity()
             {
                 Id = Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AA6"),
-                Name = "PRODUCT_2_NAME",
+                Name = "PRODUCT 2 NAME",
                 Description = "PRODUCT_2_DESCRIPTION",
                 Category = "PRODUCT_2_CATEGORY",
                 Range = "PRODUCT_2_RANGE",
-                Color = "PRODUCT_2_COLOR",
-                OneSize = false,
-                XSmall = 10,
-                Small = 10,
-                Medium = 10,
-                Large = 10,
-                XLarge = 10,
+                Sku = "PRODUCT_2_RANGE-P2N-SMALL-BLACK",
                 Price = 60.00,
+                Stock = 10,
                 Discount = 10, 
                 Images = new List<ImageEntity>()
                 {
@@ -72,18 +62,13 @@ public class ProductDataManagerTests
             context.Add(new ProductEntity()
             {
                 Id = Guid.Parse("261B5815-904C-4989-8B4B-55D02F1FE194"),
-                Name = "PRODUCT_3_NAME",
+                Name = "PRODUCT 3 NAME",
                 Description = "PRODUCT_3_DESCRIPTION",
                 Category = "PRODUCT_2_CATEGORY",
                 Range = "PRODUCT_2_RANGE",
-                Color = "PRODUCT_3_COLOR",
-                OneSize = false,
-                XSmall = 10,
-                Small = 10,
-                Medium = 10,
-                Large = 10,
-                XLarge = 10,
+                Sku = "PRODUCT_2_RANGE-P3N-SMALL-BLACK",
                 Price = 40.00,
+                Stock = 10,
                 Discount = 10, 
                 Images = new List<ImageEntity>()
                 {
@@ -112,8 +97,8 @@ public class ProductDataManagerTests
     }
     
     [Theory]
-    [InlineData("PRODUCT_1_NAME", 1)]
-    [InlineData("PRODUCT_1", 1)]
+    [InlineData("PRODUCT 1 NAME", 1)]
+    [InlineData("PRODUCT 1", 1)]
     [InlineData("PRODUCT", 3)]
     public async void ProductDataManager_GetProductsBySearchCriteria_SearchTerm_Successful(string searchTerm, int expected)
     {
@@ -174,7 +159,7 @@ public class ProductDataManagerTests
     }
     
     [Theory]
-    [InlineData("true", 3)]
+    [InlineData("true", 2)]
     [InlineData("false", 3)]
     public async void ProductDataManager_GetProductsBySearchCriteria_InStock_Successful(string inStock, int expected)
     {
@@ -286,17 +271,11 @@ public class ProductDataManagerTests
                 new ProductEntity()
                 {
                     Id = Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AA8"),
-                    Name = "PRODUCT_1_NAME",
+                    Name = "PRODUCT 1 NAME",
                     Description = "PRODUCT_1_DESCRIPTION",
                     Category = "PRODUCT_1_CATEGORY",
                     Range = "PRODUCT_1_RANGE",
-                    Color = "PRODUCT_1_COLOR",
-                    OneSize = false,
-                    XSmall = 10,
-                    Small = 10,
-                    Medium = 10,
-                    Large = 10,
-                    XLarge = 10,
+                    Sku = "PRODUCT_1_RANGE-P1N-SMALL-BLACK",
                     Price = 30.00,
                     Discount = 0,
                     Images = new List<ImageEntity>()
@@ -331,17 +310,11 @@ public class ProductDataManagerTests
                 new ProductEntity()
                 {
                     Id = Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AA8"),
-                    Name = "PRODUCT_1_NAME",
+                    Name = "PRODUCT 1 NAME",
                     Description = "PRODUCT_1_DESCRIPTION",
                     Category = "PRODUCT_1_CATEGORY",
                     Range = "PRODUCT_1_RANGE",
-                    Color = "PRODUCT_1_COLOR",
-                    OneSize = false,
-                    XSmall = 10,
-                    Small = 10,
-                    Medium = 10,
-                    Large = 10,
-                    XLarge = 10,
+                    Sku = "PRODUCT_1_RANGE-P1N-SMALL-BLACK",
                     Price = 30.00,
                     Discount = 0,
                     Images = new List<ImageEntity>()
@@ -375,11 +348,10 @@ public class ProductDataManagerTests
 
             var result = await productDataManager.GetProduct(Guid.Parse("93FB7638-4B16-490C-8CDB-2042EE131AA8"));
             
-            Assert.Equal("PRODUCT_1_NAME", result?.Name);
+            Assert.Equal("PRODUCT 1 NAME", result?.Name);
             Assert.Equal("PRODUCT_1_DESCRIPTION", result?.Description);
             Assert.Equal("PRODUCT_1_CATEGORY", result?.Category);
             Assert.Equal("PRODUCT_1_RANGE", result?.Range);
-            Assert.Equal("PRODUCT_1_COLOR", result?.Color);
             Assert.Equal(30, result?.Price);
             Assert.Equal(0, result?.Discount);
         }
@@ -391,52 +363,28 @@ public class ProductDataManagerTests
         var product = new ProductModel()
         {
             Id = Guid.Parse("3B3C7936-F323-4552-A75B-FD99A81A5E3D"),
-            Name = "CREATED_PRODUCT",
+            Name = "CREATED PRODUCT",
             Price = 30,
             Images = new List<string>()
             {
                 "https://www.fakeimage.com/image.jpg",
                 "https://www.fakeimage.com/image.jpg",
             },
-            Sizes = new List<SizeModel>()
-            {
-                new SizeModel()
-                {
-                    Size = SizeType.XSmall,
-                    Stock = 10,
-                },
-                new SizeModel()
-                {
-                    Size = SizeType.Small,
-                    Stock = 10,
-                },
-                new SizeModel()
-                {
-                    Size = SizeType.Medium,
-                    Stock = 10,
-                },
-                new SizeModel()
-                {
-                    Size = SizeType.Large,
-                    Stock = 10,
-                },
-                new SizeModel()
-                {
-                    Size = SizeType.XLarge,
-                    Stock = 10,
-                },
-            },
+            Range = "RANGE",
+            Color = "BLACK",
+            Size = "SMALL"
         };
         var user = new UserModel();
+        var sku = "RANGE-CP-SMALL-BLACK";
         
         using (var context = new EcommerceDbContext(options))
         {
             var productDataManager = new ProductDataManager(context);
 
-            var result = await productDataManager.CreateProduct(product, user);
+            var result = await productDataManager.CreateProduct(product, user, sku);
             
             Assert.NotNull(result);
-            Assert.Equal("CREATED_PRODUCT", result?.Name);
+            Assert.Equal("CREATED PRODUCT", result?.Name);
         }
     }
     
@@ -446,52 +394,27 @@ public class ProductDataManagerTests
         var product = new ProductModel()
         {
             Id = Guid.Parse("261B5815-904C-4989-8B4B-55D02F1FE194"),
-            Name = "UPDATED_PRODUCT",
+            Name = "UPDATED PRODUCT",
             Price = 30,
             Images = new List<string>()
             {
                 "https://www.fakeimage.com/image.jpg",
                 "https://www.fakeimage.com/image.jpg",
             },
-            Sizes = new List<SizeModel>()
-            {
-                new SizeModel()
-                {
-                    Size = SizeType.XSmall,
-                    Stock = 10,
-                },
-                new SizeModel()
-                {
-                    Size = SizeType.Small,
-                    Stock = 10,
-                },
-                new SizeModel()
-                {
-                    Size = SizeType.Medium,
-                    Stock = 10,
-                },
-                new SizeModel()
-                {
-                    Size = SizeType.Large,
-                    Stock = 10,
-                },
-                new SizeModel()
-                {
-                    Size = SizeType.XLarge,
-                    Stock = 10,
-                },
-            }
+            Range = "RANGE",
+            Color = "BLACK",
+            Size = "SMALL"
         };
-        var products = new List<ProductEntity>();
         var user = new UserModel();
+        var sku = "RANGE-CP-SMALL-BLACK";
         
         using (var context = new EcommerceDbContext(options))
         {
             var productDataManager = new ProductDataManager(context);
-            var result = await productDataManager.UpdateProduct(product, user);
+            var result = await productDataManager.UpdateProduct(product, user, sku);
             
             Assert.NotNull(result);
-            Assert.Equal("UPDATED_PRODUCT", result?.Name);
+            Assert.Equal("UPDATED PRODUCT", result?.Name);
         }
     }
     

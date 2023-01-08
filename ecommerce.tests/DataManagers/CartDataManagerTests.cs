@@ -107,34 +107,10 @@ public class CartDataManagerTests
                         "https://www.fakeimage.com/image.jpg",
                         "https://www.fakeimage.com/image.jpg",
                     },
-                    Sizes = new List<SizeModel>()
-                    {
-                        new SizeModel()
-                        {
-                            Size = SizeType.XSmall,
-                            Stock = 10,
-                        },
-                        new SizeModel()
-                        {
-                            Size = SizeType.Small,
-                            Stock = 10,
-                        },
-                        new SizeModel()
-                        {
-                            Size = SizeType.Medium,
-                            Stock = 10,
-                        },
-                        new SizeModel()
-                        {
-                            Size = SizeType.Large,
-                            Stock = 10,
-                        },
-                        new SizeModel()
-                        {
-                            Size = SizeType.XLarge,
-                            Stock = 10,
-                        },
-                    },
+                    Name = "NAME",
+                    Range = "RANGE",
+                    Color = "BLACK",
+                    Size = "SMALL"
                 },
             }
         };
@@ -173,34 +149,10 @@ public class CartDataManagerTests
                         "https://www.fakeimage.com/image.jpg",
                         "https://www.fakeimage.com/image.jpg",
                     },
-                    Sizes = new List<SizeModel>()
-                    {
-                        new SizeModel()
-                        {
-                            Size = SizeType.XSmall,
-                            Stock = 10,
-                        },
-                        new SizeModel()
-                        {
-                            Size = SizeType.Small,
-                            Stock = 10,
-                        },
-                        new SizeModel()
-                        {
-                            Size = SizeType.Medium,
-                            Stock = 10,
-                        },
-                        new SizeModel()
-                        {
-                            Size = SizeType.Large,
-                            Stock = 10,
-                        },
-                        new SizeModel()
-                        {
-                            Size = SizeType.XLarge,
-                            Stock = 10,
-                        },
-                    },
+                    Name = "NAME",
+                    Range = "RANGE",
+                    Color = "BLACK",
+                    Size = "SMALL"
                 },
             }
         };

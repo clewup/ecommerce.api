@@ -154,34 +154,10 @@ public class OrderDataManagerTests
                         "https://www.fakeimage.com/image.jpg",
                         "https://www.fakeimage.com/image.jpg",
                     },
-                    Sizes = new List<SizeModel>()
-                    {
-                        new SizeModel()
-                        {
-                            Size = SizeType.XSmall,
-                            Stock = 10,
-                        },
-                        new SizeModel()
-                        {
-                            Size = SizeType.Small,
-                            Stock = 10,
-                        },
-                        new SizeModel()
-                        {
-                            Size = SizeType.Medium,
-                            Stock = 10,
-                        },
-                        new SizeModel()
-                        {
-                            Size = SizeType.Large,
-                            Stock = 10,
-                        },
-                        new SizeModel()
-                        {
-                            Size = SizeType.XLarge,
-                            Stock = 10,
-                        },
-                    },
+                    Name = "NAME",
+                    Range = "RANGE",
+                    Color = "BLACK",
+                    Size = "SMALL"
                 }
             }
         };
@@ -204,11 +180,9 @@ public class OrderDataManagerTests
                         ProductId = Guid.Parse("3B3C7936-F323-4552-A75B-FD99A81A5E3D"),
                     }
                 },
-                XSmall = 10,
-                Small = 10,
-                Medium = 10,
-                Large = 10,
-                XLarge = 10
+                Name = "PRODUCT NAME",
+                Range = "PRODUCT_RANGE",
+                Sku = "PRODUCT_RANGE-PN-SMALL-BLACK"
             },
         };
         var user = new UserModel();

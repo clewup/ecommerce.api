@@ -11,7 +11,7 @@ public interface IProductDataManager
     Task<List<ProductEntity>> GetProducts(CartEntity cart);
     Task<List<ProductEntity>> GetProducts(OrderEntity order);
     Task<ProductEntity?> GetProduct(Guid id);
-    Task<ProductEntity> CreateProduct(ProductModel product, UserModel user);
-    Task<ProductEntity> UpdateProduct(ProductModel product, UserModel user);
+    Task<ProductEntity> CreateProduct(ProductModel product, UserModel user, string sku);
+    Task<ProductEntity> UpdateProduct(ProductModel product, UserModel user, string sku);
     Task DeleteProduct(Guid id);
 }

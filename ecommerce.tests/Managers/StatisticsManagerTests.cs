@@ -73,11 +73,9 @@ public class StatisticsManagerTests
                         ProductId = Guid.Parse("3B3C7936-F323-4552-A75B-FD99A81A5E3D"),
                     }
                 },
-                XSmall = 10,
-                Small = 10,
-                Medium = 10,
-                Large = 10,
-                XLarge = 10
+                Name = "PRODUCT 1 NAME",
+                Range = "RANGE",
+                Sku = "RANGE-P1N-SMALL-BLACK",
             },
             new ProductEntity()
             {
@@ -96,11 +94,9 @@ public class StatisticsManagerTests
                         ProductId = Guid.Parse("3B3C7936-F323-4552-A75B-FD99A81A5E3D"),
                     }
                 },
-                XSmall = 10,
-                Small = 10,
-                Medium = 10,
-                Large = 10,
-                XLarge = 10
+                Name = "PRODUCT 2 NAME",
+                Range = "RANGE",
+                Sku = "RANGE-P2N-MEDIUM-BLACK",
             }
         };
         var productIds = new List<Guid>()
@@ -145,11 +141,9 @@ public class StatisticsManagerTests
                         ProductId = Guid.Parse("3B3C7936-F323-4552-A75B-FD99A81A5E3D"),
                     }
                 },
-                XSmall = 10,
-                Small = 10,
-                Medium = 10,
-                Large = 10,
-                XLarge = 10
+                Name = "PRODUCT 1 NAME",
+                Range = "RANGE",
+                Sku = "RANGE-P1N-SMALL-BLACK",
             },
             new ProductEntity()
             {
@@ -169,11 +163,9 @@ public class StatisticsManagerTests
                         ProductId = Guid.Parse("3B3C7936-F323-4552-A75B-FD99A81A5E3D"),
                     }
                 },
-                XSmall = 10,
-                Small = 10,
-                Medium = 10,
-                Large = 10,
-                XLarge = 10
+                Name = "PRODUCT 2 NAME",
+                Range = "RANGE",
+                Sku = "RANGE-P2N-MEDIUM-BLACK",
             }
         };
         

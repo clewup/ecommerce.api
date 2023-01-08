@@ -3,6 +3,7 @@ using ecommerce.api.DataManagers.Contracts;
 using ecommerce.api.Managers.Contracts;
 using ecommerce.api.Mappers;
 using ecommerce.api.Models;
+using ecommerce.api.Services;
 
 namespace ecommerce.api.Managers;
 
@@ -40,7 +41,9 @@ public class ProductManager : IProductManager
 
     public async Task<ProductModel> CreateProduct(ProductModel product, UserModel user)
     {
-        var createdProduct = await _productDataManager.CreateProduct(product, user);
+        var sku = GenerateSku(product);
+        
+        var createdProduct = await _productDataManager.CreateProduct(product, user, sku);
 
         foreach (var image in product.Images)
         {
@@ -52,7 +55,9 @@ public class ProductManager : IProductManager
 
     public async Task<ProductModel> UpdateProduct(ProductModel product, UserModel user)
     {
-        var updatedProduct = await _productDataManager.UpdateProduct(product, user);
+        var sku = GenerateSku(product);
+        
+        var updatedProduct = await _productDataManager.UpdateProduct(product, user, sku);
 
         return updatedProduct.ToModel();
     }
@@ -60,5 +65,15 @@ public class ProductManager : IProductManager
     public async Task DeleteProduct(Guid id)
     {
         await _productDataManager.DeleteProduct(id);
+    }
+
+    public string GenerateSku(ProductModel product)
+    {
+        string abbreviatedName = product.Name.Abbreviate();
+        
+        return $"{product.Range.RemoveWhitespace().Substring(0, product.Range.Length >= 5 ? 5 : product.Range.Length)}-" +
+               $"{abbreviatedName.Substring(0, abbreviatedName.Length >= 5 ? 5 : abbreviatedName.Length)}-" +
+               $"{product.Size.RemoveWhitespace()}-" +
+               $"{product.Color.RemoveWhitespace()}".ToUpper();
     }
 }

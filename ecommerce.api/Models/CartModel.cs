@@ -9,10 +9,11 @@ public class CartModel
     [Required]
     public Guid UserId { get; set; }
     
-    public List<ProductModel> Products { get; set; }
-    
     public double Total { get; set; }
     public double? DiscountedTotal { get; set; }
-    
     public double? TotalSavings { get; set; }
+    
+    public List<ProductModel> Products { get; set; }
+    
+   
 }

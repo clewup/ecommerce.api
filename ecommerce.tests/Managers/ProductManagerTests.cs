@@ -32,11 +32,9 @@ public class ProductManagerTests
                         ProductId = Guid.Parse("3B3C7936-F323-4552-A75B-FD99A81A5E3D"),
                     }
                 },
-                XSmall = 10,
-                Small = 10,
-                Medium = 10,
-                Large = 10,
-                XLarge = 10
+                Range = "RANGE",
+                Name = "PRODUCT 1 NAME",
+                Sku = "PRODUCT_RANGE-P1N-SMALL-BLACK",
             },
             new ProductEntity()
             {
@@ -55,11 +53,9 @@ public class ProductManagerTests
                         ProductId = Guid.Parse("3B3C7936-F323-4552-A75B-FD99A81A5E3D"),
                     }
                 },
-                XSmall = 10,
-                Small = 10,
-                Medium = 10,
-                Large = 10,
-                XLarge = 10
+                Range = "PRODUCT_RANGE",
+                Name = "PRODUCT 2 NAME",
+                Sku = "PRODUCT_RANGE-P2N-MEDIUM-BLACK",
             }
         };
         
@@ -87,7 +83,7 @@ public class ProductManagerTests
             new ProductEntity()
             {
                 Id = Guid.Parse("3B3C7936-F323-4552-A75B-FD99A81A5E3D"),
-                Name = "CREATED_PRODUCT",
+                Name = "PRODUCT 1 NAME",
                 Price = 30,
                 Images = new List<ImageEntity>()
                 {
@@ -102,16 +98,13 @@ public class ProductManagerTests
                         ProductId = Guid.Parse("3B3C7936-F323-4552-A75B-FD99A81A5E3D"),
                     }
                 },
-                XSmall = 10,
-                Small = 10,
-                Medium = 10,
-                Large = 10,
-                XLarge = 10
+                Range = "PRODUCT_RANGE",
+                Sku = "PRODUCT_RANGE-P1N-SMALL-BLACK",
             },
             new ProductEntity()
             {
                 Id = Guid.Parse("3B3C7936-F323-4552-A75B-FD99A81A5E3D"),
-                Name = "CREATED_PRODUCT",
+                Name = "PRODUCT 2 NAME",
                 Price = 30,
                 Images = new List<ImageEntity>()
                 {
@@ -126,11 +119,8 @@ public class ProductManagerTests
                         ProductId = Guid.Parse("3B3C7936-F323-4552-A75B-FD99A81A5E3D"),
                     }
                 },
-                XSmall = 10,
-                Small = 10,
-                Medium = 10,
-                Large = 10,
-                XLarge = 10
+                Range = "PRODUCT_RANGE",
+                Sku = "PRODUCT_RANGE-P2N-MEDIUM-BLACK",
             }
         };
         
@@ -153,7 +143,7 @@ public class ProductManagerTests
         var product = new ProductEntity()
         {
             Id = Guid.Parse("3B3C7936-F323-4552-A75B-FD99A81A5E3D"),
-            Name = "CREATED_PRODUCT",
+            Name = "PRODUCT NAME",
             Price = 30,
             Images = new List<ImageEntity>()
             {
@@ -168,11 +158,8 @@ public class ProductManagerTests
                     ProductId = Guid.Parse("3B3C7936-F323-4552-A75B-FD99A81A5E3D"),
                 }
             },
-            XSmall = 10,
-            Small = 10,
-            Medium = 10,
-            Large = 10,
-            XLarge = 10
+            Range = "PRODUCT_RANGE",
+            Sku = "PRODUCT_RANGE-PN-MEDIUM-BLACK",
         };
         
         var mockedProductDataManager = new Mock<IProductDataManager>();
@@ -184,7 +171,7 @@ public class ProductManagerTests
 
         var result = await productManager.GetProduct(productId);
         
-        Assert.Equal("CREATED_PRODUCT", result?.Name);
+        Assert.Equal("PRODUCT NAME", result?.Name);
         Assert.Equal(30, result?.Price);
         Assert.Equal(0, result?.Discount);
     }
@@ -195,46 +182,21 @@ public class ProductManagerTests
         var product = new ProductModel()
         {
             Id = Guid.Parse("3B3C7936-F323-4552-A75B-FD99A81A5E3D"),
-            Name = "CREATED_PRODUCT",
+            Name = "CREATED PRODUCT",
             Price = 30,
             Images = new List<string>()
             {
                 "https://www.fakeimage.com/image.jpg",
                 "https://www.fakeimage.com/image.jpg",
             },
-            Sizes = new List<SizeModel>()
-            {
-                new SizeModel()
-                {
-                    Size = SizeType.XSmall,
-                    Stock = 10,
-                },
-                new SizeModel()
-                {
-                    Size = SizeType.Small,
-                    Stock = 10,
-                },
-                new SizeModel()
-                {
-                    Size = SizeType.Medium,
-                    Stock = 10,
-                },
-                new SizeModel()
-                {
-                    Size = SizeType.Large,
-                    Stock = 10,
-                },
-                new SizeModel()
-                {
-                    Size = SizeType.XLarge,
-                    Stock = 10,
-                },
-            },
+            Range = "RANGE",
+            Color = "BLACK",
+            Size = "SMALL"
         };
         var createdProduct = new ProductEntity()
         {
             Id = Guid.Parse("3B3C7936-F323-4552-A75B-FD99A81A5E3D"),
-            Name = "CREATED_PRODUCT",
+            Name = "CREATED PRODUCT",
             Price = 30,
             Images = new List<ImageEntity>()
             {
@@ -249,16 +211,13 @@ public class ProductManagerTests
                     ProductId = Guid.Parse("3B3C7936-F323-4552-A75B-FD99A81A5E3D"),
                 }
             },
-            XSmall = 10,
-            Small = 10,
-            Medium = 10,
-            Large = 10,
-            XLarge = 10
+            Range = "PRODUCT_RANGE",
+            Sku = "PRODUCT_RANGE-CP-SMALL-BLACK",
         };
         var user = new UserModel();
         
         var mockedProductDataManager = new Mock<IProductDataManager>();
-        mockedProductDataManager.Setup(x => x.CreateProduct(product, user)).ReturnsAsync(createdProduct);
+        mockedProductDataManager.Setup(x => x.CreateProduct(product, user, It.IsAny<string>())).ReturnsAsync(createdProduct);
         var mockedImageDataManager = new Mock<IImageDataManager>();
 
         var productManager = new ProductManager(mockedProductDataManager.Object,
@@ -266,7 +225,7 @@ public class ProductManagerTests
 
         var result = await productManager.CreateProduct(product, user);
         
-        Assert.Equal("CREATED_PRODUCT", result?.Name);
+        Assert.Equal("CREATED PRODUCT", result?.Name);
         Assert.Equal(30, result?.Price);
         Assert.Equal(0, result?.Discount);
     }
@@ -277,46 +236,21 @@ public class ProductManagerTests
         var product = new ProductModel()
         {
             Id = Guid.Parse("3B3C7936-F323-4552-A75B-FD99A81A5E3D"),
-            Name = "UPDATED_PRODUCT",
+            Name = "UPDATED PRODUCT",
             Price = 30,
             Images = new List<string>()
             {
                 "https://www.fakeimage.com/image.jpg",
                 "https://www.fakeimage.com/image.jpg",
             },
-            Sizes = new List<SizeModel>()
-            {
-                new SizeModel()
-                {
-                    Size = SizeType.XSmall,
-                    Stock = 10,
-                },
-                new SizeModel()
-                {
-                    Size = SizeType.Small,
-                    Stock = 10,
-                },
-                new SizeModel()
-                {
-                    Size = SizeType.Medium,
-                    Stock = 10,
-                },
-                new SizeModel()
-                {
-                    Size = SizeType.Large,
-                    Stock = 10,
-                },
-                new SizeModel()
-                {
-                    Size = SizeType.XLarge,
-                    Stock = 10,
-                },
-            },
+            Range = "RANGE",
+            Color = "BLACK",
+            Size = "SMALL"
         };
         var updatedProduct = new ProductEntity()
         {
             Id = Guid.Parse("3B3C7936-F323-4552-A75B-FD99A81A5E3D"),
-            Name = "UPDATED_PRODUCT",
+            Name = "UPDATED PRODUCT",
             Price = 30,
             Images = new List<ImageEntity>()
             {
@@ -331,17 +265,14 @@ public class ProductManagerTests
                     ProductId = Guid.Parse("3B3C7936-F323-4552-A75B-FD99A81A5E3D"),
                 }
             },
-            XSmall = 10,
-            Small = 10,
-            Medium = 10,
-            Large = 10,
-            XLarge = 10
+            Range = "PRODUCT_RANGE",
+            Sku = "PRODUCT_RANGE-UP-SMALL-BLACK",
         };
 
         var user = new UserModel();
 
         var mockedProductDataManager = new Mock<IProductDataManager>();
-        mockedProductDataManager.Setup(x => x.CreateProduct(product, user)).ReturnsAsync(updatedProduct);
+        mockedProductDataManager.Setup(x => x.CreateProduct(product, user, It.IsAny<string>())).ReturnsAsync(updatedProduct);
         var mockedImageDataManager = new Mock<IImageDataManager>();
 
         var productManager = new ProductManager(mockedProductDataManager.Object,
@@ -349,8 +280,37 @@ public class ProductManagerTests
 
         var result = await productManager.CreateProduct(product, user);
         
-        Assert.Equal("UPDATED_PRODUCT", result?.Name);
+        Assert.Equal("UPDATED PRODUCT", result?.Name);
         Assert.Equal(30, result?.Price);
         Assert.Equal(0, result?.Discount);
+    }
+
+    [Fact]
+    public async void ProductManager_GenerateSku_Successful()
+    {
+        var product = new ProductModel()
+        {
+            Id = Guid.Parse("3B3C7936-F323-4552-A75B-FD99A81A5E3D"),
+            Name = "PRODUCT NAME",
+            Price = 30,
+            Images = new List<string>()
+            {
+                "https://www.fakeimage.com/image.jpg",
+                "https://www.fakeimage.com/image.jpg",
+            },
+            Range = "RANGE",
+            Color = "BLACK",
+            Size = "SMALL"
+        };
+        
+        var mockedProductDataManager = new Mock<IProductDataManager>();
+        var mockedImageDataManager = new Mock<IImageDataManager>();
+
+        var productManager = new ProductManager(mockedProductDataManager.Object,
+            mockedImageDataManager.Object);
+
+        var result = productManager.GenerateSku(product);
+        
+        Assert.Equal("RANGE-PN-SMALL-BLACK", result);
     }
 }
