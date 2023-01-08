@@ -6,6 +6,6 @@ namespace ecommerce.api.DataManagers.Contracts;
 public interface IShippingDataManager
 {
     Task<PackageEntity?> TrackOrder(Guid trackingNumber);
-    Task<bool> ShipOrder(OrderModel order, UserModel user);
-    Task<bool> ExtendArrivalDate(Guid trackingNumber, UserModel user, int days);
+    Task<PackageEntity?> ShipOrder(OrderModel order, UserModel user);
+    Task<PackageEntity?> ExtendArrivalDate(Guid trackingNumber, UserModel user, int days);
 }

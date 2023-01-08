@@ -36,15 +36,23 @@ public class ShippingManagerTests
     {
         var order = new OrderModel();
         var user = new UserModel();
+        var package = new PackageEntity()
+        {
+            Id = Guid.Parse("DF3DCD85-0A4B-49BD-A67F-F9E1D45F0A74"),
+            Order = new OrderEntity()
+            {
+                Products = new List<ProductEntity>(),
+            },
+        };
         
         var mockedShippingDataManager = new Mock<IShippingDataManager>();
-        mockedShippingDataManager.Setup(x => x.ShipOrder(order, user)).ReturnsAsync(true);
+        mockedShippingDataManager.Setup(x => x.ShipOrder(order, user)).ReturnsAsync(package);
         
         var shippingManager = new ShippingManager(mockedShippingDataManager.Object);
 
         var result = await shippingManager.ShipOrder(order, user);
         
-        Assert.True(result);
+        Assert.NotNull(result);
     }
     
     [Fact]
@@ -52,14 +60,23 @@ public class ShippingManagerTests
     {
         var trackingNumber = Guid.Parse("DF3DCD85-0A4B-49BD-A67F-F9E1D45F0A74");
         var user = new UserModel();
+        var package = new PackageEntity()
+        {
+            Id = trackingNumber,
+            ArrivalDate = DateTime.UtcNow.AddDays(3),
+            Order = new OrderEntity()
+            {
+                Products = new List<ProductEntity>(),
+            },
+        };
         
         var mockedShippingDataManager = new Mock<IShippingDataManager>();
-        mockedShippingDataManager.Setup(x => x.ExtendArrivalDate(trackingNumber, user, 3)).ReturnsAsync(true);
+        mockedShippingDataManager.Setup(x => x.ExtendArrivalDate(trackingNumber, user, 3)).ReturnsAsync(package);
         
         var shippingManager = new ShippingManager(mockedShippingDataManager.Object);
 
         var result = await shippingManager.ExtendArrivalDate(trackingNumber, user, 3);
         
-        Assert.True(result);
+        Assert.NotNull(result);
     }
 }

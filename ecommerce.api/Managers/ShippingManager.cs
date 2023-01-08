@@ -21,17 +21,17 @@ public class ShippingManager : IShippingManager
         return package?.ToModel();
     }
 
-    public async Task<bool> ShipOrder(OrderModel order, UserModel user)
+    public async Task<PackageModel?> ShipOrder(OrderModel order, UserModel user)
     {
-        var isShipped = await _shippingDataManager.ShipOrder(order, user);
+        var shippedPackage = await _shippingDataManager.ShipOrder(order, user);
 
-        return isShipped;
+        return shippedPackage?.ToModel();
     }
 
-    public async Task<bool> ExtendArrivalDate(Guid trackingNumber, UserModel user, int days)
+    public async Task<PackageModel?> ExtendArrivalDate(Guid trackingNumber, UserModel user, int days)
     {
-        var isExtended = await _shippingDataManager.ExtendArrivalDate(trackingNumber, user, days);
+        var extendedPackage = await _shippingDataManager.ExtendArrivalDate(trackingNumber, user, days);
 
-        return isExtended;
+        return extendedPackage?.ToModel();
     }
 }

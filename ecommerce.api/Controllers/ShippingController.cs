@@ -47,12 +47,12 @@ public class ShippingController : ControllerBase
         {
             var user = _claimsManager.GetUser(Request);
 
-            var isShipped = await _shippingManager.ShipOrder(order, user);
+            var shippedPackage = await _shippingManager.ShipOrder(order, user);
 
-            if (!isShipped)
+            if (shippedPackage == null)
                 return BadRequest("Order could not be shipped.");
             
-            return Ok();
+            return Ok(shippedPackage);
         }
         catch (Exception)
         {
@@ -69,12 +69,12 @@ public class ShippingController : ControllerBase
         {
             var user = _claimsManager.GetUser(Request);
 
-            var isExtended = await _shippingManager.ExtendArrivalDate(trackingNumber, user, days);
+            var extendedPackage = await _shippingManager.ExtendArrivalDate(trackingNumber, user, days);
 
-            if (!isExtended)
+            if (extendedPackage == null)
                 return BadRequest("Arrival date could not be extended.");
             
-            return Ok();
+            return Ok(extendedPackage);
         }
         catch (Exception)
         {

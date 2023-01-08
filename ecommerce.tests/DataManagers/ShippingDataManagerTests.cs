@@ -84,7 +84,7 @@ public class ShippingDataManagerTests
 
             var result = await shippingDataManager.ShipOrder(order, user);
 
-            Assert.True(result);
+            Assert.NotNull(result);
         }
     }
     
@@ -102,7 +102,7 @@ public class ShippingDataManagerTests
 
             var result = await shippingDataManager.ShipOrder(order, user);
 
-            Assert.False(result);
+            Assert.Null(result);
         }
     }
     
@@ -120,10 +120,9 @@ public class ShippingDataManagerTests
             var shippingDataManager = new ShippingDataManager(context, mockedOrderDataManager.Object);
 
             var result = await shippingDataManager.ExtendArrivalDate(trackingNumber, user, days);
-            var entityResult = await shippingDataManager.TrackOrder(trackingNumber);
             
-            Assert.True(result);
-            Assert.Equal(DateTime.UtcNow.AddDays(4).Date, entityResult?.ArrivalDate.Date);
+            Assert.NotNull(result);
+            Assert.Equal(DateTime.UtcNow.AddDays(4).Date, result?.ArrivalDate.Date);
         }
     }
     
@@ -142,7 +141,7 @@ public class ShippingDataManagerTests
 
             var result = await shippingDataManager.ExtendArrivalDate(trackingNumber, user, days);
             
-            Assert.False(result);
+            Assert.Null(result);
         }
     }
 }

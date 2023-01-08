@@ -48,17 +48,18 @@ public class ShippingControllerTests
     public async void ShippingController_ShipOrder_Successful()
     {
         var order = new OrderModel();
-        
+        var package = new PackageModel();
+
         var mockedLogger = new Mock<ILogger<ShippingController>>();
         var mockedClaimsManager = new Mock<IClaimsManager>();
         var mockedShippingManager = new Mock<IShippingManager>();
-        mockedShippingManager.Setup(x => x.ShipOrder(order, It.IsAny<UserModel>())).ReturnsAsync(true);
+        mockedShippingManager.Setup(x => x.ShipOrder(order, It.IsAny<UserModel>())).ReturnsAsync(package);
         
         var shippingController = new ShippingController(mockedLogger.Object, mockedClaimsManager.Object, mockedShippingManager.Object);
 
         var result = await shippingController.ShipOrder(order);
         
-        Assert.IsType<OkResult>(result);
+        Assert.IsType<OkObjectResult>(result);
     }
     
     [Fact]
@@ -82,18 +83,19 @@ public class ShippingControllerTests
     {
         var trackingNumber = Guid.Parse("31092EF0-29EA-4E61-BBED-A098FB11ED1B");
         var days = 3;
+        var package = new PackageModel();
         
         var mockedLogger = new Mock<ILogger<ShippingController>>();
         var mockedClaimsManager = new Mock<IClaimsManager>();
         var mockedShippingManager = new Mock<IShippingManager>();
         mockedShippingManager.Setup(x => x.ExtendArrivalDate(trackingNumber, It.IsAny<UserModel>(), days))
-            .ReturnsAsync(true);
+            .ReturnsAsync(package);
         
         var shippingController = new ShippingController(mockedLogger.Object, mockedClaimsManager.Object, mockedShippingManager.Object);
 
         var result = await shippingController.ExtendArrivalDate(trackingNumber, days);
         
-        Assert.IsType<OkResult>(result);
+        Assert.IsType<OkObjectResult>(result);
     }
     
     [Fact]
