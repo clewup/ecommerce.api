@@ -12,8 +12,6 @@ public static class PackageMapper
             Id = model.TrackingNumber,
             ShippedDate = model.ShippedDate,
             ArrivalDate = model.ArrivalDate,
-            OrderId = model.Order.Id,
-            Order = model.Order.ToEntity(),
         };
     }
 
@@ -24,7 +22,6 @@ public static class PackageMapper
             TrackingNumber = entity.Id,
             ShippedDate = entity.ShippedDate,
             ArrivalDate = entity.ArrivalDate,
-            Order = entity.Order.ToModel()
         };
     }
 }
