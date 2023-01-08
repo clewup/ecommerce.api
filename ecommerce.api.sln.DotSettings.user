@@ -13,36 +13,7 @@
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=0ea3b456_002D5163_002D4b03_002D8b7a_002D9ab5666cd701/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="CartDataManager_UpdateCart_Successful" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;Or&gt;
-    &lt;TestAncestor&gt;
-      &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.DataManagers.CartDataManagerTests&lt;/TestId&gt;
-      &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.DataManagers.ProductDataManagerTests&lt;/TestId&gt;
-      &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.DataManagers.ImageDataManagerTests&lt;/TestId&gt;
-      &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.DataManagers.ShippingDataManagerTests&lt;/TestId&gt;
-      &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Managers.ShippingManagerTests&lt;/TestId&gt;
-      &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Managers.StatisticsManagerTests&lt;/TestId&gt;
-      &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Controllers.CartControllerTests&lt;/TestId&gt;
-      &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.DataManagers.CategoryDataManagerTests.CategoryDataManager_GetCategories_Successful&lt;/TestId&gt;
-      &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.DataManagers.CategoryDataManagerTests.CategoryDataManager_GetSubategories_Successful&lt;/TestId&gt;
-      &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.DataManagers.CategoryDataManagerTests.CategoryDataManager_GetLinkedSubcategories_Successful&lt;/TestId&gt;
-      &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.DataManagers.CategoryDataManagerTests.CategoryDataManager_GetSubcategoriesByCategory_Successful&lt;/TestId&gt;
-      &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.DataManagers.CategoryDataManagerTests.CategoryDataManager_GetRanges_Successful&lt;/TestId&gt;
-      &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Managers.CategoryManagerTests.CategoryManager_GetSubcategories_Successful&lt;/TestId&gt;
-      &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Managers.CategoryManagerTests.CategoryManager_GetCategories_Successful&lt;/TestId&gt;
-      &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Managers.CategoryManagerTests&lt;/TestId&gt;
-      &lt;TestId&gt;xUnit::5B4B52DF-5AB4-403C-A6E5-00B3196B33E7::net6.0::ecommerce.tests.Controllers.CategoryControllerTests&lt;/TestId&gt;
-    &lt;/TestAncestor&gt;
-    &lt;ProjectFile&gt;5B4B52DF-5AB4-403C-A6E5-00B3196B33E7/d:DataManagers/f:OrderDataManagerTests.cs&lt;/ProjectFile&gt;
-    &lt;ProjectFile&gt;5B4B52DF-5AB4-403C-A6E5-00B3196B33E7/d:DataManagers/f:StatisticsDataManagerTests.cs&lt;/ProjectFile&gt;
-    &lt;ProjectFile&gt;5B4B52DF-5AB4-403C-A6E5-00B3196B33E7/d:Managers/f:CartManagerTests.cs&lt;/ProjectFile&gt;
-    &lt;ProjectFile&gt;5B4B52DF-5AB4-403C-A6E5-00B3196B33E7/d:Managers/f:OrderManagerTests.cs&lt;/ProjectFile&gt;
-    &lt;ProjectFile&gt;5B4B52DF-5AB4-403C-A6E5-00B3196B33E7/d:Managers/f:ProductManagerTests.cs&lt;/ProjectFile&gt;
-    &lt;ProjectFile&gt;5B4B52DF-5AB4-403C-A6E5-00B3196B33E7/d:Controllers/f:OrderControllerTests.cs&lt;/ProjectFile&gt;
-    &lt;ProjectFile&gt;5B4B52DF-5AB4-403C-A6E5-00B3196B33E7/d:Controllers/f:ProductControllerTests.cs&lt;/ProjectFile&gt;
-    &lt;ProjectFile&gt;5B4B52DF-5AB4-403C-A6E5-00B3196B33E7/d:Controllers/f:ShippingControllerTests.cs&lt;/ProjectFile&gt;
-    &lt;ProjectFile&gt;5B4B52DF-5AB4-403C-A6E5-00B3196B33E7/d:Controllers/f:StatisticsControllerTests.cs&lt;/ProjectFile&gt;
-    &lt;ProjectFile&gt;5B4B52DF-5AB4-403C-A6E5-00B3196B33E7/d:Controllers/f:UploadControllerTests.cs&lt;/ProjectFile&gt;
-  &lt;/Or&gt;
+  &lt;Solution /&gt;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=4a8ebad0_002D30bf_002D41cf_002Dbc0b_002D3fd101b7430f/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="CartDataManager_GetCarts_Successful #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;TestAncestor&gt;

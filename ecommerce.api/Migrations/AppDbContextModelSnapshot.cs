@@ -230,9 +230,6 @@ namespace ecommerce.api.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TrackingNumber")
-                        .IsUnique();
-
                     b.ToTable("Orders");
                 });
 
@@ -276,9 +273,6 @@ namespace ecommerce.api.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("integer");
 
-                    b.Property<Guid>("TrackingNumber")
-                        .HasColumnType("uuid");
-
                     b.Property<string>("UpdatedBy")
                         .IsRequired()
                         .HasColumnType("text");
@@ -287,6 +281,9 @@ namespace ecommerce.api.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("OrderId")
+                        .IsUnique();
 
                     b.ToTable("Packages");
                 });
@@ -403,15 +400,6 @@ namespace ecommerce.api.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("ecommerce.api.Entities.OrderEntity", b =>
-                {
-                    b.HasOne("ecommerce.api.Entities.PackageEntity", "Package")
-                        .WithOne("Order")
-                        .HasForeignKey("ecommerce.api.Entities.OrderEntity", "TrackingNumber");
-
-                    b.Navigation("Package");
-                });
-
             modelBuilder.Entity("ecommerce.api.Entities.OrderProductEntity", b =>
                 {
                     b.HasOne("ecommerce.api.Entities.OrderEntity", "Order")
@@ -431,6 +419,17 @@ namespace ecommerce.api.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("ecommerce.api.Entities.PackageEntity", b =>
+                {
+                    b.HasOne("ecommerce.api.Entities.OrderEntity", "Order")
+                        .WithOne("Package")
+                        .HasForeignKey("ecommerce.api.Entities.PackageEntity", "OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+                });
+
             modelBuilder.Entity("ecommerce.api.Entities.CartEntity", b =>
                 {
                     b.Navigation("CartProducts");
@@ -439,11 +438,8 @@ namespace ecommerce.api.Migrations
             modelBuilder.Entity("ecommerce.api.Entities.OrderEntity", b =>
                 {
                     b.Navigation("OrderProducts");
-                });
 
-            modelBuilder.Entity("ecommerce.api.Entities.PackageEntity", b =>
-                {
-                    b.Navigation("Order")
+                    b.Navigation("Package")
                         .IsRequired();
                 });
 

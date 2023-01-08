@@ -12,8 +12,8 @@ using ecommerce.api.Data;
 namespace ecommerce.api.Migrations
 {
     [DbContext(typeof(EcommerceDbContext))]
-    [Migration("20230107205433_ConfigBasic")]
-    partial class ConfigBasic
+    [Migration("20230108104624_Shipping")]
+    partial class Shipping
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -78,19 +78,6 @@ namespace ecommerce.api.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("CartProducts", (string)null);
-                });
-
-            modelBuilder.Entity("ecommerce.api.Entities.ConfigEntity", b =>
-                {
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.ToTable("Config");
                 });
 
             modelBuilder.Entity("ecommerce.api.Entities.ImageEntity", b =>
@@ -210,9 +197,6 @@ namespace ecommerce.api.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TrackingNumber")
-                        .IsUnique();
-
                     b.ToTable("Orders");
                 });
 
@@ -256,9 +240,6 @@ namespace ecommerce.api.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("integer");
 
-                    b.Property<Guid>("TrackingNumber")
-                        .HasColumnType("uuid");
-
                     b.Property<string>("UpdatedBy")
                         .IsRequired()
                         .HasColumnType("text");
@@ -267,6 +248,9 @@ namespace ecommerce.api.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("OrderId")
+                        .IsUnique();
 
                     b.ToTable("Packages");
                 });
@@ -383,15 +367,6 @@ namespace ecommerce.api.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("ecommerce.api.Entities.OrderEntity", b =>
-                {
-                    b.HasOne("ecommerce.api.Entities.PackageEntity", "Package")
-                        .WithOne("Order")
-                        .HasForeignKey("ecommerce.api.Entities.OrderEntity", "TrackingNumber");
-
-                    b.Navigation("Package");
-                });
-
             modelBuilder.Entity("ecommerce.api.Entities.OrderProductEntity", b =>
                 {
                     b.HasOne("ecommerce.api.Entities.OrderEntity", "Order")
@@ -411,6 +386,17 @@ namespace ecommerce.api.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("ecommerce.api.Entities.PackageEntity", b =>
+                {
+                    b.HasOne("ecommerce.api.Entities.OrderEntity", "Order")
+                        .WithOne("Package")
+                        .HasForeignKey("ecommerce.api.Entities.PackageEntity", "OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+                });
+
             modelBuilder.Entity("ecommerce.api.Entities.CartEntity", b =>
                 {
                     b.Navigation("CartProducts");
@@ -419,11 +405,8 @@ namespace ecommerce.api.Migrations
             modelBuilder.Entity("ecommerce.api.Entities.OrderEntity", b =>
                 {
                     b.Navigation("OrderProducts");
-                });
 
-            modelBuilder.Entity("ecommerce.api.Entities.PackageEntity", b =>
-                {
-                    b.Navigation("Order")
+                    b.Navigation("Package")
                         .IsRequired();
                 });
 
