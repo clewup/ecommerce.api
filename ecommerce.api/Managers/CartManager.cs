@@ -20,7 +20,6 @@ public class CartManager : ICartManager
         var carts = await _cartDataManager.GetCarts();
 
         return carts.ToModels();
-
     }
     
     public async Task<CartModel> GetCart(Guid cartId)
@@ -40,7 +39,7 @@ public class CartManager : ICartManager
     public async Task<CartModel> CreateCart(CartModel cart, UserModel user)
     {
         var createdCart = await _cartDataManager.CreateCart(cart, user);
-
+        
         return createdCart.ToModel();
     }
 

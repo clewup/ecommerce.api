@@ -24,6 +24,16 @@ public class PromotionDataManager : IPromotionDataManager
 
         return promotions;
     }
+    
+    public async Task<List<PromotionEntity>> GetActivePromotions()
+    {
+        var promotions = await _context.Promotions
+            .Where(p => p.StartDate <= DateTime.UtcNow && p.EndDate >= DateTime.UtcNow)
+            .OrderByDescending(p => p.Discount.Percentage)
+            .ToListAsync();
+
+        return promotions;
+    }
 
     public async Task<PromotionEntity> GetPromotion(Guid promotionId)
     {
@@ -38,12 +48,9 @@ public class PromotionDataManager : IPromotionDataManager
     public async Task<PromotionEntity> CreatePromotion(PromotionModel promotion, UserModel user)
     {
         var mappedPromotion = promotion.ToEntity();
-
-        if (promotion.Discount != null)
-        {
-            var existingDiscount = await _discountDataManager.GetDiscount(promotion.Discount.Id);
-            mappedPromotion.Discount = existingDiscount;
-        }
+        var existingDiscount = await _discountDataManager.GetDiscount(promotion.DiscountId);
+        
+        mappedPromotion.Discount = existingDiscount;
         mappedPromotion.AddedBy = user.Email;
         mappedPromotion.AddedDate = DateTime.UtcNow;
 
@@ -56,14 +63,11 @@ public class PromotionDataManager : IPromotionDataManager
     public async Task<PromotionEntity> UpdatePromotion(PromotionModel promotion, UserModel user)
     {
         var existingPromotion = await GetPromotion(promotion.Id);
-        
+        var existingDiscount = await _discountDataManager.GetDiscount(promotion.DiscountId);
+
         existingPromotion.Name = promotion.Name;
         existingPromotion.Description = promotion.Description;
-        if (promotion.Discount != null)
-        {
-            var existingDiscount = await _discountDataManager.GetDiscount(promotion.Discount.Id);
-            existingPromotion.Discount = existingDiscount;
-        }
+        existingPromotion.Discount = existingDiscount;
         existingPromotion.StartDate = promotion.StartDate;
         existingPromotion.EndDate = promotion.EndDate;
         existingPromotion.UpdatedBy = user.Email;

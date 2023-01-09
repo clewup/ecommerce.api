@@ -24,4 +24,21 @@ public static class DiscountMapper
             Percentage = entity.Percentage,
         };
     }
+
+    public static List<DiscountModel> ToModels(this List<DiscountEntity> entities)
+    {
+        var discounts = new List<DiscountModel>();
+
+        foreach (var entity in entities)
+        {
+            discounts.Add(new DiscountModel()
+            {
+                Id = entity.Id,
+                Name = entity.Name,
+                Percentage = entity.Percentage,
+            });
+        }
+
+        return discounts;
+    }
 }

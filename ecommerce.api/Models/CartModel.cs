@@ -10,6 +10,4 @@ public class CartModel
     public double Total { get; set; }
     
     public List<ProductModel> Products { get; set; }
-    
-   
 }

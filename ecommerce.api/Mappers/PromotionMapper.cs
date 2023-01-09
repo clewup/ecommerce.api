@@ -30,4 +30,24 @@ public static class PromotionMapper
             DiscountId = entity.DiscountId,
         };
     }
+
+    public static List<PromotionModel> ToModels(this List<PromotionEntity> entities)
+    {
+        var promotions = new List<PromotionModel>();
+
+        foreach (var entity in entities)
+        {
+            promotions.Add(new PromotionModel()
+            {
+                Id = entity.Id,
+                Name = entity.Name,
+                Description = entity.Description,
+                StartDate = entity.StartDate,
+                EndDate = entity.EndDate,
+                DiscountId = entity.DiscountId,
+            });
+        }
+
+        return promotions;
+    }
 }

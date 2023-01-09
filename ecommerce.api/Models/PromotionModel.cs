@@ -9,5 +9,4 @@ public class PromotionModel
     public DateTime? EndDate { get; set; }
     
     public Guid DiscountId { get; set; }
-    public DiscountModel? Discount { get; set; }
 }

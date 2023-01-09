@@ -65,9 +65,6 @@ public class ProductController : ControllerBase
         try
         {
             var product = await _productManager.GetProduct(productId);
-
-            if (product == null)
-                return NoContent();
             
             return Ok(product);
         }
@@ -78,7 +75,6 @@ public class ProductController : ControllerBase
         }
     }
 
-    [Authorize]
     [HttpPost]
     [Authorize(Policy = RoleType.Employee)]
     public async Task<IActionResult> CreateProduct([FromBody] ProductModel product)
@@ -101,7 +97,6 @@ public class ProductController : ControllerBase
         }
     }
     
-    [Authorize]
     [HttpPut]
     [Authorize(Policy = RoleType.Employee)]
     public async Task<IActionResult> UpdateProduct([FromBody] ProductModel product)

@@ -118,7 +118,9 @@ builder.Services.AddTransient<IUploadManager, UploadManager>();
 builder.Services.AddTransient<IStatisticsManager, StatisticsManager>();    
 builder.Services.AddTransient<IClaimsManager, ClaimsManager>();    
 builder.Services.AddTransient<ICategoryManager, CategoryManager>();    
-builder.Services.AddTransient<IShippingManager, ShippingManager>();    
+builder.Services.AddTransient<IShippingManager, ShippingManager>();
+builder.Services.AddTransient<IDiscountManager, DiscountManager>();
+builder.Services.AddTransient<IPromotionManager, PromotionManager>();
 
 // Data Managers
 builder.Services.AddTransient<IProductDataManager, ProductDataManager>();
