@@ -20,7 +20,7 @@ public class PromotionDataManager : IPromotionDataManager
     
     public async Task<List<PromotionEntity>> GetPromotions()
     {
-        var promotions = await _context.Promotions.ToListAsync();
+        var promotions = await _context.Promotions.Include(p => p.Discount).ToListAsync();
 
         return promotions;
     }
@@ -28,6 +28,7 @@ public class PromotionDataManager : IPromotionDataManager
     public async Task<List<PromotionEntity>> GetActivePromotions()
     {
         var promotions = await _context.Promotions
+            .Include(p => p.Discount)
             .Where(p => p.StartDate <= DateTime.UtcNow && p.EndDate >= DateTime.UtcNow)
             .OrderByDescending(p => p.Discount.Percentage)
             .ToListAsync();
@@ -48,7 +49,7 @@ public class PromotionDataManager : IPromotionDataManager
     public async Task<PromotionEntity> CreatePromotion(PromotionModel promotion, UserModel user)
     {
         var mappedPromotion = promotion.ToEntity();
-        var existingDiscount = await _discountDataManager.GetDiscount(promotion.DiscountId);
+        var existingDiscount = await _discountDataManager.GetDiscount(promotion.Discount.Id);
         
         mappedPromotion.Discount = existingDiscount;
         mappedPromotion.AddedBy = user.Email;
@@ -63,7 +64,7 @@ public class PromotionDataManager : IPromotionDataManager
     public async Task<PromotionEntity> UpdatePromotion(PromotionModel promotion, UserModel user)
     {
         var existingPromotion = await GetPromotion(promotion.Id);
-        var existingDiscount = await _discountDataManager.GetDiscount(promotion.DiscountId);
+        var existingDiscount = await _discountDataManager.GetDiscount(promotion.Discount.Id);
 
         existingPromotion.Name = promotion.Name;
         existingPromotion.Description = promotion.Description;

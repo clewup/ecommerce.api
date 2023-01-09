@@ -14,7 +14,6 @@ public static class PromotionMapper
             Description = model.Description,
             StartDate = model.StartDate,
             EndDate = model.EndDate,
-            DiscountId = model.DiscountId,
         };
     }
 
@@ -27,7 +26,7 @@ public static class PromotionMapper
             Description = entity.Description,
             StartDate = entity.StartDate,
             EndDate = entity.EndDate,
-            DiscountId = entity.DiscountId,
+            Discount = entity.Discount.ToModel(),
         };
     }
 
@@ -44,7 +43,7 @@ public static class PromotionMapper
                 Description = entity.Description,
                 StartDate = entity.StartDate,
                 EndDate = entity.EndDate,
-                DiscountId = entity.DiscountId,
+                Discount = entity.Discount.ToModel(),
             });
         }
 
