@@ -39,6 +39,7 @@ public class PromotionController : ControllerBase
     }
     
     [HttpGet]
+    [Route("active")]
     public async Task<IActionResult> GetActivePromotions()
     {
         try
